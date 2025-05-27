@@ -21,34 +21,14 @@ const timeInput = document.getElementById('time-input');
 const hintButton = document.getElementById('hint-button');
 const audio = new Audio();
 
-// دالة مساعدة لتحويل الاسم إلى أحرف صغيرة وتجربة أشكال مختلفة
-function normalizePath(path) {
-    let normalizedPath = path.toLowerCase();
-    // استبدال الأشكال المختلفة لـ "أفلام"
-    normalizedPath = normalizedPath.replace('أفلام', 'افلام').replace('أفلام', 'افلام');
-    return normalizedPath;
-}
-
-// دالة مساعدة لمحاولة تحميل الصور بصيغ ومسارات مختلفة
-function getImageUrl(basePath, variations = []) {
+// دالة مساعدة لتجربة صيغ مختلفة للصور
+function getImageUrl(basePath) {
     const extensions = ['.jpg', '.png'];
-    const categoryVariations = ['أفلام', 'افلام', 'أفلام ومسلسلات'];
     const pathsToTry = [];
 
     // إضافة المسار الأساسي بصيغ مختلفة
     extensions.forEach(ext => {
         pathsToTry.push(basePath.replace(/\.(jpg|png)$/i, ext));
-    });
-
-    // إضافة المسارات مع اختلافات المجلدات
-    categoryVariations.forEach(cat => {
-        extensions.forEach(ext => {
-            let variation = basePath;
-            categoryVariations.forEach(oldCat => {
-                variation = variation.replace(oldCat, cat);
-            });
-            pathsToTry.push(variation.replace(/\.(jpg|png)$/i, ext));
-        });
     });
 
     console.log('محاولة تحميل الصورة من المسارات:', pathsToTry);
@@ -106,7 +86,7 @@ async function loadCategories() {
             card.className = 'category-card';
             card.onclick = () => selectCategory(category.name);
             const img = document.createElement('img');
-            const imagePaths = getImageUrl(category.image || 'assets/default_category.jpg', [category.image, 'assets/default_category.jpg']);
+            const imagePaths = getImageUrl(category.image || 'assets/default_category.jpg');
             let pathIndex = 0;
             img.src = imagePaths[pathIndex];
             img.alt = category.name;
@@ -135,8 +115,7 @@ async function loadCategories() {
 async function selectCategory(category) {
     currentCategory = category;
     try {
-        const normalizedCategory = normalizePath(currentCategory);
-        const response = await fetch(`${normalizedCategory}/metadata.json`);
+        const response = await fetch(`assets/${currentCategory}/metadata.json`);
         const data = await response.json();
         imageList = data.images || [];
         availableIndices = Array.from({ length: imageList.length }, (_, i) => i + 1);
@@ -195,19 +174,17 @@ function getRandomImageIndex() {
 
 async function getImageAndAudio(index) {
     const imageData = imageList[index - 1];
-    const normalizedCategory = normalizePath(currentCategory);
-    const normalizedImageName = imageData.name.toLowerCase();
-    const imgBase = `${normalizedCategory}/${normalizedImageName}`;
-    const audioBase = imageData.hasAudio ? `${normalizedCategory}/audio${index}.mp3` : '';
+    const imgBase = `assets/${currentCategory}/${imageData.name}`;
+    const audioBase = imageData.hasAudio ? `assets/${currentCategory}/audio${index}.mp3` : '';
     const imagePaths = getImageUrl(imgBase);
     let pathIndex = 0;
     let img = imagePaths[pathIndex];
     let audio = audioBase;
     let owner = '';
     try {
-        const response = await fetch(`${normalizedCategory}/names.json`);
+        const response = await fetch(`assets/${currentCategory}/names.json`);
         const data = await response.json();
-        const ownerData = data.owners.find(o => o.image.toLowerCase() === normalizedImageName);
+        const ownerData = data.owners.find(o => o.image === imageData.name);
         owner = ownerData ? ownerData.name : '';
         console.log('تم تحميل names.json لتصنيف:', currentCategory);
     } catch (error) {

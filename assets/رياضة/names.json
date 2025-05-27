@@ -1,0 +1,24 @@
+{
+    "owners": [
+        { "image": "image1.jpg", "name": "كرستيانو رونالدو" },
+        { "image": "image2.jpg", "name": "ليونيل ميسي" },
+        { "image": "image3.jpg", "name": "روني كولمان" },
+        { "image": "image4.jpg", "name": "يزيد الراجحي" },
+        { "image": "image5.jpg", "name": "مصطفى الآغا" },
+        { "image": "image6.jpg", "name": "وليد الفراج" },
+        { "image": "image7.jpg", "name": "رؤوف خليف" },
+        { "image": "image8.jpg", "name": "حسين عبدالغني" },
+        { "image": "image9.jpg", "name": "هاري كين" },
+        { "image": "image10.jpg", "name": "جون سينا" },
+        { "image": "image11.jpg", "name": "خبيب نور محمدوف" },
+        { "image": "image12.jpg", "name": "مرتضى منصور" },
+        { "image": "image13.jpg", "name": "اندرتيكر" },
+        { "image": "image14.jpg", "name": "هتان السيف" },
+        { "image": "image15.jpg", "name": "هالاند" },
+        { "image": "image16.jpg", "name": "نادال" },
+        { "image": "image17.jpg", "name": "محمد الشلهوب" },
+        { "image": "image18.jpg", "name": "ابو ربيعة" },
+        { "image": "image19.jpg", "name": "ليبرون جيمس" },
+        { "image": "image20.jpg", "name": "محمد صلاح" },
+    ]
+}

@@ -1,0 +1,13 @@
+{
+    "categories": [
+        { "name": "أنمي", "image": "assets/أنمي/category_image.jpg" },
+        { "name": "شخصيات عامة", "image": "assets/شخصيات عامة/category_image.jpg" },
+        { "name": "أفلام", "image": "assets/أفلام/category_image.jpg" },
+        { "name": "رياضة", "image": "assets/رياضة/category_image.jpg" },
+        { "name": "ديزني", "image": "assets/ديزني/category_image.jpg" },
+        { "name": "معالم", "image": "assets/معالم/category_image.jpg" },
+        { "name": "الطيبين", "image": "assets/الطيبين/category_image.jpg" },
+        { "name": "ممثلين", "image": "assets/ممثلين/category_image.jpg" },
+        { "name": "شعارات", "image": "assets/شعارات/category_image.jpg" }
+    ]
+}

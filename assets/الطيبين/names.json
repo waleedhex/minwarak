@@ -1,0 +1,24 @@
+{
+    "owners": [
+        { "image": "image1.jpg", "name": "سباق المشاهدين" },
+        { "image": "image2.jpg", "name": "بابا فرحان" },
+        { "image": "image3.jpg", "name": "خلك معي" },
+        { "image": "image4.jpg", "name": "عيلة خمس نجوم" },
+        { "image": "image5.jpg", "name": "على مائدة الافطار" },
+        { "image": "image6.jpg", "name": "افتح يا سمسم" },
+        { "image": "image7.jpg", "name": "الحصن" },
+        { "image": "image8.jpg", "name": "خالتي قماشة" },
+        { "image": "image9.jpg", "name": "على الدنيا السلام" },
+        { "image": "image10.jpg", "name": "يوميات ونيس" },
+        { "image": "image11.jpg", "name": "عدنان ولينا" },
+        { "image": "image12.jpg", "name": "في البر في البحر في الجو" },
+        { "image": "image13.jpg", "name": "سلامتك" },
+        { "image": "image14.jpg", "name": "زكية زكريا" },
+        { "image": "image15.jpg", "name": "سندباد" },
+        { "image": "image16.jpg", "name": "سوق المقاصيص" },
+        { "image": "image17.jpg", "name": "في جعبتي حكاية" },
+        { "image": "image18.jpg", "name": "مذيع في ورطة" },
+        { "image": "image19.jpg", "name": "الجوهرة" },
+        { "image": "image20.jpg", "name": "مدرسة المشاغبين" },
+    ]
+}

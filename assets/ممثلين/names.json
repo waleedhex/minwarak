@@ -1,0 +1,24 @@
+{
+    "owners": [
+        { "image": "image1.jpg", "name": "عادل امام" },
+        { "image": "image2.jpg", "name": "محمد هنيدي" },
+        { "image": "image3.jpg", "name": "محمد رمضان" },
+        { "image": "image4.jpg", "name": "عابد فهد" },
+        { "image": "image5.jpg", "name": "سلوم حداد" },
+        { "image": "image6.jpg", "name": "منى واصف" },
+        { "image": "image7.jpg", "name": "سوسن بدر" },
+        { "image": "image8.jpg", "name": "ناصر القصبي" },
+        { "image": "image9.jpg", "name": "خالد النفسية" },
+        { "image": "image10.jpg", "name": "علي المفيدي" },
+        { "image": "image11.jpg", "name": "هدى حسين" },
+        { "image": "image12.jpg", "name": "فيصل العيسى" },
+        { "image": "image13.jpg", "name": "تيم حسن" },
+        { "image": "image14.jpg", "name": "فايز المالكي" },
+        { "image": "image15.jpg", "name": "ليوناردو ديكابريو" },
+        { "image": "image16.jpg", "name": "مستر بين" },
+        { "image": "image17.jpg", "name": "آل بتشينو" },
+        { "image": "image18.jpg", "name": "ماثيو ماكوناهي" },
+        { "image": "image19.jpg", "name": "سلمان خان" },
+        { "image": "image20.jpg", "name": "مورغان فريمان" },
+    ]
+}

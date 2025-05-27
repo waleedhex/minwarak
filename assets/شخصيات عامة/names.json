@@ -1,0 +1,24 @@
+{
+    "owners": [
+        { "image": "image1.jpg", "name": "ستيف هارفي" },
+        { "image": "image2.jpg", "name": "جورج قرداحي" },
+        { "image": "image3.jpg", "name": "محمد عبده" },
+        { "image": "image4.jpg", "name": "الشيخ محمد بن راشد" },
+        { "image": "image5.jpg", "name": "بروسلي" },
+        { "image": "image6.jpg", "name": "غاندي" },
+        { "image": "image7.jpg", "name": "ريا وسكينة" },
+        { "image": "image8.jpg", "name": "عبدالحليم حافظ" },
+        { "image": "image9.jpg", "name": "خلف بن هذال" },
+        { "image": "image10.jpg", "name": "الأميرة ريما بنت بندر" },
+        { "image": "image11.jpg", "name": "ديانا" },
+        { "image": "image12.jpg", "name": "أم كلثوم" },
+        { "image": "image13.jpg", "name": "اوبرا وينفري" },
+        { "image": "image14.jpg", "name": "البرت اينشتاين" },
+        { "image": "image15.jpg", "name": "دونالد ترمب" },
+        { "image": "image16.jpg", "name": "شكسبير" },
+        { "image": "image17.jpg", "name": "جيفارا" },
+        { "image": "image18.jpg", "name": "هتلر" },
+        { "image": "image19.jpg", "name": "نزار قباني" },
+        { "image": "image20.jpg", "name": "غازي القصيبي" },
+    ]
+}

@@ -1,0 +1,24 @@
+{
+    "owners": [
+        { "image": "image1.jpg", "name": "بين تن" },
+        { "image": "image2.jpg", "name": "غوكو‫-‬داغون بول" },
+        { "image": "image3.jpg", "name": "ماروكو" },
+        { "image": "image4.jpg", "name": "هامتارو" },
+        { "image": "image5.jpg", "name": "بلوسوم" },
+        { "image": "image6.jpg", "name": "جينجر" },
+        { "image": "image7.jpg", "name": "زورو" },
+        { "image": "image8.jpg", "name": "‫-‬ون بيس‫-‬لوفي" },
+        { "image": "image9.jpg", "name": "ليفاي‫-‬هجوم العمالقة" },
+        { "image": "image10.jpg", "name": "هايدي" },
+        { "image": "image11.jpg", "name": "ريوك" },
+        { "image": "image12.jpg", "name": "ريمي" },
+        { "image": "image13.jpg", "name": "سالي" },
+        { "image": "image14.jpg", "name": "كونان" },
+        { "image": "image15.jpg", "name": "بيكاتشو" },
+        { "image": "image16.jpg", "name": "الدعسوقة" },
+        { "image": "image17.jpg", "name": "‫-‬ القناص‫-‬غون فريكس" },
+        { "image": "image18.jpg", "name": "شونسوك ‫-‬ يوغي يو" },
+        { "image": "image19.jpg", "name": "جومارو ‫-‬سنشيرو" },
+        { "image": "image20.jpg", "name": "بسام ‫-‬ كابتن ماجد" },
+    ]
+}

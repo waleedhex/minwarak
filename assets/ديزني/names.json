@@ -1,0 +1,24 @@
+{
+    "owners": [
+        { "image": "image1.jpg", "name": "رابونزل" },
+        { "image": "image2.jpg", "name": "موفاسا" },
+        { "image": "image3.jpg", "name": "الجميلة والوحش" },
+        { "image": "image4.jpg", "name": "طرازان" },
+        { "image": "image5.jpg", "name": "ستيتش" },
+        { "image": "image6.jpg", "name": "إلسا ‫-‬ فروزن" },
+        { "image": "image7.jpg", "name": "نيمو" },
+        { "image": "image8.jpg", "name": "بوو" },
+        { "image": "image9.jpg", "name": "سيمبا" },
+        { "image": "image10.jpg", "name": "ياسمين" },
+        { "image": "image11.jpg", "name": "علاء الدين" },
+        { "image": "image12.jpg", "name": "بونوكيو" },
+        { "image": "image13.jpg", "name": "بومبا" },
+        { "image": "image14.jpg", "name": "تيمون" },
+        { "image": "image15.jpg", "name": "دونالد دوك" },
+        { "image": "image16.jpg", "name": "موانا" },
+        { "image": "image17.jpg", "name": "غوفي" },
+        { "image": "image18.jpg", "name": "ميكي ماوس" },
+        { "image": "image19.jpg", "name": "سنو وايت" },
+        { "image": "image20.jpg", "name": "سيندريلا" },
+    ]
+}

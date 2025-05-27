@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إدارة مين وراك!؟</title>
+    <style>
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+            margin: 0;
+            min-height: 100vh; /* تغيير من height لتجنب القص */
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* تغيير من center لضمان ظهور المحتوى العلوي */
+            width: 100vw;
+            color: white;
+            text-align: center;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+        .admin-container, .login-container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 600px;
+            margin: 20px auto; /* هامش علوي وسفلي */
+            overflow-y: auto; /* تمرير رأسي عند الحاجة */
+            box-sizing: border-box;
+        }
+        h2, h3 {
+            margin: 10px 0;
+        }
+        input, select, textarea {
+            padding: 10px;
+            margin: 10px 0;
+            width: 100%;
+            max-width: 300px;
+            border: 2px solid #3498db;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+        textarea {
+            height: 100px;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            background: #2ecc71;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: transform 0.2s;
+        }
+        button:hover {
+            transform: scale(1.1);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            color: black;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+        th {
+            background: #3498db;
+            color: white;
+        }
+        .delete-btn {
+            background: #e74c3c;
+        }
+        .section {
+            margin: 20px 0;
+        }
+        @media (max-width: 600px) {
+            .admin-container, .login-container {
+                width: 95%;
+                margin: 10px auto;
+            }
+            input, select, textarea {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="login-container" class="login-container">
+        <h2>تسجيل دخول الإدارة</h2>
+        <input type="password" id="admin-password" placeholder="أدخل كلمة المرور" autocomplete="off" autocapitalize="off" spellcheck="false">
+        <button onclick="login()">تسجيل الدخول</button>
+    </div>
+    <div id="admin-container" class="admin-container" style="display: none;">
+        <h2>إدارة مين وراك!؟</h2>
+        <div class="section">
+            <h3>توليد رموز جديدة</h3>
+            <select id="code-type">
+                <option value="m">فئة m</option>
+                <option value="x">فئة x</option>
+            </select>
+            <input type="number" id="code-count" min="1" max="5000" placeholder="عدد الرموز (حد أقصى 5000)">
+            <button onclick="generateCodes()">توليد الرموز</button>
+            <textarea id="generated-codes" readonly></textarea>
+            <button onclick="copyGeneratedCodes()">نسخ الرموز الجديدة</button>
+        </div>
+        <div class="section">
+            <h3>إضافة رموز</h3>
+            <textarea id="new-codes" placeholder="أدخل الرموز، كل رمز في سطر"></textarea>
+            <button onclick="addCodes()">إضافة الرموز</button>
+        </div>
+        <div class="section">
+            <h3>حذف رموز</h3>
+            <table id="codes-table">
+                <thead>
+                    <tr>
+                        <th>الرمز</th>
+                        <th>إجراء</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            <textarea id="delete-codes" placeholder="أدخل الرموز للحذف، كل رمز في سطر"></textarea>
+            <button onclick="deleteCodes()">حذف الرموز</button>
+        </div>
+        <div class="section">
+            <h3>إدارة الإعلانات</h3>
+            <input type="text" id="announcement-title" placeholder="عنوان الإعلان (اختياري)">
+            <textarea id="announcement-text" placeholder="نص الإعلان (اختياري)"></textarea>
+            <input type="text" id="announcement-link" placeholder="رابط الإعلان (اختياري)">
+            <input type="text" id="announcement-button" placeholder="اسم الزر (اختياري)">
+            <button onclick="addAnnouncement()">تأكيد</button>
+            <table id="announcements-table">
+                <thead>
+                    <tr>
+                        <th>العنوان</th>
+                        <th>النص</th>
+                        <th>الرابط</th>
+                        <th>الزر</th>
+                        <th>إجراء</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        <div class="section">
+            <h3>إدارة التصنيفات</h3>
+            <input type="text" id="category-name" placeholder="اسم التصنيف (مثل أفلام)">
+            <input type="file" id="category-image" accept="image/*">
+            <button onclick="addCategory()">تأكيد</button>
+            <table id="categories-table">
+                <thead>
+                    <tr>
+                        <th>الاسم</th>
+                        <th>الصورة</th>
+                        <th>إجراء</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        <button onclick="exportFiles()">تصدير الملفات</button>
+    </div>
+    <script>
+        // للتصحيح: تأكيد تحميل السكربت
+        console.log('تم تحميل سكربت admin.html بنجاح');
+
+        // كلمة المرور لتسجيل الدخول
+        const ADMIN_PASSWORD = 'wfra1403';
+
+        let currentCodes = [];
+        let currentAnnouncements = [];
+        let currentCategories = [];
+
+        // دالة تسجيل الدخول مشابهة للكود الشغال مع إضافة تصحيح بسيط
+        async function login() {
+            const password = document.getElementById('admin-password').value.trim();
+            console.log('إدخال كلمة المرور:', password); // للتصحيح
+            console.log('مقارنة مع:', ADMIN_PASSWORD); // للتصحيح
+
+            if (password === ADMIN_PASSWORD) {
+                console.log('كلمة المرور صحيحة، جارٍ تحميل واجهة الإدارة...');
+                document.getElementById('login-container').style.display = 'none';
+                document.getElementById('admin-container').style.display = 'block';
+                await loadCodes();
+                await loadAnnouncements();
+                await loadCategories();
+            } else {
+                console.log('كلمة المرور غير صحيحة');
+                alert('كلمة المرور غير صحيحة!');
+            }
+        }
+
+        // دوال تحميل JSON باستخدام fetch (ستعمل بشكل صحيح عند الاستضافة أونلاين)
+        async function loadCodes() {
+            try {
+                const response = await fetch('codes.json');
+                const data = await response.json();
+                currentCodes = data.validCodes || [];
+                updateCodesTable();
+                console.log('تم تحميل codes.json بنجاح');
+            } catch (error) {
+                console.error('خطأ في تحميل codes.json:', error);
+            }
+        }
+
+        async function loadAnnouncements() {
+            try {
+                const response = await fetch('announcements.json');
+                const data = await response.json();
+                currentAnnouncements = data.announcements || [];
+                updateAnnouncementsTable();
+                console.log('تم تحميل announcements.json بنجاح');
+            } catch (error) {
+                console.error('خطأ في تحميل announcements.json:', error);
+            }
+        }
+
+        async function loadCategories() {
+            try {
+                const response = await fetch('categories.json');
+                const data = await response.json();
+                currentCategories = data.categories || [];
+                updateCategoriesTable();
+                console.log('تم تحميل categories.json بنجاح');
+            } catch (error) {
+                console.error('خطأ في تحميل categories.json:', error);
+            }
+        }
+
+        function updateCodesTable() {
+            const tbody = document.querySelector('#codes-table tbody');
+            tbody.innerHTML = '';
+            currentCodes.forEach(code => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${code}</td>
+                    <td><button class="delete-btn" onclick="deleteSingleCode('${code}')">حذف</button></td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function updateAnnouncementsTable() {
+            const tbody = document.querySelector('#announcements-table tbody');
+            tbody.innerHTML = '';
+            currentAnnouncements.forEach((announcement, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${announcement.title || ''}</td>
+                    <td>${announcement.text || ''}</td>
+                    <td>${announcement.link || ''}</td>
+                    <td>${announcement.button || ''}</td>
+                    <td><button class="delete-btn" onclick="deleteAnnouncement(${index})">حذف</button></td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function updateCategoriesTable() {
+            const tbody = document.querySelector('#categories-table tbody');
+            tbody.innerHTML = '';
+            currentCategories.forEach((category, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${category.name}</td>
+                    <td><img src="${category.image || 'assets/default_category.jpg'}" alt="${category.name}" style="width: 50px;"></td>
+                    <td><button class="delete-btn" onclick="deleteCategory(${index})">حذف</button></td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function generateCode(type) {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let code = type.toUpperCase();
+            for (let i = 0; i < 6; i++) {
+                code += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return code;
+        }
+
+        async function generateCodes() {
+            const type = document.getElementById('code-type').value;
+            const count = parseInt(document.getElementById('code-count').value);
+            if (!count || count < 1 || count > 5000) {
+                alert('أدخل عددًا بين 1 و5000!');
+                return;
+            }
+            const newCodes = [];
+            for (let i = 0; i < count; i++) {
+                let code;
+                do {
+                    code = generateCode(type);
+                } while (currentCodes.includes(code) || newCodes.includes(code));
+                newCodes.push(code);
+            }
+            document.getElementById('generated-codes').value = newCodes.join('\n');
+            currentCodes.push(...newCodes);
+            updateCodesTable();
+        }
+
+        function copyGeneratedCodes() {
+            const textarea = document.getElementById('generated-codes');
+            textarea.select();
+            document.execCommand('copy');
+            alert('تم نسخ الرموز الجديدة!');
+        }
+
+        async function addCodes() {
+            const codesText = document.getElementById('new-codes').value.trim();
+            if (!codesText) {
+                alert('أدخل رموزًا للإضافة!');
+                return;
+            }
+            const codes = codesText.split('\n').map(code => code.trim().toUpperCase());
+            const validCodes = [];
+            const invalidCodes = [];
+            codes.forEach(code => {
+                if (/^[mMxX][A-Z0-9]{6}$/.test(code) && !currentCodes.includes(code)) {
+                    validCodes.push(code);
+                } else {
+                    invalidCodes.push(code);
+                }
+            });
+            if (invalidCodes.length > 0) {
+                alert(`الرموز غير الصالحة أو المكررة: ${invalidCodes.join(', ')}`);
+            }
+            if (validCodes.length > 0) {
+                currentCodes.push(...validCodes);
+                updateCodesTable();
+                alert('تم إضافة الرموز الصالحة!');
+            }
+        }
+
+        async function deleteSingleCode(code) {
+            currentCodes = currentCodes.filter(c => c !== code);
+            updateCodesTable();
+            alert(`تم حذف الرمز: ${code}`);
+        }
+
+        async function deleteCodes() {
+            const codesText = document.getElementById('delete-codes').value.trim();
+            if (!codesText) {
+                alert('أدخل رموزًا للحذف!');
+                return;
+            }
+            const codes = codesText.split('\n').map(code => code.trim().toUpperCase());
+            const foundCodes = [];
+            const notFoundCodes = [];
+            codes.forEach(code => {
+                if (currentCodes.includes(code)) {
+                    foundCodes.push(code);
+                } else {
+                    notFoundCodes.push(code);
+                }
+            });
+            if (notFoundCodes.length > 0) {
+                alert(`الرموز غير الموجودة: ${notFoundCodes.join(', ')}`);
+            }
+            if (foundCodes.length > 0) {
+                currentCodes = currentCodes.filter(c => !foundCodes.includes(c));
+                updateCodesTable();
+                alert('تم حذف الرموز المحددة!');
+            }
+        }
+
+        async function addAnnouncement() {
+            const title = document.getElementById('announcement-title').value.trim();
+            const text = document.getElementById('announcement-text').value.trim();
+            const link = document.getElementById('announcement-link').value.trim();
+            const button = document.getElementById('announcement-button').value.trim();
+            if (!title && !text && !link && !button) {
+                alert('أدخل بيانات الإعلان!');
+                return;
+            }
+            if (currentAnnouncements.length >= 5) {
+                alert('تم الوصول إلى الحد الأقصى للإعلانات (5)!');
+                return;
+            }
+            const announcement = {};
+            if (title) announcement.title = title;
+            if (text) announcement.text = text;
+            if (link) announcement.link = link;
+            if (button) announcement.button = button;
+            currentAnnouncements.push(announcement);
+            updateAnnouncementsTable();
+            document.getElementById('announcement-title').value = '';
+            document.getElementById('announcement-text').value = '';
+            document.getElementById('announcement-link').value = '';
+            document.getElementById('announcement-button').value = '';
+            alert('تم إضافة الإعلان!');
+        }
+
+        async function deleteAnnouncement(index) {
+            currentAnnouncements.splice(index, 1);
+            updateAnnouncementsTable();
+            alert('تم حذف الإعلان!');
+        }
+
+        async function addCategory() {
+            const name = document.getElementById('category-name').value.trim();
+            const imageFile = document.getElementById('category-image').files[0];
+            if (!name) {
+                alert('أدخل اسم التصنيف!');
+                return;
+            }
+            const category = { name };
+            if (imageFile) {
+                category.image = `${name}/category_image.jpg`;
+                // ملاحظة: تحميل الصورة يتطلب خادمًا؛ افترض تحميل يدوي إلى assets/[name]/category_image.jpg
+            } else {
+                category.image = 'assets/default_category.jpg';
+            }
+            currentCategories.push(category);
+            updateCategoriesTable();
+            document.getElementById('category-name').value = '';
+            document.getElementById('category-image').value = '';
+            alert(`تم إضافة التصنيف: ${name}. أنشئ مجلد assets/${name} وأضف الصور، الملفات الصوتية، metadata.json، وnames.json!`);
+        }
+
+        async function deleteCategory(index) {
+            const category = currentCategories[index];
+            currentCategories.splice(index, 1);
+            updateCategoriesTable();
+            alert(`تم حذف التصنيف: ${category.name}`);
+        }
+
+        function exportFiles() {
+            const codesData = { validCodes: currentCodes };
+            const announcementsData = { announcements: currentAnnouncements };
+            const categoriesData = { categories: currentCategories };
+            downloadFile('codes.json', JSON.stringify(codesData, null, 2));
+            downloadFile('announcements.json', JSON.stringify(announcementsData, null, 2));
+            downloadFile('categories.json', JSON.stringify(categoriesData, null, 2));
+            alert('تم تصدير الملفات!');
+        }
+
+        function downloadFile(filename, content) {
+            const blob = new Blob([content], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        document.addEventListener('contextmenu', event => event.preventDefault());
+    </script>
+</body>
+</html>

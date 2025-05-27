@@ -1,0 +1,24 @@
+{
+    "owners": [
+        { "image": "image1.jpg", "name": "محمد" },
+        { "image": "image2.jpg", "name": "محمد" },
+        { "image": "image3.jpg", "name": "محمد" },
+        { "image": "image4.jpg", "name": "محمد" },
+        { "image": "image5.jpg", "name": "محمد" },
+        { "image": "image6.jpg", "name": "محمد" },
+        { "image": "image7.jpg", "name": "محمد" },
+        { "image": "image8.jpg", "name": "محمد" },
+        { "image": "image9.jpg", "name": "محمد" },
+        { "image": "image10.jpg", "name": "محمد" },
+        { "image": "image11.jpg", "name": "محمد" },
+        { "image": "image12.jpg", "name": "محمد" },
+        { "image": "image13.jpg", "name": "محمد" },
+        { "image": "image14.jpg", "name": "محمد" },
+        { "image": "image15.jpg", "name": "محمد" },
+        { "image": "image16.jpg", "name": "محمد" },
+        { "image": "image17.jpg", "name": "محمد" },
+        { "image": "image18.jpg", "name": "محمد" },
+        { "image": "image19.jpg", "name": "محمد" },
+        { "image": "image20.jpg", "name": "محمد" },
+    ]
+}

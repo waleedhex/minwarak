@@ -1,0 +1,24 @@
+{
+    "owners": [
+        { "image": "image1.jpg", "name": "نتفليكس" },
+        { "image": "image2.jpg", "name": "مايكروسوفت ويندوز" },
+        { "image": "image3.jpg", "name": "نوكيا" },
+        { "image": "image4.jpg", "name": "ام بي سي" },
+        { "image": "image5.jpg", "name": "ماكدونالدز" },
+        { "image": "image6.jpg", "name": "ام جي ام" },
+        { "image": "image7.jpg", "name": "كوكاكولا" },
+        { "image": "image8.jpg", "name": "بلاي ستيشن" },
+        { "image": "image9.jpg", "name": "نستلة" },
+        { "image": "image10.jpg", "name": "ابل" },
+        { "image": "image11.jpg", "name": "وارنر بروس" },
+        { "image": "image12.jpg", "name": "الراجحي" },
+        { "image": "image13.jpg", "name": "اس تي سي" },
+        { "image": "image14.jpg", "name": "اوريو" },
+        { "image": "image15.jpg", "name": "بنده" },
+        { "image": "image16.jpg", "name": "المراعي" },
+        { "image": "image17.jpg", "name": "الطازج" },
+        { "image": "image18.jpg", "name": "ابو قوس" },
+        { "image": "image19.jpg", "name": "كانون" },
+        { "image": "image20.jpg", "name": "نايكي" },
+    ]
+}

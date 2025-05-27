@@ -1,24 +1,24 @@
 {
-    "images": [
-        { "name": "image1.jpg", "hasAudio": true },
-        { "name": "image2.jpg", "hasAudio": true },
-        { "name": "image3.jpg", "hasAudio": true },
-        { "name": "image4.jpg", "hasAudio": true },
-        { "name": "image5.jpg", "hasAudio": true },
-        { "name": "image6.jpg", "hasAudio": true },
-        { "name": "image7.jpg", "hasAudio": true },
-        { "name": "image8.jpg", "hasAudio": true },
-        { "name": "image9.jpg", "hasAudio": true },
-        { "name": "image10.jpg", "hasAudio": true },
-        { "name": "image11.jpg", "hasAudio": true },
-        { "name": "image12.jpg", "hasAudio": true },
-        { "name": "image13.jpg", "hasAudio": true },
-        { "name": "image14.jpg", "hasAudio": true },
-        { "name": "image15.jpg", "hasAudio": true },
-        { "name": "image16.jpg", "hasAudio": true },
-        { "name": "image17.jpg", "hasAudio": true },
-        { "name": "image18.jpg", "hasAudio": true },
-        { "name": "image19.jpg", "hasAudio": true },
-        { "name": "image20.jpg", "hasAudio": true },
-    ]
-}
+      "images": [
+          { "name": "image1.jpg", "hasAudio": true },
+          { "name": "image2.jpg", "hasAudio": true },
+          { "name": "image3.jpg", "hasAudio": true },
+          { "name": "image4.jpg", "hasAudio": true },
+          { "name": "image5.jpg", "hasAudio": true },
+          { "name": "image6.jpg", "hasAudio": true },
+          { "name": "image7.jpg", "hasAudio": true },
+          { "name": "image8.jpg", "hasAudio": true },
+          { "name": "image9.jpg", "hasAudio": true },
+          { "name": "image10.jpg", "hasAudio": true },
+          { "name": "image11.jpg", "hasAudio": true },
+          { "name": "image12.jpg", "hasAudio": true },
+          { "name": "image13.jpg", "hasAudio": true },
+          { "name": "image14.jpg", "hasAudio": true },
+          { "name": "image15.jpg", "hasAudio": true },
+          { "name": "image16.jpg", "hasAudio": true },
+          { "name": "image17.jpg", "hasAudio": true },
+          { "name": "image18.jpg", "hasAudio": true },
+          { "name": "image19.jpg", "hasAudio": true },
+          { "name": "image20.jpg", "hasAudio": true }
+      ]
+  }

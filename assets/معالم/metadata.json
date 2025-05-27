@@ -1,24 +1,24 @@
 {
-    "images": [
-        { "name": "image1.jpg", "hasAudio": false },
-        { "name": "image2.jpg", "hasAudio": false },
-        { "name": "image3.jpg", "hasAudio": false },
-        { "name": "image4.jpg", "hasAudio": false },
-        { "name": "image5.jpg", "hasAudio": false },
-        { "name": "image6.jpg", "hasAudio": false },
-        { "name": "image7.jpg", "hasAudio": false },
-        { "name": "image8.jpg", "hasAudio": false },
-        { "name": "image9.jpg", "hasAudio": false },
-        { "name": "image10.jpg", "hasAudio": false },
-        { "name": "image11.jpg", "hasAudio": false },
-        { "name": "image12.jpg", "hasAudio": false },
-        { "name": "image13.jpg", "hasAudio": false },
-        { "name": "image14.jpg", "hasAudio": false },
-        { "name": "image15.jpg", "hasAudio": false },
-        { "name": "image16.jpg", "hasAudio": false },
-        { "name": "image17.jpg", "hasAudio": false },
-        { "name": "image18.jpg", "hasAudio": false },
-        { "name": "image19.jpg", "hasAudio": false },
-        { "name": "image20.jpg", "hasAudio": false },
-    ]
-}
+      "images": [
+          { "name": "image1.jpg", "hasAudio": false },
+          { "name": "image2.jpg", "hasAudio": false },
+          { "name": "image3.jpg", "hasAudio": false },
+          { "name": "image4.jpg", "hasAudio": false },
+          { "name": "image5.jpg", "hasAudio": false },
+          { "name": "image6.jpg", "hasAudio": false },
+          { "name": "image7.jpg", "hasAudio": false },
+          { "name": "image8.jpg", "hasAudio": false },
+          { "name": "image9.jpg", "hasAudio": false },
+          { "name": "image10.jpg", "hasAudio": false },
+          { "name": "image11.jpg", "hasAudio": false },
+          { "name": "image12.jpg", "hasAudio": false },
+          { "name": "image13.jpg", "hasAudio": false },
+          { "name": "image14.jpg", "hasAudio": false },
+          { "name": "image15.jpg", "hasAudio": false },
+          { "name": "image16.jpg", "hasAudio": false },
+          { "name": "image17.jpg", "hasAudio": false },
+          { "name": "image18.jpg", "hasAudio": false },
+          { "name": "image19.jpg", "hasAudio": false },
+          { "name": "image20.jpg", "hasAudio": false }
+      ]
+  }

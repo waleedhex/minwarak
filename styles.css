@@ -259,13 +259,13 @@ h1 {
     width: 90%;
     max-width: 800px;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-    margin: 5px 0;
+    margin: 5px auto; /* تمركز في البورتريه */
 }
 
 .score-container {
     display: flex;
-    justify-content: space-between;
-    gap: 10px;
+    justify-content: center; /* تمركز الفريقين */
+    gap: 8px; /* تقليل الفراغ */
 }
 
 .team {
@@ -416,7 +416,7 @@ footer {
     }
     .main-content {
         width: 100%;
-        height: calc(100vh - 100px); /* خصم العنوان والتعليمات وfooter */
+        height: calc(100vh - 100px);
         display: flex;
         flex-direction: row;
         justify-content: stretch;
@@ -464,8 +464,9 @@ footer {
     }
     .bottom-container {
         width: 100%;
+        max-width: 250px; /* تقليص العرض */
         padding: 5px;
-        margin: 0;
+        margin: 0 auto; /* تمركز */
         flex-grow: 1;
         display: flex;
         flex-direction: column;
@@ -473,13 +474,24 @@ footer {
     }
     .score-container {
         flex-direction: column;
-        gap: 10px;
+        gap: 5px; /* تقليل الفراغ بين الفريقين */
         width: 100%;
         flex-grow: 1;
     }
     .team {
         width: 100%;
-        padding: 6px;
+        padding: 5px; /* تقليص الحشوة */
+    }
+    .team h2 {
+        font-size: 0.9em; /* تقليص حجم النص */
+    }
+    .team p {
+        font-size: 1.1em; /* تقليص حجم النقاط */
+        margin: 4px 0;
+    }
+    .score-button {
+        padding: 5px 10px;
+        font-size: 0.7em;
     }
     .button-container {
         flex-direction: column;

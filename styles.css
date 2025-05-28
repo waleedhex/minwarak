@@ -122,6 +122,7 @@ body {
     grid-template-columns: 1fr 1fr;
     gap: 10px;
     padding: 10px;
+    padding-bottom: 30px;
     width: 100%;
     max-width: 100%;
     margin-top: 120px;
@@ -129,6 +130,7 @@ body {
     overflow-y: auto;
     height: calc(100vh - 180px);
     box-sizing: border-box;
+    scroll-padding-bottom: 30px;
 }
 
 .category-card {
@@ -423,12 +425,13 @@ footer {
 @media (max-width: 600px) {
     #categories-grid {
         grid-template-columns: 1fr;
-        max-width: 100%;
         gap: 5px;
         padding: 3px;
+        padding-bottom: 20px;
         margin-top: 100px;
         margin-bottom: 50px;
         height: calc(100vh - 150px);
+        scroll-padding-bottom: 20px;
     }
     .category-card {
         padding: 3px;
@@ -503,10 +506,12 @@ footer {
         width: 100%;
         max-width: 1000px;
         padding: 10px;
+        padding-bottom: 30px;
         gap: 10px;
         margin-top: 120px;
         margin-bottom: 60px;
         height: calc(100vh - 180px);
+        scroll-padding-bottom: 30px;
     }
     #game-container {
         width: 100vw;

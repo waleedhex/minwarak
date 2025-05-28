@@ -119,9 +119,10 @@ async function selectCategory(category) {
                 try {
                     const response = await fetch(`assets/${cat.name}/metadata.json`);
                     const data = await response.json();
-                    const images = data.images.map(img => ({
+                    const images = data.images.map((img, idx) => ({
                         ...img,
-                        category: cat.name
+                        category: cat.name,
+                        audioIndex: img.hasAudio ? idx + 1 : null
                     }));
                     imageList.push(...images);
                 } catch (error) {
@@ -139,9 +140,10 @@ async function selectCategory(category) {
         try {
             const response = await fetch(`assets/${currentCategory}/metadata.json`);
             const data = await response.json();
-            imageList = data.images.map(img => ({
+            imageList = data.images.map((img, idx) => ({
                 ...img,
-                category: currentCategory
+                category: currentCategory,
+                audioIndex: img.hasAudio ? idx + 1 : null
             }));
             availableIndices = Array.from({ length: imageList.length }, (_, i) => i + 1);
             console.log('تم تحميل metadata.json لتصنيف:', currentCategory);
@@ -228,7 +230,7 @@ async function getImageAndAudio(index) {
 
     const imageData = imageList[index - 1];
     const imgBase = `assets/${imageData.category}/${imageData.name}`;
-    const audioBase = imageData.hasAudio ? `assets/${imageData.category}/audio${index}.mp3` : '';
+    const audioBase = imageData.hasAudio && imageData.audioIndex ? `assets/${imageData.category}/audio${imageData.audioIndex}.mp3` : '';
     const imagePaths = getImageUrl(imgBase);
     let pathIndex = 0;
     let img = imagePaths[pathIndex];

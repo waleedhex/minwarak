@@ -114,7 +114,7 @@ async function selectCategory(category) {
     if (category === 'random') {
         try {
             const categoriesResponse = await fetch('categories.json');
-            const categoriesData = await response.json();
+            const categoriesData = await categoriesResponse.json();
             for (const cat of categoriesData.categories) {
                 try {
                     const response = await fetch(`assets/${cat.name}/metadata.json`);

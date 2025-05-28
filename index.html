@@ -21,36 +21,40 @@
     </div>
 
     <div id="game-container" style="display: none;">
-        <h1>مين وراك!؟</h1>
-        <div class="instructions">أجب قبل انتهاء الوقت! بدون تلميح: 2 نقطة، مع تلميح: 1 نقطة</div>
-        <div class="image-section">
-            <div class="timer-container">
-                <span id="timer">02:00</span>
-                <input type="number" id="time-input" value="120" min="1">
-            </div>
-            <div class="image-container">
-                <img id="game-image" class="game-image" src="" alt="Game Image">
-                <div id="image-owner" class="image-owner"></div>
-            </div>
-            <button id="hint-button" class="hint-button" onclick="playHint()">تشغيل التلميح</button>
+        <div class="header-section">
+            <h1>مين وراك!؟</h1>
+            <div class="instructions">أجب قبل انتهاء الوقت! بدون تلميح: 2 نقطة، مع تلميح: 1 نقطة</div>
         </div>
-        <div class="score-section">
-            <div class="bottom-container">
-                <div class="score-container">
-                    <div class="team">
-                        <h2>الفريق الأول</h2>
-                        <p id="team1-score">0</p>
-                        <button class="score-button" onclick="addScore(1)">إضافة نقاط</button>
-                    </div>
-                    <div class="team">
-                        <h2>الفريق الثاني</h2>
-                        <p id="team2-score">0</p>
-                        <button class="score-button" onclick="addScore(2)">إضافة نقاط</button>
-                    </div>
+        <div class="main-content">
+            <div class="image-section">
+                <div class="timer-container">
+                    <span id="timer">02:00</span>
+                    <input type="number" id="time-input" value="120" min="1">
                 </div>
-                <div class="button-container">
-                    <button class="next-round" onclick="nextRound()">الجولة التالية</button>
-                    <button class="return-button" onclick="returnToCategories()">عودة</button>
+                <div class="image-container">
+                    <img id="game-image" class="game-image" src="" alt="Game Image">
+                    <div id="image-owner" class="image-owner"></div>
+                </div>
+                <button id="hint-button" class="hint-button" onclick="playHint()">تشغيل التلميح</button>
+            </div>
+            <div class="score-section">
+                <div class="bottom-container">
+                    <div class="score-container">
+                        <div class="team">
+                            <h2>الفريق الأول</h2>
+                            <p id="team1-score">0</p>
+                            <button class="score-button" onclick="addScore(1)">إضافة نقاط</button>
+                        </div>
+                        <div class="team">
+                            <h2>الفريق الثاني</h2>
+                            <p id="team2-score">0</p>
+                            <button class="score-button" onclick="addScore(2)">إضافة نقاط</button>
+                        </div>
+                    </div>
+                    <div class="button-container">
+                        <button class="next-round" onclick="nextRound()">الجولة التالية</button>
+                        <button class="return-button" onclick="returnToCategories()">عودة</button>
+                    </div>
                 </div>
             </div>
         </div>

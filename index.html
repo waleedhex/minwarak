@@ -8,30 +8,34 @@
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="sticker sticker-top-left"></div>
-    <div class="sticker sticker-bottom-right"></div>
     <div id="access-code-container">
         <h2>أدخل رمز الوصول</h2>
-        <input type="text" id="access-code" placeholder="مثال: mK7N4P8" autocomplete="off" autocapitalize="off">
+        <input type="text" id="access-code" placeholder="رمز الوصول">
         <button onclick="verifyAccessCode()">تأكيد</button>
-        <div id="announcements-container"></div>
     </div>
+
     <div id="categories-container" style="display: none;">
         <h2>اختر تصنيفًا</h2>
+        <button id="random-start" onclick="selectCategory('random')">بداية عشوائية</button>
         <div id="categories-grid"></div>
     </div>
+
     <div id="game-container" style="display: none;">
         <h1>مين وراك!؟</h1>
-        <p class="instructions">أجب قبل انتهاء الوقت! بدون تلميح: 2 نقطة، مع تلميح: 1 نقطة</p>
+        <div class="instructions">أجب قبل انتهاء الوقت! بدون تلميح: 2 نقطة، مع تلميح: 1 نقطة</div>
         <div class="timer-container">
             <span id="timer">02:00</span>
-            <input type="number" id="time-input" value="120" min="10" max="300">
+            <input type="number" id="time-input" value="120" min="1">
         </div>
         <div class="image-container">
-            <img id="game-image" class="game-image" alt="صورة اللعبة">
+            <img id="game-image" class="game-image" src="" alt="Game Image">
             <div id="image-owner" class="image-owner"></div>
         </div>
         <button id="hint-button" class="hint-button" onclick="playHint()">تشغيل التلميح</button>
+        <div class="button-container">
+            <button class="next-round" onclick="nextRound()">الجولة التالية</button>
+            <button class="return-button" onclick="returnToCategories()">عودة</button>
+        </div>
         <div class="bottom-container">
             <div class="score-container">
                 <div class="team">
@@ -45,10 +49,13 @@
                     <button class="score-button" onclick="addScore(2)">إضافة نقاط</button>
                 </div>
             </div>
-            <button class="next-round" onclick="nextRound()">الجولة التالية</button>
         </div>
+        <div id="announcements-container"></div>
         <footer>© 2025 مين وراك!؟ - جميع الحقوق محفوظة</footer>
     </div>
+
+    <div class="sticker sticker-top-left"></div>
+    <div class="sticker sticker-bottom-right"></div>
     <script src="script.js"></script>
 </body>
 </html>

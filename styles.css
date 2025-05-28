@@ -119,9 +119,10 @@ body {
 
 h1 {
     color: #fff;
-    font-size: 2.5em;
+    font-size: 2em;
     margin: 10px 0;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    text-align: center;
 }
 
 .instructions {
@@ -152,6 +153,13 @@ h1 {
     border: 2px solid #3498db;
     border-radius: 5px;
     width: 80px;
+}
+
+.image-section {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .image-container {
@@ -195,6 +203,7 @@ h1 {
     font-size: 1em;
     margin: 10px;
     transition: transform 0.2s;
+    max-width: 200px;
 }
 
 .hint-button:hover:not(.disabled) {
@@ -206,10 +215,15 @@ h1 {
     cursor: not-allowed;
 }
 
+.score-section {
+    width: 100%;
+}
+
 .button-container {
     display: flex;
     gap: 10px;
     margin: 10px 0;
+    justify-content: center;
 }
 
 .next-round, .return-button {
@@ -221,6 +235,7 @@ h1 {
     cursor: pointer;
     font-size: 1em;
     transition: transform 0.2s;
+    max-width: 200px;
 }
 
 .next-round:hover, .return-button:hover {
@@ -358,32 +373,47 @@ footer {
     #game-container {
         flex-direction: row;
         justify-content: space-between;
-        align-items: stretch;
+        align-items: flex-start;
         padding: 20px;
+        gap: 20px;
     }
-    .timer-container {
+    h1 {
+        font-size: 1.8em;
+        width: 100%;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    .image-section {
         width: 70%;
-        margin-bottom: 10px;
-    }
-    .image-container {
-        width: 70%;
-        height: 60vh;
-        max-width: none;
-    }
-    .hint-button {
-        width: 70%;
-        max-width: 200px;
-    }
-    .button-container {
-        width: 30%;
+        display: flex;
         flex-direction: column;
         align-items: center;
+        gap: 15px;
     }
-    .bottom-container {
+    .timer-container {
+        width: 100%;
+        margin-bottom: 0;
+    }
+    .image-container {
+        width: 100%;
+        max-width: none;
+        min-height: 40vh;
+        max-height: 60vh;
+        aspect-ratio: 16 / 9;
+    }
+    .hint-button {
+        width: auto;
+        max-width: 200px;
+    }
+    .score-section {
         width: 30%;
         display: flex;
         flex-direction: column;
         align-items: center;
+        gap: 15px;
+    }
+    .bottom-container {
+        width: 100%;
         margin: 0;
     }
     .score-container {
@@ -393,6 +423,11 @@ footer {
     }
     .team {
         width: 100%;
+    }
+    .button-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
     }
     .next-round, .return-button {
         width: 100%;

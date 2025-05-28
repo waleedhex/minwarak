@@ -12,7 +12,7 @@ body {
 
 .sticker {
     position: absolute;
-    z-index: 100; /* زيادة z-index لضمان ظهور الملصق */
+    z-index: 100;
 }
 
 .sticker-top-left {
@@ -119,7 +119,7 @@ body {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
-    overflow-y: hidden; /* منع التمرير العمودي */
+    overflow-y: hidden;
 }
 
 .header-section {
@@ -448,7 +448,7 @@ footer {
         padding: 0;
         margin: 0;
         box-sizing: border-box;
-        overflow: hidden; /* منع أي تمرير */
+        overflow: hidden;
     }
     .header-section {
         width: 100%;
@@ -468,8 +468,8 @@ footer {
         display: flex;
         flex-direction: row;
         justify-content: stretch;
-        align-items: flex-start; /* محاذاة من الأعلى */
-        gap: 0;
+        align-items: flex-start;
+        gap: 0; /* إزالة الفراغ الأفقي */
     }
     .image-section {
         flex: 0 0 70%;
@@ -485,12 +485,12 @@ footer {
     .timer-container {
         width: 100%;
         margin: 0;
-        padding: 5px;
+        padding: 5px 0;
     }
     .image-container {
-        width: calc(100% - 10px); /* هامش يمين */
-        margin-right: 10px; /* إبعاد عن الطرف الأيمن */
-        height: calc(100% - 60px); /* ترك مساحة للملصق */
+        width: calc(100% - 5px); /* تقليص الهامش */
+        margin-right: 5px; /* هامش يمين أصغر */
+        height: calc(100% - 60px);
         max-height: calc(100% - 60px);
         aspect-ratio: 16 / 9;
         margin: 0;
@@ -509,10 +509,10 @@ footer {
     }
     .bottom-container {
         width: 100%;
-        max-width: 200px;
+        max-width: 180px; /* تقليص العرض */
         padding: 5px;
         margin: 0 auto;
-        margin-top: 0; /* محاذاة مع الصورة */
+        margin-top: 10px; /* تحريك للأسفل */
         flex-grow: 0;
         display: flex;
         flex-direction: column;

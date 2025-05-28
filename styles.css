@@ -7,7 +7,7 @@ body {
     position: relative;
     display: flex;
     flex-direction: column;
-    overflow: hidden; /* منع أي تمرير غير ضروري */
+    overflow: hidden;
     box-sizing: border-box;
 }
 
@@ -36,13 +36,13 @@ body {
 
 #access-code-container, #categories-container, #game-container {
     width: 100%;
-    max-width: 100vw; /* منع التجاوز الأفقي */
+    max-width: 100vw;
     min-height: 100vh;
-    max-height: 100vh; /* منع التجاوز العمودي */
+    max-height: 100vh;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    overflow-x: hidden; /* منع التمرير الأفقي */
+    overflow-x: hidden;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -55,30 +55,45 @@ body {
 }
 
 #categories-container {
-    overflow-y: hidden; /* سيتم السماح بالتمرير في #categories-grid */
+    overflow-y: hidden;
+    color: white;
+    text-align: center;
 }
 
-#access-code-container h2, #categories-container h2 {
-    margin: 5px 0; /* تقليل الهامش */
-    font-size: 1.2em;
+.categories-header {
+    width: 100%;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px; /* هامش علوي معقول */
+}
+
+#categories-container h2 {
+    margin: 10px 0;
+    font-size: 1.5em; /* تكبير العنوان */
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); /* إبراز */
 }
 
 #access-code {
     padding: 8px;
     font-size: 0.9em;
     width: 180px;
-    max-width: 90%; /* منع التجاوز */
+    max-width: 90%;
 }
 
 #access-code-container button, #random-start {
-    padding: 8px 16px;
-    font-size: 0.9em;
+    padding: 10px 20px; /* تكبير الزر */
+    font-size: 1em; /* تكبير الخط */
     background: #2ecc71;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    margin: 5px; /* تقليل الهامش */
+    margin: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* إبراز */
+    transition: transform 0.2s, box-shadow 0.2s;
 }
 
 #random-start {
@@ -86,7 +101,8 @@ body {
 }
 
 #random-start:hover {
-    transform: scale(1.05);
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 #categories-grid {
@@ -95,10 +111,10 @@ body {
     gap: 10px;
     padding: 5px;
     width: 100%;
-    max-width: 100%; /* منع التجاوز */
+    max-width: 100%;
     margin: 0 auto;
-    overflow-y: auto; /* السماح بالتمرير العمودي */
-    max-height: calc(100vh - 120px); /* تخصيص مساحة للعنوان والزر */
+    overflow-y: auto;
+    max-height: calc(100vh - 140px); /* تعديل للعنوان والزر المكبرين */
     box-sizing: border-box;
 }
 
@@ -132,19 +148,19 @@ body {
 }
 
 #game-container {
-    overflow-y: hidden; /* منع التمرير العمودي */
+    overflow-y: hidden;
 }
 
 .header-section {
     width: 100%;
     text-align: center;
-    padding: 3px 0; /* تقليل الحشوة */
+    padding: 3px 0;
 }
 
 h1 {
     color: #fff;
     font-size: 1.2em;
-    margin: 3px 0; /* تقليل الهامش */
+    margin: 3px 0;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
@@ -161,7 +177,7 @@ h1 {
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    max-height: calc(100vh - 60px); /* تخصيص مساحة للعنوان */
+    max-height: calc(100vh - 60px);
     overflow: hidden;
 }
 
@@ -170,8 +186,8 @@ h1 {
     justify-content: center;
     align-items: center;
     gap: 10px;
-    margin: 3px 0; /* تقليل الهامش */
-    padding: 3px 0; /* تقليل الحشوة */
+    margin: 3px 0;
+    padding: 3px 0;
 }
 
 #timer {
@@ -204,8 +220,8 @@ h1 {
     border-radius: 10px;
     border: 3px solid #3498db;
     background: transparent;
-    margin: 3px 0; /* تقليل الهامش */
-    max-height: 50vh; /* تقييد الارتفاع */
+    margin: 3px 0;
+    max-height: 50vh;
 }
 
 .game-image {
@@ -258,7 +274,7 @@ h1 {
     display: flex;
     flex-direction: column;
     gap: 6px;
-    margin: 3px 0; /* تقليل الهامش */
+    margin: 3px 0;
     align-items: center;
 }
 
@@ -291,7 +307,7 @@ h1 {
     width: 90%;
     max-width: 450px;
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-    margin: 3px auto; /* تقليل الهامش */
+    margin: 3px auto;
     box-sizing: border-box;
     overflow: hidden;
 }
@@ -342,7 +358,7 @@ footer {
     color: white;
     text-align: center;
     font-size: 0.7em;
-    padding: 3px; /* تقليل الحشوة */
+    padding: 3px;
     width: 100%;
     margin-top: auto;
 }
@@ -351,7 +367,7 @@ footer {
     background: white;
     border-radius: 10px;
     padding: 8px;
-    margin: 3px; /* تقليل الهامش */
+    margin: 3px;
     width: 90%;
     max-width: 300px;
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
@@ -388,10 +404,10 @@ footer {
 @media (max-width: 600px) {
     #categories-grid {
         grid-template-columns: 1fr;
-        max-width: 100%; /* ملء العرض */
+        max-width: 100%;
         gap: 5px;
         padding: 3px;
-        max-height: calc(100vh - 100px); /* تخصيص مساحة */
+        max-height: calc(100vh - 120px); /* تعديل للعنوان والزر */
         overflow-y: auto;
         overflow-x: hidden;
     }
@@ -409,9 +425,13 @@ footer {
         font-size: 0.7em;
     }
     #random-start {
-        padding: 6px 12px;
-        font-size: 0.8em;
+        padding: 8px 16px;
+        font-size: 0.9em; /* تكبير الخط */
         margin: 3px;
+    }
+    #categories-container h2 {
+        font-size: 1.4em; /* تكبير العنوان */
+        margin: 15px 0; /* هامش علوي معقول */
     }
     h1 {
         font-size: 1.1em;
@@ -464,7 +484,7 @@ footer {
         max-width: 1000px;
         padding: 10px;
         gap: 10px;
-        max-height: calc(100vh - 120px);
+        max-height: calc(100vh - 140px);
         overflow-y: auto;
         overflow-x: hidden;
     }

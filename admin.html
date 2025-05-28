@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,135 +9,445 @@
             font-family: 'Tajawal', sans-serif;
             background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
             margin: 0;
-            min-height: 100vh; /* تغيير من height لتجنب القص */
             display: flex;
-            justify-content: center;
-            align-items: flex-start; /* تغيير من center لضمان ظهور المحتوى العلوي */
-            width: 100vw;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
             color: white;
-            text-align: center;
-            box-sizing: border-box;
-            scroll-behavior: smooth;
         }
-        .admin-container, .login-container {
-            background: rgba(255, 255, 255, 0.1);
+        h1 {
+            margin: 20px 0;
+        }
+        h2 {
+            margin: 20px 0;
+            font-size: 1.5em;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        section {
+            background: white;
+            color: #333;
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            margin: 10px 0;
             width: 90%;
-            max-width: 600px;
-            margin: 20px auto; /* هامش علوي وسفلي */
-            overflow-y: auto; /* تمرير رأسي عند الحاجة */
-            box-sizing: border-box;
+            max-width: 800px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
         }
-        h2, h3 {
-            margin: 10px 0;
-        }
-        input, select, textarea {
+        input {
             padding: 10px;
-            margin: 10px 0;
-            width: 100%;
-            max-width: 300px;
-            border: 2px solid #3498db;
+            margin: 5px;
+            border: 1px solid #ccc;
             border-radius: 5px;
-            font-size: 1em;
-        }
-        textarea {
-            height: 100px;
+            width: calc(100% - 22px);
         }
         button {
             padding: 10px 20px;
-            margin: 10px;
+            margin: 5px;
             background: #2ecc71;
             color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #27ae60;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ccc;
+            text-align: center;
+        }
+        th {
+            background: #f1f1f1;
+        }
+        .scrollable-table {
+            max-height: 300px;
+            overflow-y: auto;
+            display: block;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .sticker {
+            position: absolute;
+            z-index: 10;
+        }
+        .sticker-top-left {
+            top: 10px;
+            left: 10px;
+            width: 100px;
+            height: 50px;
+            background: url('assets/stickers/sticker1.png') no-repeat center;
+            background-size: contain;
+        }
+        .sticker-bottom-right {
+            bottom: 10px;
+            right: 10px;
+            width: 100px;
+            height: 50px;
+            background: url('assets/stickers/sticker2.png') no-repeat center;
+            background-size: contain;
+        }
+        #access-code-container, #categories-container {
+            text-align: center;
+            color: white;
+        }
+        #access-code-container h2, #categories-container h2 {
+            margin: 20px 0;
+        }
+        #access-code {
+            padding: 10px;
+            font-size: 1em;
+            width: 200px;
+        }
+        #access-code-container button {
+            padding: 10px 20px;
+            font-size: 1em;
+            background: #2ecc71;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+        }
+        #categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .category-card {
+            background: white;
+            border-radius: 10px;
+            padding: 10px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .category-card:hover {
+            transform: scale(1.05);
+        }
+        .category-card img {
+            width: 100%;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+        .category-card p {
+            margin: 10px 0 0;
+            font-size: 1em;
+            color: #333;
+        }
+        .game-container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        .instructions {
+            color: white;
+            font-size: 1em;
+            text-align: center;
+            margin: 5px 0;
+        }
+        .timer-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin: 10px 0;
+        }
+        #timer {
+            font-size: 2em;
+            color: #fff;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+        #time-input {
+            padding: 8px;
+            font-size: 1em;
+            border: 2px solid #3498db;
+            border-radius: 5px;
+            width: 80px;
+        }
+        .image-container {
+            width: 80%;
+            max-width: 800px;
+            aspect-ratio: 16 / 9;
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            border: 3px solid #3498db;
+            background: transparent;
+        }
+        .game-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        .image-owner {
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 5px 10px;
+            font-size: 16px;
+            border-radius: 3px;
+        }
+        .hint-button {
+            background: #f1c40f;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            margin: 10px;
+            transition: transform 0.2s;
+        }
+        .hint-button:hover:not(.disabled) {
+            transform: scale(1.1);
+        }
+        .hint-button.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .bottom-container {
+            background: white;
+            border-radius: 15px;
+            padding: 15px;
+            width: 90%;
+            max-width: 800px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            margin-bottom: 10px;
+        }
+        .score-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .team {
+            background: #3498db;
+            color: white;
+            padding: 10px;
+            border-radius: 10px;
+            width: 48%;
+            text-align: center;
+        }
+        .team h2 {
+            margin: 0;
+            font-size: 1.2em;
+        }
+        .team p {
+            font-size: 1.5em;
+            margin: 8px 0;
+        }
+        .score-button {
+            background: #2ecc71;
+            color: white;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: transform 0.2s;
+        }
+        .score-button:hover {
+            transform: scale(1.1);
+        }
+        .next-round {
+            background: #e74c3c;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            display: block;
+            margin: 0 auto;
+            transition: transform 0.2s;
+        }
+        .next-round:hover {
+            transform: scale(1.1);
+        }
+        footer {
+            color: white;
+            text-align: center;
+            font-size: 0.8em;
+            margin-top: 10px;
+        }
+        .announcement-card {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px;
+            width: 90%;
+            max-width: 300px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+        .announcement-card h3 {
+            margin: 0 0 10px;
+            font-size: 1.2em;
+            color: #333;
+        }
+        .announcement-card p {
+            margin: 0 0 10px;
+            font-size: 1em;
+            color: #666;
+        }
+        .announcement-card button {
+            background: black;
+            color: white;
+            padding: 8px 16px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             font-size: 1em;
             transition: transform 0.2s;
         }
-        button:hover {
+        .announcement-card button:hover {
             transform: scale(1.1);
         }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-            background: white;
-            color: black;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-        th, td {
-            padding: 10px;
-            border: 1px solid #ddd;
-            text-align: center;
-        }
-        th {
-            background: #3498db;
-            color: white;
-        }
-        .delete-btn {
-            background: #e74c3c;
-        }
-        .section {
-            margin: 20px 0;
-        }
         @media (max-width: 600px) {
-            .admin-container, .login-container {
-                width: 95%;
-                margin: 10px auto;
+            h1 {
+                font-size: 1.8em;
             }
-            input, select, textarea {
+            #timer {
+                font-size: 1.5em;
+            }
+            .image-container {
+                width: 90%;
+            }
+            .team h2 {
+                font-size: 1em;
+            }
+            .team p {
+                font-size: 1.2em;
+            }
+            .hint-button, .score-button, .next-round {
+                padding: 8px 15px;
+                font-size: 0.8em;
+            }
+            .sticker-top-left, .sticker-bottom-right {
+                width: 70px;
+                height: 35px;
+            }
+            .category-card {
+                min-width: 120px;
+            }
+        }
+        @media (max-height: 600px) and (orientation: portrait) {
+            .image-container {
+                width: 70%;
+                max-height: 40vh;
+            }
+            h1 {
+                font-size: 1.5em;
+            }
+            #timer {
+                font-size: 1.2em;
+            }
+        }
+        @media (orientation: landscape) {
+            .game-container {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                padding: 20px;
+            }
+            .image-container {
+                width: 60%;
+                max-width: none;
+                height: 80vh;
+            }
+            .bottom-container {
+                width: 30%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+            }
+            .score-container {
+                flex-direction: column;
+                gap: 20px;
                 width: 100%;
+            }
+            .team {
+                width: 100%;
+            }
+            .hint-button, .next-round {
+                width: 100%;
+                max-width: 200px;
             }
         }
     </style>
 </head>
 <body>
-    <div id="login-container" class="login-container">
-        <h2>تسجيل دخول الإدارة</h2>
-        <input type="password" id="admin-password" placeholder="أدخل كلمة المرور" autocomplete="off" autocapitalize="off" spellcheck="false">
-        <button onclick="login()">تسجيل الدخول</button>
+    <h1>تسجيل دخول الإدارة</h1>
+    <div id="login-section">
+        <input type="password" id="admin-code" placeholder="رمز الأدمن">
+        <button onclick="verifyAdminCode()">تسجيل الدخول</button>
     </div>
-    <div id="admin-container" class="admin-container" style="display: none;">
-        <h2>إدارة مين وراك!؟</h2>
-        <div class="section">
-            <h3>توليد رموز جديدة</h3>
-            <select id="code-type">
-                <option value="m">فئة m</option>
-                <option value="x">فئة x</option>
-            </select>
-            <input type="number" id="code-count" min="1" max="5000" placeholder="عدد الرموز (حد أقصى 5000)">
+
+    <div id="admin-panel" style="display: none;">
+        <h1>إدارة مين وراك!؟</h1>
+
+        <section>
+            <h2>توليد رموز جديدة</h2>
+            <input type="number" id="code-count-m" placeholder="عدد رموز فئة m">
+            <input type="number" id="code-count-x" placeholder="عدد رموز فئة x">
             <button onclick="generateCodes()">توليد الرموز</button>
-            <textarea id="generated-codes" readonly></textarea>
-            <button onclick="copyGeneratedCodes()">نسخ الرموز الجديدة</button>
-        </div>
-        <div class="section">
-            <h3>إضافة رموز</h3>
-            <textarea id="new-codes" placeholder="أدخل الرموز، كل رمز في سطر"></textarea>
+            <button onclick="copyCodes()">نسخ الرموز الجديدة</button>
+        </section>
+
+        <section>
+            <h2>إضافة رموز</h2>
+            <input type="text" id="new-codes" placeholder="الرموز (مفصولة بمسافات)">
             <button onclick="addCodes()">إضافة الرموز</button>
-        </div>
-        <div class="section">
-            <h3>حذف رموز</h3>
-            <table id="codes-table">
-                <thead>
-                    <tr>
-                        <th>الرمز</th>
-                        <th>إجراء</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-            <textarea id="delete-codes" placeholder="أدخل الرموز للحذف، كل رمز في سطر"></textarea>
-            <button onclick="deleteCodes()">حذف الرموز</button>
-        </div>
-        <div class="section">
-            <h3>إدارة الإعلانات</h3>
-            <input type="text" id="announcement-title" placeholder="عنوان الإعلان (اختياري)">
-            <textarea id="announcement-text" placeholder="نص الإعلان (اختياري)"></textarea>
-            <input type="text" id="announcement-link" placeholder="رابط الإعلان (اختياري)">
-            <input type="text" id="announcement-button" placeholder="اسم الزر (اختياري)">
+        </section>
+
+        <section>
+            <h2>حذف رموز</h2>
+            <div class="scrollable-table">
+                <table id="codes-table">
+                    <thead>
+                        <tr>
+                            <th>الرمز</th>
+                            <th>إجراء</th>
+                        </tr>
+                    </thead>
+                    <tbody id="codes-table-body"></tbody>
+                </table>
+            </div>
+            <button onclick="deleteSelectedCodes()">حذف الرموز</button>
+            <button onclick="exportCodes()">تصدير codes.json</button>
+        </section>
+
+        <section>
+            <h2>إدارة الإعلانات</h2>
+            <input type="text" id="announcement-title" placeholder="العنوان">
+            <input type="text" id="announcement-text" placeholder="النص">
+            <input type="text" id="announcement-link" placeholder="الرابط">
+            <input type="text" id="announcement-button" placeholder="نص الزر">
             <button onclick="addAnnouncement()">تأكيد</button>
             <table id="announcements-table">
                 <thead>
@@ -149,13 +459,15 @@
                         <th>إجراء</th>
                     </tr>
                 </thead>
-                <tbody></tbody>
+                <tbody id="announcements-table-body"></tbody>
             </table>
-        </div>
-        <div class="section">
-            <h3>إدارة التصنيفات</h3>
-            <input type="text" id="category-name" placeholder="اسم التصنيف (مثل أفلام)">
-            <input type="file" id="category-image" accept="image/*">
+            <button onclick="exportAnnouncements()">تصدير announcements.json</button>
+        </section>
+
+        <section>
+            <h2>إدارة التصنيفات</h2>
+            <input type="text" id="category-name" placeholder="اسم التصنيف">
+            <input type="text" id="category-image" placeholder="مسار الصورة">
             <button onclick="addCategory()">تأكيد</button>
             <table id="categories-table">
                 <thead>
@@ -165,63 +477,260 @@
                         <th>إجراء</th>
                     </tr>
                 </thead>
-                <tbody></tbody>
+                <tbody id="categories-table-body"></tbody>
             </table>
-        </div>
+        </section>
+
         <button onclick="exportFiles()">تصدير الملفات</button>
     </div>
+
     <script>
-        // للتصحيح: تأكيد تحميل السكربت
-        console.log('تم تحميل سكربت admin.html بنجاح');
+        // رمز الأدمن لتسجيل الدخول إلى شاشة الإدارة
+        const ADMIN_CODE = 'wfra1403';
 
-        // كلمة المرور لتسجيل الدخول
-        const ADMIN_PASSWORD = 'wfra1403';
+        let currentCategory = null;
+        let imageList = [];
+        let currentRoundIndex = 1;
+        let team1Score = 0;
+        let team2Score = 0;
+        let hintUsed = false;
+        let timer;
+        let timeLeft = 120;
+        let availableIndices = [];
 
-        let currentCodes = [];
-        let currentAnnouncements = [];
-        let currentCategories = [];
+        const gameImage = document.getElementById('game-image');
+        const imageOwner = document.getElementById('image-owner');
+        const timerDisplay = document.getElementById('timer');
+        const timeInput = document.getElementById('time-input');
+        const hintButton = document.getElementById('hint-button');
+        const audio = new Audio();
 
-        // دالة تسجيل الدخول مشابهة للكود الشغال مع إضافة تصحيح بسيط
-        async function login() {
-            const password = document.getElementById('admin-password').value.trim();
-            console.log('إدخال كلمة المرور:', password); // للتصحيح
-            console.log('مقارنة مع:', ADMIN_PASSWORD); // للتصحيح
+        // متغيرات عالمية لتخزين بيانات الرموز والإعلانات والتصنيفات
+        let codes = { validCodes: [] };
+        let announcements = { announcements: [] };
+        let categories = { categories: [] };
 
-            if (password === ADMIN_PASSWORD) {
-                console.log('كلمة المرور صحيحة، جارٍ تحميل واجهة الإدارة...');
-                document.getElementById('login-container').style.display = 'none';
-                document.getElementById('admin-container').style.display = 'block';
-                await loadCodes();
-                await loadAnnouncements();
-                await loadCategories();
+        // دالة مساعدة لتجربة صيغ مختلفة للصور
+        function getImageUrl(basePath) {
+            const extensions = ['.jpg', '.png'];
+            const pathsToTry = [];
+
+            // إضافة المسار الأساسي بصيغ مختلفة
+            extensions.forEach(ext => {
+                pathsToTry.push(basePath.replace(/\.(jpg|png)$/i, ext));
+            });
+
+            console.log('محاولة تحميل الصورة من المسارات:', pathsToTry);
+            return pathsToTry;
+        }
+
+        async function verifyAdminCode() {
+            const code = document.getElementById('admin-code').value;
+            if (code === ADMIN_CODE) {
+                document.getElementById('login-section').style.display = 'none';
+                document.getElementById('admin-panel').style.display = 'block';
+                await loadAdminData();
             } else {
-                console.log('كلمة المرور غير صحيحة');
-                alert('كلمة المرور غير صحيحة!');
+                alert('رمز أدمن غير صحيح!');
             }
         }
 
-        // دوال تحميل JSON باستخدام fetch (ستعمل بشكل صحيح عند الاستضافة أونلاين)
-        async function loadCodes() {
+        async function loadAdminData() {
+            try {
+                const codesResponse = await fetch('codes.json');
+                codes = await codesResponse.json();
+                populateCodesTable();
+
+                const announcementsResponse = await fetch('announcements.json');
+                announcements = await announcementsResponse.json();
+                populateAnnouncementsTable();
+
+                const categoriesResponse = await fetch('categories.json');
+                categories = await categoriesResponse.json();
+                populateCategoriesTable();
+            } catch (error) {
+                console.error('خطأ في تحميل البيانات:', error);
+            }
+        }
+
+        function populateCodesTable() {
+            const tableBody = document.getElementById('codes-table-body');
+            tableBody.innerHTML = '';
+            codes.validCodes.forEach(code => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${code}</td>
+                    <td><input type="checkbox" class="code-checkbox" data-code="${code}"></td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        function generateCodes() {
+            const countM = parseInt(document.getElementById('code-count-m').value) || 0;
+            const countX = parseInt(document.getElementById('code-count-x').value) || 0;
+            const newCodes = [];
+            for (let i = 0; i < countM; i++) {
+                newCodes.push('m' + Math.random().toString(36).substr(2, 5).toUpperCase());
+            }
+            for (let i = 0; i < countX; i++) {
+                newCodes.push('x' + Math.random().toString(36).substr(2, 5).toUpperCase());
+            }
+            alert('الرموز الجديدة:\n' + newCodes.join('\n'));
+            codes.validCodes.push(...newCodes);
+            populateCodesTable();
+        }
+
+        function copyCodes() {
+            const codesText = codes.validCodes.join('\n');
+            navigator.clipboard.writeText(codesText).then(() => {
+                alert('تم نسخ الرموز!');
+            });
+        }
+
+        function addCodes() {
+            const newCodesInput = document.getElementById('new-codes').value;
+            const newCodes = newCodesInput.split(' ').filter(code => code.trim() !== '');
+            codes.validCodes.push(...newCodes);
+            populateCodesTable();
+        }
+
+        function deleteSelectedCodes() {
+            const checkboxes = document.querySelectorAll('.code-checkbox:checked');
+            const codesToDelete = Array.from(checkboxes).map(cb => cb.getAttribute('data-code'));
+            codes.validCodes = codes.validCodes.filter(code => !codesToDelete.includes(code));
+            populateCodesTable();
+        }
+
+        function exportCodes() {
+            const codesData = JSON.stringify(codes, null, 2);
+            const blob = new Blob([codesData], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'codes.json';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function populateAnnouncementsTable() {
+            const tableBody = document.getElementById('announcements-table-body');
+            tableBody.innerHTML = '';
+            announcements.announcements.forEach((ann, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${ann.title || ''}</td>
+                    <td>${ann.text || ''}</td>
+                    <td>${ann.link || ''}</td>
+                    <td>${ann.button || ''}</td>
+                    <td><button onclick="deleteAnnouncement(${index})">حذف</button></td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        function addAnnouncement() {
+            const title = document.getElementById('announcement-title').value;
+            const text = document.getElementById('announcement-text').value;
+            const link = document.getElementById('announcement-link').value;
+            const button = document.getElementById('announcement-button').value;
+            const newAnnouncement = { title, text, link, button };
+            announcements.announcements.push(newAnnouncement);
+            populateAnnouncementsTable();
+        }
+
+        function deleteAnnouncement(index) {
+            announcements.announcements.splice(index, 1);
+            populateAnnouncementsTable();
+        }
+
+        function exportAnnouncements() {
+            const announcementsData = JSON.stringify(announcements, null, 2);
+            const blob = new Blob([announcementsData], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'announcements.json';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function populateCategoriesTable() {
+            const tableBody = document.getElementById('categories-table-body');
+            tableBody.innerHTML = '';
+            categories.categories.forEach((cat, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${cat.name}</td>
+                    <td>${cat.image}</td>
+                    <td><button onclick="deleteCategory(${index})">حذف</button></td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        function addCategory() {
+            const name = document.getElementById('category-name').value;
+            const image = document.getElementById('category-image').value;
+            const newCategory = { name, image };
+            categories.categories.push(newCategory);
+            populateCategoriesTable();
+        }
+
+        function deleteCategory(index) {
+            categories.categories.splice(index, 1);
+            populateCategoriesTable();
+        }
+
+        function exportFiles() {
+            const categoriesData = JSON.stringify(categories, null, 2);
+            const blob = new Blob([categoriesData], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'categories.json';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        // الكود الخاص بصفحة اللعبة (index.html)
+        async function verifyAccessCode() {
+            const code = document.getElementById('access-code').value.trim();
+            console.log('إدخال الرمز:', code);
+
+            if (!code) {
+                alert('الرجاء إدخال رمز الوصول!');
+                return;
+            }
+
+            if (code.toLowerCase() === ADMIN_CODE.toLowerCase()) {
+                console.log('رمز الأدمن مُدخل، جارٍ التوجيه إلى admin.html...');
+                window.location.href = './admin.html';
+                return;
+            }
+
             try {
                 const response = await fetch('codes.json');
                 const data = await response.json();
-                currentCodes = data.validCodes || [];
-                updateCodesTable();
-                console.log('تم تحميل codes.json بنجاح');
+                console.log('تم تحميل codes.json:', data);
+
+                const lowerCaseCode = code.toLowerCase();
+                const validCodesLowerCase = data.validCodes.map(c => c.toLowerCase());
+                console.log('الرمز المدخل (صغير):', lowerCaseCode);
+                console.log('الرموز الصالحة (صغير):', validCodesLowerCase);
+
+                if (validCodesLowerCase.includes(lowerCaseCode)) {
+                    console.log('الرمز صالح، جارٍ تحميل صفحة التصنيفات...');
+                    document.getElementById('access-code-container').style.display = 'none';
+                    document.getElementById('categories-container').style.display = 'block';
+                    await loadCategories();
+                } else {
+                    console.log('الرمز غير صالح');
+                    alert('رمز غير صالح! حاول مرة أخرى.');
+                }
             } catch (error) {
                 console.error('خطأ في تحميل codes.json:', error);
-            }
-        }
-
-        async function loadAnnouncements() {
-            try {
-                const response = await fetch('announcements.json');
-                const data = await response.json();
-                currentAnnouncements = data.announcements || [];
-                updateAnnouncementsTable();
-                console.log('تم تحميل announcements.json بنجاح');
-            } catch (error) {
-                console.error('خطأ في تحميل announcements.json:', error);
+                alert('فشل تحميل codes.json. تأكد من وجود الملف في نفس المجلد أو استخدم خادم محلي.');
             }
         }
 
@@ -229,231 +738,238 @@
             try {
                 const response = await fetch('categories.json');
                 const data = await response.json();
-                currentCategories = data.categories || [];
-                updateCategoriesTable();
+                const grid = document.getElementById('categories-grid');
+                grid.innerHTML = '';
+                for (const category of data.categories) {
+                    const card = document.createElement('div');
+                    card.className = 'category-card';
+                    card.onclick = () => selectCategory(category.name);
+                    const img = document.createElement('img');
+                    const imagePaths = getImageUrl(category.image || 'assets/default_category.jpg');
+                    let pathIndex = 0;
+                    img.src = imagePaths[pathIndex];
+                    img.alt = category.name;
+                    img.onerror = () => {
+                        pathIndex++;
+                        if (pathIndex < imagePaths.length) {
+                            console.error(`فشل تحميل صورة التصنيف ${category.name} من ${img.src}, جارٍ المحاولة مع ${imagePaths[pathIndex]}`);
+                            img.src = imagePaths[pathIndex];
+                        } else {
+                            console.error(`فشل تحميل صورة التصنيف ${category.name} من جميع المسارات`);
+                            img.src = 'assets/default_category.jpg';
+                        }
+                    };
+                    const name = document.createElement('p');
+                    name.textContent = category.name;
+                    card.appendChild(img);
+                    card.appendChild(name);
+                    grid.appendChild(card);
+                }
                 console.log('تم تحميل categories.json بنجاح');
             } catch (error) {
                 console.error('خطأ في تحميل categories.json:', error);
             }
         }
 
-        function updateCodesTable() {
-            const tbody = document.querySelector('#codes-table tbody');
-            tbody.innerHTML = '';
-            currentCodes.forEach(code => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${code}</td>
-                    <td><button class="delete-btn" onclick="deleteSingleCode('${code}')">حذف</button></td>
-                `;
-                tbody.appendChild(row);
-            });
-        }
-
-        function updateAnnouncementsTable() {
-            const tbody = document.querySelector('#announcements-table tbody');
-            tbody.innerHTML = '';
-            currentAnnouncements.forEach((announcement, index) => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${announcement.title || ''}</td>
-                    <td>${announcement.text || ''}</td>
-                    <td>${announcement.link || ''}</td>
-                    <td>${announcement.button || ''}</td>
-                    <td><button class="delete-btn" onclick="deleteAnnouncement(${index})">حذف</button></td>
-                `;
-                tbody.appendChild(row);
-            });
-        }
-
-        function updateCategoriesTable() {
-            const tbody = document.querySelector('#categories-table tbody');
-            tbody.innerHTML = '';
-            currentCategories.forEach((category, index) => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${category.name}</td>
-                    <td><img src="${category.image || 'assets/default_category.jpg'}" alt="${category.name}" style="width: 50px;"></td>
-                    <td><button class="delete-btn" onclick="deleteCategory(${index})">حذف</button></td>
-                `;
-                tbody.appendChild(row);
-            });
-        }
-
-        function generateCode(type) {
-            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-            let code = type.toUpperCase();
-            for (let i = 0; i < 6; i++) {
-                code += chars.charAt(Math.floor(Math.random() * chars.length));
-            }
-            return code;
-        }
-
-        async function generateCodes() {
-            const type = document.getElementById('code-type').value;
-            const count = parseInt(document.getElementById('code-count').value);
-            if (!count || count < 1 || count > 5000) {
-                alert('أدخل عددًا بين 1 و5000!');
+        async function selectCategory(category) {
+            currentCategory = category;
+            try {
+                const response = await fetch(`assets/${currentCategory}/metadata.json`);
+                const data = await response.json();
+                imageList = data.images || [];
+                availableIndices = Array.from({ length: imageList.length }, (_, i) => i + 1);
+                console.log('تم تحميل metadata.json لتصنيف:', currentCategory);
+            } catch (error) {
+                console.error('خطأ في تحميل metadata.json:', error);
+                imageList = [];
+                availableIndices = [];
+                alert(`فشل تحميل بيانات التصنيف ${currentCategory}. تأكد من أن ملف metadata.json موجود وصحيح.`);
+                // العودة إلى صفحة التصنيفات
+                document.getElementById('categories-container').style.display = 'block';
+                document.getElementById('game-container').style.display = 'none';
                 return;
             }
-            const newCodes = [];
-            for (let i = 0; i < count; i++) {
-                let code;
-                do {
-                    code = generateCode(type);
-                } while (currentCodes.includes(code) || newCodes.includes(code));
-                newCodes.push(code);
-            }
-            document.getElementById('generated-codes').value = newCodes.join('\n');
-            currentCodes.push(...newCodes);
-            updateCodesTable();
+            document.getElementById('categories-container').style.display = 'none';
+            document.getElementById('game-container').style.display = 'flex';
+            startGame();
         }
 
-        function copyGeneratedCodes() {
-            const textarea = document.getElementById('generated-codes');
-            textarea.select();
-            document.execCommand('copy');
-            alert('تم نسخ الرموز الجديدة!');
+        async function loadAnnouncements() {
+            try {
+                const response = await fetch('announcements.json');
+                const data = await response.json();
+                const announcementsContainer = document.getElementById('announcements-container');
+                announcementsContainer.innerHTML = '';
+                data.announcements.forEach(announcement => {
+                    const announcementCard = document.createElement('div');
+                    announcementCard.className = 'announcement-card';
+                    if (announcement.title) {
+                        const title = document.createElement('h3');
+                        title.textContent = announcement.title;
+                        announcementCard.appendChild(title);
+                    }
+                    if (announcement.text) {
+                        const text = document.createElement('p');
+                        text.textContent = announcement.text;
+                        announcementCard.appendChild(text);
+                    }
+                    if (announcement.link && announcement.button) {
+                        const button = document.createElement('button');
+                        button.textContent = announcement.button;
+                        button.onclick = () => window.open(announcement.link, '_blank');
+                        announcementCard.appendChild(button);
+                    }
+                    announcementsContainer.appendChild(announcementCard);
+                });
+                console.log('تم تحميل announcements.json بنجاح');
+            } catch (error) {
+                console.error('خطأ في تحميل announcements.json:', error);
+            }
         }
 
-        async function addCodes() {
-            const codesText = document.getElementById('new-codes').value.trim();
-            if (!codesText) {
-                alert('أدخل رموزًا للإضافة!');
-                return;
+        function getRandomImageIndex() {
+            if (imageList.length === 0) {
+                console.error('لا توجد صور للعرض. imageList فارغة.');
+                return null;
             }
-            const codes = codesText.split('\n').map(code => code.trim().toUpperCase());
-            const validCodes = [];
-            const invalidCodes = [];
-            codes.forEach(code => {
-                if (/^[mMxX][A-Z0-9]{6}$/.test(code) && !currentCodes.includes(code)) {
-                    validCodes.push(code);
-                } else {
-                    invalidCodes.push(code);
+            if (availableIndices.length === 0) {
+                availableIndices = Array.from({ length: imageList.length }, (_, i) => i + 1);
+            }
+            const randomIndex = Math.floor(Math.random() * availableIndices.length);
+            const selectedIndex = availableIndices.splice(randomIndex, 1)[0];
+            return selectedIndex;
+        }
+
+        async function getImageAndAudio(index) {
+            if (!index || index < 1 || index > imageList.length) {
+                console.error('فهرس الصورة غير صالح:', index);
+                return {
+                    img: 'assets/default_category.jpg',
+                    audio: '',
+                    owner: '',
+                    hasAudio: false,
+                    onError: () => {}
+                };
+            }
+
+            const imageData = imageList[index - 1];
+            const imgBase = `assets/${currentCategory}/${imageData.name}`;
+            const audioBase = imageData.hasAudio ? `assets/${currentCategory}/audio${index}.mp3` : '';
+            const imagePaths = getImageUrl(imgBase);
+            let pathIndex = 0;
+            let img = imagePaths[pathIndex];
+            let audio = audioBase;
+            let owner = '';
+            try {
+                const response = await fetch(`assets/${currentCategory}/names.json`);
+                const data = await response.json();
+                const ownerData = data.owners.find(o => o.image === imageData.name);
+                owner = ownerData ? ownerData.name : '';
+                console.log('تم تحميل names.json لتصنيف:', currentCategory);
+            } catch (error) {
+                console.error('خطأ في تحميل names.json:', error);
+            }
+            console.log('محاولة تحميل الصورة:', img);
+            return {
+                img,
+                audio,
+                owner,
+                hasAudio: imageData.hasAudio,
+                onError: (element) => {
+                    pathIndex++;
+                    if (pathIndex < imagePaths.length) {
+                        console.error(`فشل تحميل الصورة من ${element.src}, جارٍ المحاولة مع ${imagePaths[pathIndex]}`);
+                        element.src = imagePaths[pathIndex];
+                    } else {
+                        console.error(`فشل تحميل الصورة من جميع المسارات`);
+                        element.src = 'assets/default_category.jpg';
+                    }
                 }
-            });
-            if (invalidCodes.length > 0) {
-                alert(`الرموز غير الصالحة أو المكررة: ${invalidCodes.join(', ')}`);
-            }
-            if (validCodes.length > 0) {
-                currentCodes.push(...validCodes);
-                updateCodesTable();
-                alert('تم إضافة الرموز الصالحة!');
-            }
+            };
         }
 
-        async function deleteSingleCode(code) {
-            currentCodes = currentCodes.filter(c => c !== code);
-            updateCodesTable();
-            alert(`تم حذف الرمز: ${code}`);
-        }
-
-        async function deleteCodes() {
-            const codesText = document.getElementById('delete-codes').value.trim();
-            if (!codesText) {
-                alert('أدخل رموزًا للحذف!');
-                return;
-            }
-            const codes = codesText.split('\n').map(code => code.trim().toUpperCase());
-            const foundCodes = [];
-            const notFoundCodes = [];
-            codes.forEach(code => {
-                if (currentCodes.includes(code)) {
-                    foundCodes.push(code);
-                } else {
-                    notFoundCodes.push(code);
+        function startTimer() {
+            clearInterval(timer);
+            timeLeft = parseInt(timeInput.value) || 120;
+            updateTimerDisplay();
+            timer = setInterval(() => {
+                timeLeft--;
+                updateTimerDisplay();
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    alert('انتهى الوقت! انتقل إلى الجولة التالية.');
+                    nextRound();
                 }
-            });
-            if (notFoundCodes.length > 0) {
-                alert(`الرموز غير الموجودة: ${notFoundCodes.join(', ')}`);
-            }
-            if (foundCodes.length > 0) {
-                currentCodes = currentCodes.filter(c => !foundCodes.includes(c));
-                updateCodesTable();
-                alert('تم حذف الرموز المحددة!');
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        function playHint() {
+            if (!hintButton.classList.contains('disabled')) {
+                hintUsed = true;
+                audio.play();
             }
         }
 
-        async function addAnnouncement() {
-            const title = document.getElementById('announcement-title').value.trim();
-            const text = document.getElementById('announcement-text').value.trim();
-            const link = document.getElementById('announcement-link').value.trim();
-            const button = document.getElementById('announcement-button').value.trim();
-            if (!title && !text && !link && !button) {
-                alert('أدخل بيانات الإعلان!');
-                return;
-            }
-            if (currentAnnouncements.length >= 5) {
-                alert('تم الوصول إلى الحد الأقصى للإعلانات (5)!');
-                return;
-            }
-            const announcement = {};
-            if (title) announcement.title = title;
-            if (text) announcement.text = text;
-            if (link) announcement.link = link;
-            if (button) announcement.button = button;
-            currentAnnouncements.push(announcement);
-            updateAnnouncementsTable();
-            document.getElementById('announcement-title').value = '';
-            document.getElementById('announcement-text').value = '';
-            document.getElementById('announcement-link').value = '';
-            document.getElementById('announcement-button').value = '';
-            alert('تم إضافة الإعلان!');
-        }
-
-        async function deleteAnnouncement(index) {
-            currentAnnouncements.splice(index, 1);
-            updateAnnouncementsTable();
-            alert('تم حذف الإعلان!');
-        }
-
-        async function addCategory() {
-            const name = document.getElementById('category-name').value.trim();
-            const imageFile = document.getElementById('category-image').files[0];
-            if (!name) {
-                alert('أدخل اسم التصنيف!');
-                return;
-            }
-            const category = { name };
-            if (imageFile) {
-                category.image = `${name}/category_image.jpg`;
-                // ملاحظة: تحميل الصورة يتطلب خادمًا؛ افترض تحميل يدوي إلى assets/[name]/category_image.jpg
+        function addScore(team) {
+            const points = hintUsed ? 1 : 2;
+            if (team === 1) {
+                team1Score += points;
+                document.getElementById('team1-score').textContent = team1Score;
             } else {
-                category.image = 'assets/default_category.jpg';
+                team2Score += points;
+                document.getElementById('team2-score').textContent = team2Score;
             }
-            currentCategories.push(category);
-            updateCategoriesTable();
-            document.getElementById('category-name').value = '';
-            document.getElementById('category-image').value = '';
-            alert(`تم إضافة التصنيف: ${name}. أنشئ مجلد assets/${name} وأضف الصور، الملفات الصوتية، metadata.json، وnames.json!`);
         }
 
-        async function deleteCategory(index) {
-            const category = currentCategories[index];
-            currentCategories.splice(index, 1);
-            updateCategoriesTable();
-            alert(`تم حذف التصنيف: ${category.name}`);
+        async function nextRound() {
+            hintUsed = false;
+            audio.pause();
+            const nextIndex = getRandomImageIndex();
+            if (!nextIndex) {
+                alert('لا توجد صور للعرض! العودة إلى التصنيفات.');
+                document.getElementById('categories-container').style.display = 'block';
+                document.getElementById('game-container').style.display = 'none';
+                return;
+            }
+            currentRoundIndex = nextIndex;
+            const { img, audio: audioUrl, owner, hasAudio, onError } = await getImageAndAudio(currentRoundIndex);
+            gameImage.src = img;
+            gameImage.onerror = () => onError(gameImage);
+            audio.src = audioUrl;
+            imageOwner.textContent = owner;
+            hintButton.classList.toggle('disabled', !hasAudio);
+            startTimer();
         }
 
-        function exportFiles() {
-            const codesData = { validCodes: currentCodes };
-            const announcementsData = { announcements: currentAnnouncements };
-            const categoriesData = { categories: currentCategories };
-            downloadFile('codes.json', JSON.stringify(codesData, null, 2));
-            downloadFile('announcements.json', JSON.stringify(announcementsData, null, 2));
-            downloadFile('categories.json', JSON.stringify(categoriesData, null, 2));
-            alert('تم تصدير الملفات!');
+        async function startGame() {
+            await loadAnnouncements();
+            const firstIndex = getRandomImageIndex();
+            if (!firstIndex) {
+                alert('لا توجد صور للعرض! العودة إلى التصنيفات.');
+                document.getElementById('categories-container').style.display = 'block';
+                document.getElementById('game-container').style.display = 'none';
+                return;
+            }
+            currentRoundIndex = firstIndex;
+            const { img, audio: audioUrl, owner, hasAudio, onError } = await getImageAndAudio(currentRoundIndex);
+            gameImage.src = img;
+            gameImage.onerror = () => onError(gameImage);
+            audio.src = audioUrl;
+            imageOwner.textContent = owner;
+            hintButton.classList.toggle('disabled', !hasAudio);
+            startTimer();
         }
 
-        function downloadFile(filename, content) {
-            const blob = new Blob([content], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = filename;
-            a.click();
-            URL.revokeObjectURL(url);
-        }
+        timeInput.addEventListener('change', () => {
+            timeLeft = parseInt(timeInput.value) || 120;
+            startTimer();
+        });
 
         document.addEventListener('contextmenu', event => event.preventDefault());
     </script>

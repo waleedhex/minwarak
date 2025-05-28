@@ -7,12 +7,12 @@ body {
     position: relative;
     display: flex;
     flex-direction: column;
-    overflow-x: hidden; /* منع التمرير الأفقي */
+    overflow-x: hidden;
 }
 
 .sticker {
     position: absolute;
-    z-index: 10;
+    z-index: 100; /* زيادة z-index لضمان ظهور الملصق */
 }
 
 .sticker-top-left {
@@ -37,10 +37,10 @@ body {
     text-align: center;
     color: white;
     width: 100%;
-    padding: 5px; /* تقليل الحشوة */
+    padding: 5px;
     margin: 0;
     box-sizing: border-box;
-    overflow-x: hidden; /* منع التمرير الأفقي */
+    overflow-x: hidden;
 }
 
 #access-code-container h2, #categories-container h2 {
@@ -55,8 +55,8 @@ body {
 }
 
 #access-code-container button, #random-start {
-    padding: 8px 16px; /* تقليل الحشوة */
-    font-size: 0.9em; /* تقليل حجم الخط */
+    padding: 8px 16px;
+    font-size: 0.9em;
     background: #2ecc71;
     color: white;
     border: none;
@@ -76,17 +76,17 @@ body {
 #categories-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 10px; /* تقليل الفراغ */
+    gap: 10px;
     padding: 10px;
     width: 100%;
-    max-width: 600px; /* تقليص العرض */
+    max-width: 600px;
     margin: 0 auto;
 }
 
 .category-card {
     background: white;
     border-radius: 8px;
-    padding: 6px; /* تقليل الحشوة */
+    padding: 6px;
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
     text-align: center;
     cursor: pointer;
@@ -99,7 +99,7 @@ body {
 
 .category-card img {
     width: 100%;
-    height: 80px; /* تقليص ارتفاع الصورة */
+    height: 80px;
     object-fit: cover;
     border-radius: 5px;
 }
@@ -119,6 +119,7 @@ body {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+    overflow-y: hidden; /* منع التمرير العمودي */
 }
 
 .header-section {
@@ -238,14 +239,14 @@ h1 {
 
 .button-container {
     display: flex;
-    flex-direction: column; /* ترتيب الأزرار عموديًا */
+    flex-direction: column;
     gap: 6px;
     margin: 5px 0;
     align-items: center;
 }
 
 .next-round, .return-button, .hint-button {
-    background: #e74c3c; /* لون موحد للأزرار */
+    background: #e74c3c;
     color: white;
     padding: 6px 12px;
     border: none;
@@ -259,7 +260,7 @@ h1 {
 }
 
 .hint-button {
-    background: #f1c40f; /* لون مختلف للتمييز */
+    background: #f1c40f;
 }
 
 .next-round:hover, .return-button:hover, .hint-button:hover:not(.disabled) {
@@ -369,7 +370,7 @@ footer {
 @media (max-width: 600px) {
     #categories-grid {
         grid-template-columns: 1fr;
-        max-width: 400px; /* تقليص العرض في البورتريه */
+        max-width: 400px;
         gap: 8px;
         padding: 5px;
     }
@@ -447,6 +448,7 @@ footer {
         padding: 0;
         margin: 0;
         box-sizing: border-box;
+        overflow: hidden; /* منع أي تمرير */
     }
     .header-section {
         width: 100%;
@@ -466,7 +468,7 @@ footer {
         display: flex;
         flex-direction: row;
         justify-content: stretch;
-        align-items: stretch;
+        align-items: flex-start; /* محاذاة من الأعلى */
         gap: 0;
     }
     .image-section {
@@ -474,7 +476,7 @@ footer {
         display: flex;
         flex-direction: column;
         align-items: stretch;
-        justify-content: space-between;
+        justify-content: flex-start;
         padding: 0;
         margin: 0;
         height: 100%;
@@ -482,14 +484,14 @@ footer {
     }
     .timer-container {
         width: 100%;
-        margin: 3px 0;
-        padding: 0 5px;
+        margin: 0;
+        padding: 5px;
     }
     .image-container {
-        width: 100%;
-        flex-grow: 1;
-        min-height: 0;
-        max-height: none;
+        width: calc(100% - 10px); /* هامش يمين */
+        margin-right: 10px; /* إبعاد عن الطرف الأيمن */
+        height: calc(100% - 60px); /* ترك مساحة للملصق */
+        max-height: calc(100% - 60px);
         aspect-ratio: 16 / 9;
         margin: 0;
         padding: 0;
@@ -510,6 +512,7 @@ footer {
         max-width: 200px;
         padding: 5px;
         margin: 0 auto;
+        margin-top: 0; /* محاذاة مع الصورة */
         flex-grow: 0;
         display: flex;
         flex-direction: column;

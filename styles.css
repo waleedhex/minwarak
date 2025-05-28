@@ -36,13 +36,13 @@ body {
     text-align: center;
     color: white;
     width: 100%;
-    max-width: 800px;
-    padding: 20px;
-    margin: 0 auto;
+    padding: 10px;
+    margin: 0;
+    box-sizing: border-box;
 }
 
 #access-code-container h2, #categories-container h2 {
-    margin: 20px 0;
+    margin: 15px 0;
 }
 
 #access-code {
@@ -73,16 +73,17 @@ body {
 #categories-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    padding: 20px;
-    max-width: 800px;
+    gap: 15px;
+    padding: 15px;
+    width: 100%;
+    max-width: 1200px;
     margin: 0 auto;
 }
 
 .category-card {
     background: white;
     border-radius: 10px;
-    padding: 10px;
+    padding: 8px;
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
     text-align: center;
     cursor: pointer;
@@ -101,8 +102,8 @@ body {
 }
 
 .category-card p {
-    margin: 10px 0 0;
-    font-size: 1em;
+    margin: 8px 0 0;
+    font-size: 0.9em;
     color: #333;
 }
 
@@ -111,26 +112,28 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    padding: 10px;
+    align-items: stretch;
+    padding: 0;
+    margin: 0;
     box-sizing: border-box;
 }
 
 .header-section {
     width: 100%;
     text-align: center;
+    padding: 5px 0;
 }
 
 h1 {
     color: #fff;
-    font-size: 1.3em;
+    font-size: 1.2em;
     margin: 5px 0;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .instructions {
     color: white;
-    font-size: 0.8em;
+    font-size: 0.7em;
     margin: 3px 0;
     line-height: 1.2;
 }
@@ -140,30 +143,30 @@ h1 {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: stretch;
 }
 
 .timer-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 15px;
+    gap: 10px;
     margin: 5px 0;
 }
 
 #timer {
-    font-size: 1.8em;
+    font-size: 1.6em;
     color: #fff;
     font-weight: bold;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 #time-input {
-    padding: 6px;
-    font-size: 0.9em;
+    padding: 5px;
+    font-size: 0.8em;
     border: 2px solid #3498db;
     border-radius: 5px;
-    width: 60px;
+    width: 50px;
 }
 
 .image-section {
@@ -181,6 +184,7 @@ h1 {
     border-radius: 10px;
     border: 3px solid #3498db;
     background: transparent;
+    margin: 5px 0;
 }
 
 .game-image {
@@ -198,22 +202,22 @@ h1 {
     right: 10px;
     background: rgba(0, 0, 0, 0.8);
     color: white;
-    padding: 5px 10px;
-    font-size: 14px;
+    padding: 3px 8px;
+    font-size: 12px;
     border-radius: 3px;
 }
 
 .hint-button {
     background: #f1c40f;
     color: white;
-    padding: 8px 16px;
+    padding: 6px 12px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 0.9em;
+    font-size: 0.8em;
     margin: 5px;
     transition: transform 0.2s;
-    max-width: 180px;
+    max-width: 160px;
 }
 
 .hint-button:hover:not(.disabled) {
@@ -231,7 +235,7 @@ h1 {
 
 .button-container {
     display: flex;
-    gap: 10px;
+    gap: 8px;
     margin: 5px 0;
     justify-content: center;
 }
@@ -239,13 +243,13 @@ h1 {
 .next-round, .return-button {
     background: #e74c3c;
     color: white;
-    padding: 8px 16px;
+    padding: 6px 12px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 0.9em;
+    font-size: 0.8em;
     transition: transform 0.2s;
-    max-width: 180px;
+    max-width: 160px;
 }
 
 .next-round:hover, .return-button:hover {
@@ -254,48 +258,51 @@ h1 {
 
 .bottom-container {
     background: white;
-    border-radius: 15px;
-    padding: 10px;
+    border-radius: 10px;
+    padding: 5px;
     width: 90%;
     max-width: 800px;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-    margin: 5px auto; /* تمركز في البورتريه */
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    margin: 5px auto;
+    box-sizing: border-box;
 }
 
 .score-container {
     display: flex;
-    justify-content: center; /* تمركز الفريقين */
-    gap: 8px; /* تقليل الفراغ */
+    justify-content: center;
+    gap: 6px;
 }
 
 .team {
     background: #3498db;
     color: white;
-    padding: 8px;
-    border-radius: 10px;
-    width: 48%;
+    padding: 3px;
+    border-radius: 8px;
+    width: calc(50% - 4px);
     text-align: center;
+    box-sizing: border-box;
 }
 
 .team h2 {
     margin: 0;
-    font-size: 1em;
+    font-size: 0.8em;
 }
 
 .team p {
-    font-size: 1.3em;
-    margin: 6px 0;
+    font-size: 1em;
+    margin: 3px 0;
 }
 
 .score-button {
     background: #2ecc71;
     color: white;
-    padding: 6px 12px;
+    padding: 4px 8px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 0.8em;
+    font-size: 0.7em;
     transition: transform 0.2s;
+    margin: 2px 0;
 }
 
 .score-button:hover {
@@ -314,7 +321,7 @@ footer {
 .announcement-card {
     background: white;
     border-radius: 10px;
-    padding: 10px;
+    padding: 8px;
     margin: 5px;
     width: 90%;
     max-width: 300px;
@@ -323,25 +330,25 @@ footer {
 }
 
 .announcement-card h3 {
-    margin: 0 0 8px;
-    font-size: 1em;
+    margin: 0 0 6px;
+    font-size: 0.9em;
     color: #333;
 }
 
 .announcement-card p {
-    margin: 0 0 8px;
-    font-size: 0.9em;
+    margin: 0 0 6px;
+    font-size: 0.8em;
     color: #666;
 }
 
 .announcement-card button {
     background: black;
     color: white;
-    padding: 6px 12px;
+    padding: 5px 10px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 0.9em;
+    font-size: 0.8em;
     transition: transform 0.2s;
 }
 
@@ -354,30 +361,30 @@ footer {
         grid-template-columns: 1fr;
     }
     h1 {
-        font-size: 1.2em;
+        font-size: 1.1em;
     }
     #timer {
-        font-size: 1.5em;
+        font-size: 1.4em;
     }
     .image-container {
         width: 95%;
     }
     .team h2 {
-        font-size: 0.9em;
+        font-size: 0.7em;
     }
     .team p {
-        font-size: 1.1em;
+        font-size: 0.9em;
     }
     .hint-button, .score-button, .next-round, .return-button {
-        padding: 6px 12px;
-        font-size: 0.8em;
+        padding: 5px 10px;
+        font-size: 0.7em;
     }
     .sticker-top-left, .sticker-bottom-right {
-        width: 70px;
-        height: 35px;
+        width: 60px;
+        height: 30px;
     }
     .category-card {
-        min-width: 120px;
+        min-width: 100px;
     }
     footer {
         margin-top: 10px;
@@ -390,6 +397,16 @@ footer {
         flex-direction: column;
         min-height: 100vh;
         margin: 0;
+    }
+    #categories-container {
+        width: 100%;
+        max-width: 1200px;
+        padding: 0;
+        margin: 0 auto;
+    }
+    #categories-grid {
+        width: 100%;
+        padding: 10px;
     }
     #game-container {
         width: 100vw;
@@ -407,16 +424,16 @@ footer {
         padding: 5px 0;
     }
     h1 {
-        font-size: 1.2em;
-        margin: 3px 0;
+        font-size: 1.1em;
+        margin: 2px 0;
     }
     .instructions {
-        font-size: 0.7em;
+        font-size: 0.6em;
         margin: 2px 0;
     }
     .main-content {
         width: 100%;
-        height: calc(100vh - 100px);
+        height: calc(100vh - 80px);
         display: flex;
         flex-direction: row;
         justify-content: stretch;
@@ -427,15 +444,17 @@ footer {
         flex: 0 0 70%;
         display: flex;
         flex-direction: column;
-        align-items: center;
+        align-items: stretch;
         justify-content: space-between;
-        padding: 5px;
-        box-sizing: border-box;
+        padding: 0;
+        margin: 0;
         height: 100%;
+        box-sizing: border-box;
     }
     .timer-container {
         width: 100%;
-        margin: 5px 0;
+        margin: 3px 0;
+        padding: 0 5px;
     }
     .image-container {
         width: 100%;
@@ -443,73 +462,78 @@ footer {
         min-height: 0;
         max-height: none;
         aspect-ratio: 16 / 9;
-        margin: 5px 0;
+        margin: 0;
+        padding: 0;
     }
     .hint-button {
         width: auto;
-        max-width: 160px;
-        padding: 6px 12px;
-        font-size: 0.8em;
-        margin: 5px 0;
+        max-width: 140px;
+        padding: 5px 10px;
+        font-size: 0.7em;
+        margin: 3px 0;
     }
     .score-section {
         flex: 0 0 30%;
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: space-between;
-        padding: 5px;
-        box-sizing: border-box;
+        justify-content: flex-start;
+        padding: 0;
+        margin: 0;
         height: 100%;
+        box-sizing: border-box;
     }
     .bottom-container {
         width: 100%;
-        max-width: 250px; /* تقليص العرض */
+        max-width: 200px;
         padding: 5px;
-        margin: 0 auto; /* تمركز */
-        flex-grow: 1;
+        margin: 0 auto;
+        flex-grow: 0;
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
+        justify-content: flex-start;
+        box-sizing: border-box;
     }
     .score-container {
         flex-direction: column;
-        gap: 5px; /* تقليل الفراغ بين الفريقين */
+        gap: 3px;
         width: 100%;
-        flex-grow: 1;
     }
     .team {
         width: 100%;
-        padding: 5px; /* تقليص الحشوة */
+        padding: 3px;
+        border-radius: 6px;
+        margin: 0;
     }
     .team h2 {
-        font-size: 0.9em; /* تقليص حجم النص */
+        font-size: 0.8em;
     }
     .team p {
-        font-size: 1.1em; /* تقليص حجم النقاط */
-        margin: 4px 0;
+        font-size: 1em;
+        margin: 2px 0;
     }
     .score-button {
-        padding: 5px 10px;
-        font-size: 0.7em;
+        padding: 3px 6px;
+        font-size: 0.6em;
+        margin: 1px 0;
     }
     .button-container {
         flex-direction: column;
         align-items: center;
-        gap: 8px;
-        margin-top: 10px;
+        gap: 6px;
+        margin-top: 5px;
     }
     .next-round, .return-button {
         width: 100%;
-        max-width: 160px;
-        padding: 6px 12px;
-        font-size: 0.8em;
+        max-width: 140px;
+        padding: 5px 10px;
+        font-size: 0.7em;
     }
     footer {
         width: 100%;
         padding: 5px;
         text-align: center;
         margin-top: auto;
-        font-size: 0.7em;
+        font-size: 0.6em;
     }
 }

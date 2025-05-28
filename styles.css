@@ -240,21 +240,21 @@ h1 {
 .button-container {
     display: flex;
     flex-direction: column;
-    gap: 4px; /* تقليل الفراغ بين الأزرار */
-    margin: 3px 0;
+    gap: 6px;
+    margin: 5px 0;
     align-items: center;
 }
 
 .next-round, .return-button, .hint-button {
     background: #e74c3c;
     color: white;
-    padding: 5px 10px; /* تقليل الحشوة */
+    padding: 6px 12px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 0.7em; /* تقليص حجم الخط */
+    font-size: 0.8em;
     transition: transform 0.2s;
-    max-width: 130px; /* تقليص العرض */
+    max-width: 140px;
     width: 100%;
     text-align: center;
 }
@@ -269,12 +269,12 @@ h1 {
 
 .bottom-container {
     background: white;
-    border-radius: 8px; /* تقليل زوايا التقريب */
-    padding: 3px;
+    border-radius: 10px;
+    padding: 5px;
     width: 90%;
-    max-width: 150px; /* تقليص العرض */
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2); /* تقليل الظل */
-    margin: 3px auto;
+    max-width: 200px; /* استعادة الحجم الأصلي */
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    margin: 5px auto;
     box-sizing: border-box;
     overflow: hidden;
 }
@@ -282,39 +282,39 @@ h1 {
 .score-container {
     display: flex;
     justify-content: center;
-    gap: 3px; /* تقليل الفراغ */
+    gap: 6px;
 }
 
 .team {
     background: #3498db;
     color: white;
-    padding: 2px;
-    border-radius: 5px; /* تقليل زوايا التقريب */
-    width: calc(50% - 2px);
+    padding: 3px;
+    border-radius: 8px;
+    width: calc(50% - 4px);
     text-align: center;
     box-sizing: border-box;
 }
 
 .team h2 {
     margin: 0;
-    font-size: 0.6em; /* تقليص حجم النص */
+    font-size: 0.8em;
 }
 
 .team p {
-    font-size: 0.8em; /* تقليص حجم النقاط */
-    margin: 1px 0;
+    font-size: 1em;
+    margin: 3px 0;
 }
 
 .score-button {
     background: #2ecc71;
     color: white;
-    padding: 2px 5px; /* تقليل الحشوة */
+    padding: 4px 8px;
     border: none;
-    border-radius: 3px;
+    border-radius: 5px;
     cursor: pointer;
-    font-size: 0.5em; /* تقليص حجم الخط */
+    font-size: 0.7em;
     transition: transform 0.2s;
-    margin: 1px 0;
+    margin: 2px 0;
 }
 
 .score-button:hover {
@@ -470,7 +470,7 @@ footer {
         flex-direction: row;
         justify-content: stretch;
         align-items: flex-start;
-        gap: 0;
+        gap: 10px; /* إضافة فراغ أفقي */
         overflow: hidden;
     }
     .image-section {
@@ -503,7 +503,7 @@ footer {
         flex: 0 0 30%;
         display: flex;
         flex-direction: column;
-        align-items: flex-start; /* محاذاة من اليسار */
+        align-items: flex-start;
         justify-content: flex-start;
         padding: 0;
         margin: 0;
@@ -512,53 +512,52 @@ footer {
         overflow: hidden;
     }
     .bottom-container {
-        width: calc(100% - 10px); /* تعويض الهامش */
-        max-width: 150px; /* تقليص العرض */
-        padding: 3px;
+        width: calc(100% - 10px);
+        max-width: 200px; /* استعادة الحجم الأصلي */
+        padding: 5px;
         margin: 0;
         margin-left: 10px; /* هامش يسار */
         margin-top: 10px; /* إزاحة للأسفل */
-        max-height: 80%; /* تقييد الارتفاع */
-        overflow-y: auto; /* التمرير إذا لزم */
         flex-grow: 0;
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
         box-sizing: border-box;
-        border-radius: 8px;
-        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+        border-radius: 10px;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        overflow: hidden;
     }
     .score-container {
         flex-direction: column;
-        gap: 3px;
+        gap: 6px;
         width: 100%;
     }
     .team {
         width: 100%;
-        padding: 2px;
-        border-radius: 5px;
+        padding: 3px;
+        border-radius: 8px;
         margin: 0;
     }
     .team h2 {
-        font-size: 0.6em;
+        font-size: 0.8em;
     }
     .team p {
-        font-size: 0.8em;
-        margin: 1px 0;
+        font-size: 1em;
+        margin: 3px 0;
     }
     .score-button {
-        padding: 2px 5px;
-        font-size: 0.5em;
-        margin: 1px 0;
+        padding: 4px 8px;
+        font-size: 0.7em;
+        margin: 2px 0;
     }
     .button-container {
-        gap: 4px;
-        margin-top: 3px;
+        gap: 6px;
+        margin-top: 5px;
     }
     .next-round, .return-button, .hint-button {
-        max-width: 130px;
-        padding: 5px 10px;
-        font-size: 0.7em;
+        max-width: 140px;
+        padding: 6px 12px;
+        font-size: 0.8em;
     }
     footer {
         width: 100%;

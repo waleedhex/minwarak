@@ -66,14 +66,14 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 20px; /* هامش علوي معقول */
+    margin-top: 20px;
 }
 
 #categories-container h2 {
     margin: 10px 0;
-    font-size: 1.5em; /* تكبير العنوان */
+    font-size: 1.5em;
     font-weight: bold;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); /* إبراز */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 #access-code {
@@ -84,15 +84,15 @@ body {
 }
 
 #access-code-container button, #random-start {
-    padding: 10px 20px; /* تكبير الزر */
-    font-size: 1em; /* تكبير الخط */
+    padding: 10px 20px;
+    font-size: 1em;
     background: #2ecc71;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     margin: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* إبراز */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     transition: transform 0.2s, box-shadow 0.2s;
 }
 
@@ -114,7 +114,7 @@ body {
     max-width: 100%;
     margin: 0 auto;
     overflow-y: auto;
-    max-height: calc(100vh - 140px); /* تعديل للعنوان والزر المكبرين */
+    max-height: calc(100vh - 140px);
     box-sizing: border-box;
 }
 
@@ -407,7 +407,7 @@ footer {
         max-width: 100%;
         gap: 5px;
         padding: 3px;
-        max-height: calc(100vh - 120px); /* تعديل للعنوان والزر */
+        max-height: calc(100vh - 120px);
         overflow-y: auto;
         overflow-x: hidden;
     }
@@ -426,12 +426,12 @@ footer {
     }
     #random-start {
         padding: 8px 16px;
-        font-size: 0.9em; /* تكبير الخط */
+        font-size: 0.9em;
         margin: 3px;
     }
     #categories-container h2 {
-        font-size: 1.4em; /* تكبير العنوان */
-        margin: 15px 0; /* هامش علوي معقول */
+        font-size: 1.4em;
+        margin: 15px 0;
     }
     h1 {
         font-size: 1.1em;
@@ -518,7 +518,7 @@ footer {
         display: flex;
         flex-direction: row;
         justify-content: stretch;
-        align-items: flex-start;
+        align-items: stretch; /* محاذاة متساوية */
         gap: 10px;
         overflow: hidden;
     }
@@ -537,7 +537,7 @@ footer {
     .timer-container {
         width: 100%;
         margin: 0;
-        padding: 5px 0;
+        padding: 0; /* إزالة الحشوة */
     }
     .image-container {
         width: calc(100% - 5px);
@@ -563,14 +563,13 @@ footer {
     .bottom-container {
         width: calc(100% - 10px);
         max-width: 200px;
+        height: calc(100% - 60px); /* نفس ارتفاع .image-container */
         padding: 5px;
         margin: 0;
         margin-left: 10px;
-        margin-top: 10px;
-        flex-grow: 0;
         display: flex;
         flex-direction: column;
-        justify-content: flex-start;
+        justify-content: space-between; /* توزيع المحتوى */
         box-sizing: border-box;
         border-radius: 10px;
         box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
@@ -580,6 +579,7 @@ footer {
         flex-direction: column;
         gap: 6px;
         width: 100%;
+        flex-grow: 1; /* ملء المساحة */
     }
     .team {
         width: 100%;

@@ -1,6 +1,6 @@
 body {
     font-family: 'Tajawal', sans-serif;
-    background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+    background: linear-gradient(135deg, #ff8787, #5ee4db);
     margin: 0;
     min-height: 100vh;
     width: 100vw;
@@ -55,66 +55,79 @@ body {
 }
 
 #categories-container {
-    overflow-y: hidden;
+    justify-content: space-between;
+    overflow: hidden;
     color: white;
     text-align: center;
 }
 
 .categories-header {
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
     max-width: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    z-index: 200;
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 20px;
+    padding: 10px 0;
 }
 
 #categories-container h2 {
     margin: 10px 0;
-    font-size: 1.5em;
+    font-size: 1.4rem;
     font-weight: bold;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 #access-code {
     padding: 8px;
-    font-size: 0.9em;
+    font-size: 0.9rem;
     width: 180px;
     max-width: 90%;
+    border-radius: 5px;
 }
 
 #access-code-container button, #random-start {
     padding: 10px 20px;
-    font-size: 1em;
-    background: #2ecc71;
+    font-size: 1rem;
+    background: #28a745;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
-    margin: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    transition: transform 0.2s, box-shadow 0.2s;
+    margin: 10px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, background 0.3s ease;
 }
 
 #random-start {
-    background: #3498db;
+    background: #007bff;
+}
+
+#access-code-container button:hover, #random-start:hover {
+    transform: scale(1.05);
+    background: #218838;
 }
 
 #random-start:hover {
-    transform: scale(1.1);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    background: #0056b3;
 }
 
 #categories-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 10px;
-    padding: 5px;
+    padding: 10px;
     width: 100%;
     max-width: 100%;
-    margin: 0 auto;
+    margin-top: 120px;
+    margin-bottom: 60px;
     overflow-y: auto;
-    max-height: calc(100vh - 140px);
+    height: calc(100vh - 180px);
     box-sizing: border-box;
 }
 
@@ -125,7 +138,7 @@ body {
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
     text-align: center;
     cursor: pointer;
-    transition: transform 0.2s;
+    transition: transform 0.2s ease;
     width: 100%;
     box-sizing: border-box;
 }
@@ -143,8 +156,8 @@ body {
 
 .category-card p {
     margin: 6px 0 0;
-    font-size: 0.8em;
-    color: #333;
+    font-size: 0.85rem;
+    color: #1a1a1a;
 }
 
 #game-container {
@@ -159,14 +172,15 @@ body {
 
 h1 {
     color: #fff;
-    font-size: 1.2em;
+    font-size: 1.5rem;
     margin: 3px 0;
+    font-weight: 700;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .instructions {
     color: white;
-    font-size: 0.7em;
+    font-size: 0.9rem;
     margin: 3px 0;
     line-height: 1.2;
 }
@@ -191,7 +205,7 @@ h1 {
 }
 
 #timer {
-    font-size: 1.6em;
+    font-size: 1.6rem;
     color: #fff;
     font-weight: bold;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
@@ -199,8 +213,8 @@ h1 {
 
 #time-input {
     padding: 5px;
-    font-size: 0.8em;
-    border: 2px solid #3498db;
+    font-size: 0.8rem;
+    border: 2px solid #007bff;
     border-radius: 5px;
     width: 50px;
 }
@@ -218,7 +232,7 @@ h1 {
     position: relative;
     overflow: hidden;
     border-radius: 10px;
-    border: 3px solid #3498db;
+    border: 3px solid #007bff;
     background: transparent;
     margin: 3px 0;
     max-height: 50vh;
@@ -245,20 +259,21 @@ h1 {
 }
 
 .hint-button {
-    background: #f1c40f;
+    background: #f39c12;
     color: white;
-    padding: 6px 12px;
+    padding: 8px 16px;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
-    font-size: 0.8em;
+    font-size: 0.9rem;
     margin: 5px;
-    transition: transform 0.2s;
+    transition: transform 0.3s ease, opacity 0.3s ease;
     max-width: 160px;
 }
 
 .hint-button:hover:not(.disabled) {
-    transform: scale(1.1);
+    transform: scale(1.05);
+    opacity: 0.9;
 }
 
 .hint-button.disabled {
@@ -278,26 +293,23 @@ h1 {
     align-items: center;
 }
 
-.next-round, .return-button, .hint-button {
-    background: #e74c3c;
+.next-round, .return-button {
+    background: #dc3545;
     color: white;
-    padding: 6px 12px;
+    padding: 8px 16px;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
-    font-size: 0.8em;
-    transition: transform 0.2s;
+    font-size: 0.9rem;
+    transition: transform 0.3s ease, opacity 0.3s ease;
     max-width: 140px;
     width: 100%;
     text-align: center;
 }
 
-.hint-button {
-    background: #f1c40f;
-}
-
-.next-round:hover, .return-button:hover, .hint-button:hover:not(.disabled) {
+.next-round:hover, .return-button:hover {
     transform: scale(1.05);
+    opacity: 0.9;
 }
 
 .bottom-container {
@@ -319,7 +331,7 @@ h1 {
 }
 
 .team {
-    background: #3498db;
+    background: #0069d9;
     color: white;
     padding: 5px;
     border-radius: 8px;
@@ -330,37 +342,44 @@ h1 {
 
 .team h2 {
     margin: 0;
-    font-size: 0.9em;
+    font-size: 0.9rem;
+    font-weight: 700;
 }
 
 .team p {
-    font-size: 1.1em;
+    font-size: 1.1rem;
     margin: 3px 0;
 }
 
 .score-button {
-    background: #2ecc71;
+    background: #28a745;
     color: white;
     padding: 5px 10px;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
-    font-size: 0.8em;
-    transition: transform 0.2s;
+    font-size: 0.9rem;
+    transition: transform 0.3s ease, background 0.3s ease;
     margin: 2px 0;
 }
 
 .score-button:hover {
     transform: scale(1.05);
+    background: #218838;
 }
 
 footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
     color: white;
     text-align: center;
-    font-size: 0.7em;
-    padding: 3px;
-    width: 100%;
-    margin-top: auto;
+    font-size: 0.8rem;
+    padding: 10px 0;
+    z-index: 200;
 }
 
 .announcement-card {
@@ -376,25 +395,25 @@ footer {
 
 .announcement-card h3 {
     margin: 0 0 6px;
-    font-size: 0.9em;
+    font-size: 0.9rem;
     color: #333;
 }
 
 .announcement-card p {
     margin: 0 0 6px;
-    font-size: 0.8em;
+    font-size: 0.8rem;
     color: #666;
 }
 
 .announcement-card button {
-    background: black;
+    background: #000;
     color: white;
     padding: 5px 10px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 0.8em;
-    transition: transform 0.2s;
+    font-size: 0.8rem;
+    transition: transform 0.2s ease;
 }
 
 .announcement-card button:hover {
@@ -407,9 +426,9 @@ footer {
         max-width: 100%;
         gap: 5px;
         padding: 3px;
-        max-height: calc(100vh - 120px);
-        overflow-y: auto;
-        overflow-x: hidden;
+        margin-top: 100px;
+        margin-bottom: 50px;
+        height: calc(100vh - 150px);
     }
     .category-card {
         padding: 3px;
@@ -422,37 +441,37 @@ footer {
         border-radius: 5px;
     }
     .category-card p {
-        font-size: 0.7em;
+        font-size: 0.7rem;
     }
     #random-start {
         padding: 8px 16px;
-        font-size: 0.9em;
+        font-size: 0.9rem;
         margin: 3px;
     }
     #categories-container h2 {
-        font-size: 1.4em;
+        font-size: 1.3rem;
         margin: 15px 0;
     }
     h1 {
-        font-size: 1.1em;
+        font-size: 1.2rem;
     }
     #timer {
-        font-size: 1.4em;
+        font-size: 1.4rem;
     }
     .image-container {
         width: 95%;
-        max-height: 50vh;
+        max-height: 45vh;
         margin: 3px auto;
     }
     .team h2 {
-        font-size: 0.9em;
+        font-size: 0.9rem;
     }
     .team p {
-        font-size: 1.1em;
+        font-size: 1.1rem;
     }
     .hint-button, .score-button, .next-round, .return-button {
         padding: 5px 10px;
-        font-size: 0.8em;
+        font-size: 0.8rem;
     }
     .sticker-top-left, .sticker-bottom-right {
         width: 60px;
@@ -462,7 +481,8 @@ footer {
         min-width: 100px;
     }
     footer {
-        margin-top: 3px;
+        font-size: 0.7rem;
+        padding: 8px 0;
     }
 }
 
@@ -484,9 +504,9 @@ footer {
         max-width: 1000px;
         padding: 10px;
         gap: 10px;
-        max-height: calc(100vh - 140px);
-        overflow-y: auto;
-        overflow-x: hidden;
+        margin-top: 120px;
+        margin-bottom: 60px;
+        height: calc(100vh - 180px);
     }
     #game-container {
         width: 100vw;
@@ -505,11 +525,11 @@ footer {
         padding: 5px 0;
     }
     h1 {
-        font-size: 1.1em;
+        font-size: 1.3rem;
         margin: 2px 0;
     }
     .instructions {
-        font-size: 0.6em;
+        font-size: 0.8rem;
         margin: 2px 0;
     }
     .main-content {
@@ -518,7 +538,7 @@ footer {
         display: flex;
         flex-direction: row;
         justify-content: stretch;
-        align-items: stretch; /* محاذاة متساوية */
+        align-items: stretch;
         gap: 10px;
         overflow: hidden;
     }
@@ -537,7 +557,7 @@ footer {
     .timer-container {
         width: 100%;
         margin: 0;
-        padding: 0; /* إزالة الحشوة */
+        padding: 0;
     }
     .image-container {
         width: calc(100% - 5px);
@@ -563,13 +583,13 @@ footer {
     .bottom-container {
         width: calc(100% - 10px);
         max-width: 200px;
-        height: calc(100% - 60px); /* نفس ارتفاع .image-container */
+        height: calc(100% - 60px);
         padding: 5px;
         margin: 0;
         margin-left: 10px;
         display: flex;
         flex-direction: column;
-        justify-content: space-between; /* توزيع المحتوى */
+        justify-content: space-between;
         box-sizing: border-box;
         border-radius: 10px;
         box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
@@ -579,7 +599,7 @@ footer {
         flex-direction: column;
         gap: 6px;
         width: 100%;
-        flex-grow: 1; /* ملء المساحة */
+        flex-grow: 1;
     }
     .team {
         width: 100%;
@@ -588,15 +608,15 @@ footer {
         margin: 0;
     }
     .team h2 {
-        font-size: 0.8em;
+        font-size: 0.8rem;
     }
     .team p {
-        font-size: 1em;
+        font-size: 1rem;
         margin: 3px 0;
     }
     .score-button {
         padding: 4px 8px;
-        font-size: 0.7em;
+        font-size: 0.7rem;
         margin: 2px 0;
     }
     .button-container {
@@ -606,13 +626,27 @@ footer {
     .next-round, .return-button, .hint-button {
         max-width: 140px;
         padding: 6px 12px;
-        font-size: 0.8em;
+        font-size: 0.8rem;
     }
     footer {
         width: 100%;
         padding: 5px;
-        text-align: center;
-        margin-top: auto;
-        font-size: 0.6em;
+        font-size: 0.6rem;
+    }
+}
+
+@media (max-width: 360px) {
+    h1 {
+        font-size: 1.2rem;
+    }
+    #timer {
+        font-size: 1.2rem;
+    }
+    .image-container {
+        width: 100%;
+        max-height: 45vh;
+    }
+    .category-card img {
+        max-height: 50px;
     }
 }

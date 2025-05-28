@@ -7,6 +7,7 @@ body {
     position: relative;
     display: flex;
     flex-direction: column;
+    overflow-x: hidden; /* منع التمرير الأفقي */
 }
 
 .sticker {
@@ -36,30 +37,32 @@ body {
     text-align: center;
     color: white;
     width: 100%;
-    padding: 10px;
+    padding: 5px; /* تقليل الحشوة */
     margin: 0;
     box-sizing: border-box;
+    overflow-x: hidden; /* منع التمرير الأفقي */
 }
 
 #access-code-container h2, #categories-container h2 {
-    margin: 15px 0;
+    margin: 10px 0;
+    font-size: 1.2em;
 }
 
 #access-code {
-    padding: 10px;
-    font-size: 1em;
-    width: 200px;
+    padding: 8px;
+    font-size: 0.9em;
+    width: 180px;
 }
 
 #access-code-container button, #random-start {
-    padding: 10px 20px;
-    font-size: 1em;
+    padding: 8px 16px; /* تقليل الحشوة */
+    font-size: 0.9em; /* تقليل حجم الخط */
     background: #2ecc71;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    margin: 10px;
+    margin: 8px;
 }
 
 #random-start {
@@ -67,24 +70,24 @@ body {
 }
 
 #random-start:hover {
-    transform: scale(1.1);
+    transform: scale(1.05);
 }
 
 #categories-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 15px;
-    padding: 15px;
+    gap: 10px; /* تقليل الفراغ */
+    padding: 10px;
     width: 100%;
-    max-width: 1200px;
+    max-width: 600px; /* تقليص العرض */
     margin: 0 auto;
 }
 
 .category-card {
     background: white;
-    border-radius: 10px;
-    padding: 8px;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    padding: 6px; /* تقليل الحشوة */
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
     text-align: center;
     cursor: pointer;
     transition: transform 0.2s;
@@ -96,14 +99,14 @@ body {
 
 .category-card img {
     width: 100%;
-    height: 100px;
+    height: 80px; /* تقليص ارتفاع الصورة */
     object-fit: cover;
     border-radius: 5px;
 }
 
 .category-card p {
-    margin: 8px 0 0;
-    font-size: 0.9em;
+    margin: 6px 0 0;
+    font-size: 0.8em;
     color: #333;
 }
 
@@ -235,13 +238,14 @@ h1 {
 
 .button-container {
     display: flex;
-    gap: 8px;
+    flex-direction: column; /* ترتيب الأزرار عموديًا */
+    gap: 6px;
     margin: 5px 0;
-    justify-content: center;
+    align-items: center;
 }
 
-.next-round, .return-button {
-    background: #e74c3c;
+.next-round, .return-button, .hint-button {
+    background: #e74c3c; /* لون موحد للأزرار */
     color: white;
     padding: 6px 12px;
     border: none;
@@ -249,11 +253,17 @@ h1 {
     cursor: pointer;
     font-size: 0.8em;
     transition: transform 0.2s;
-    max-width: 160px;
+    max-width: 140px;
+    width: 100%;
+    text-align: center;
 }
 
-.next-round:hover, .return-button:hover {
-    transform: scale(1.1);
+.hint-button {
+    background: #f1c40f; /* لون مختلف للتمييز */
+}
+
+.next-round:hover, .return-button:hover, .hint-button:hover:not(.disabled) {
+    transform: scale(1.05);
 }
 
 .bottom-container {
@@ -306,7 +316,7 @@ h1 {
 }
 
 .score-button:hover {
-    transform: scale(1.1);
+    transform: scale(1.05);
 }
 
 footer {
@@ -353,12 +363,29 @@ footer {
 }
 
 .announcement-card button:hover {
-    transform: scale(1.1);
+    transform: scale(1.05);
 }
 
 @media (max-width: 600px) {
     #categories-grid {
         grid-template-columns: 1fr;
+        max-width: 400px; /* تقليص العرض في البورتريه */
+        gap: 8px;
+        padding: 5px;
+    }
+    .category-card {
+        padding: 5px;
+    }
+    .category-card img {
+        height: 70px;
+    }
+    .category-card p {
+        font-size: 0.7em;
+    }
+    #random-start {
+        padding: 6px 12px;
+        font-size: 0.8em;
+        margin: 5px;
     }
     h1 {
         font-size: 1.1em;
@@ -406,7 +433,9 @@ footer {
     }
     #categories-grid {
         width: 100%;
+        max-width: 1000px;
         padding: 10px;
+        gap: 10px;
     }
     #game-container {
         width: 100vw;
@@ -465,13 +494,6 @@ footer {
         margin: 0;
         padding: 0;
     }
-    .hint-button {
-        width: auto;
-        max-width: 140px;
-        padding: 5px 10px;
-        font-size: 0.7em;
-        margin: 3px 0;
-    }
     .score-section {
         flex: 0 0 30%;
         display: flex;
@@ -518,13 +540,10 @@ footer {
         margin: 1px 0;
     }
     .button-container {
-        flex-direction: column;
-        align-items: center;
         gap: 6px;
         margin-top: 5px;
     }
-    .next-round, .return-button {
-        width: 100%;
+    .next-round, .return-button, .hint-button {
         max-width: 140px;
         padding: 5px 10px;
         font-size: 0.7em;

@@ -360,4 +360,15 @@ timeInput.addEventListener('change', () => {
     startTimer();
 });
 
+// ربط زر تأكيد بحدث الضغط
+document.addEventListener('DOMContentLoaded', () => {
+    const confirmButton = document.querySelector('#access-code-container button');
+    if (confirmButton) {
+        confirmButton.addEventListener('click', verifyAccessCode);
+        console.log('تم ربط زر تأكيد بنجاح');
+    } else {
+        console.error('لم يتم العثور على زر تأكيد!');
+    }
+});
+
 document.addEventListener('contextmenu', event => event.preventDefault());

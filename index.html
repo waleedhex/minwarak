@@ -7,12 +7,15 @@
 </head>
 <body>
 
+<!-- صفحة تسجيل الدخول -->
 <div id="access-code-container">
     <h2>أدخل رمز الوصول</h2>
     <input type="text" id="access-code">
+    <!-- زر تأكيد مطابق للأصلي، يتم ربطه عبر script.js -->
     <button>تأكيد</button>
 </div>
 
+<!-- صفحة التصنيفات، مخفية افتراضيًا -->
 <div id="categories-container" style="display: none;">
     <div class="categories-header">
         <h2>اختر تصنيفًا</h2>
@@ -22,6 +25,7 @@
     </div>
 </div>
 
+<!-- صفحة اللعبة، مخفية افتراضيًا -->
 <div id="game-container" style="display: none;">
     <div class="header-section">
         <h1>مين وراك!؟</h1>
@@ -68,6 +72,9 @@
 
 <div class="sticker sticker-top-left"></div>
 <div class="sticker sticker-bottom-right"></div>
+
+<!-- تحميل script.js -->
+<script src="script.js"></script>
 
 </body>
 </html>

@@ -7,13 +7,15 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- صفحة تسجيل الدخول -->
     <div id="access-code-container">
         <h2>أدخل رمز الوصول</h2>
         <input type="text" id="access-code">
-        <button>تأكيد</button>
+        <button id="confirm-button">تأكيد</button>
     </div>
 
-    <div id="categories-container">
+    <!-- صفحة التصنيفات، مخفية افتراضيًا -->
+    <div id="categories-container" style="display: none;">
         <div class="categories-header">
             <h2>اختر تصنيفًا</h2>
             <button id="random-start">بداية عشوائية</button>
@@ -23,7 +25,8 @@
         </div>
     </div>
 
-    <div id="game-container">
+    <!-- صفحة اللعبة، مخفية افتراضيًا -->
+    <div id="game-container" style="display: none;">
         <div class="header-section">
             <h1>مين وراك!؟</h1>
             <p class="instructions">أجب قبل انتهاء الوقت! بدون تلميح: 2 نقطة، مع تلميح: 1 نقطة</p>

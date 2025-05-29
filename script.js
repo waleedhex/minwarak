@@ -370,6 +370,15 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
         console.error('لم يتم العثور على زر بدء العداد!');
     }
+
+    // ربط زر بداية عشوائية
+    const randomStartButton = document.getElementById('random-start');
+    if (randomStartButton) {
+        randomStartButton.addEventListener('click', () => selectCategory('random'));
+        console.log('تم ربط زر بداية عشوائية بنجاح');
+    } else {
+        console.error('لم يتم العثور على زر بداية عشوائية!');
+    }
 });
 
 document.addEventListener('contextmenu', event => event.preventDefault());

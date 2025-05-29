@@ -320,7 +320,7 @@ async function nextRound() {
     audio.src = audioUrl;
     imageOwner.textContent = owner;
     hintButton.classList.toggle('disabled', !hasAudio);
-    startTimer();
+    // لا نبدأ العداد تلقائيًا، يتم التحكم عبر زر بدء العداد
 }
 
 async function startGame() {
@@ -339,7 +339,7 @@ async function startGame() {
     audio.src = audioUrl;
     imageOwner.textContent = owner;
     hintButton.classList.toggle('disabled', !hasAudio);
-    startTimer();
+    // لا نبدأ العداد تلقائيًا، يتم التحكم عبر زر بدء العداد
 }
 
 function returnToCategories() {
@@ -356,8 +356,20 @@ function returnToCategories() {
 }
 
 timeInput.addEventListener('change', () => {
+    clearInterval(timer); // إيقاف العداد عند تغيير الوقت
     timeLeft = parseInt(timeInput.value) || 120;
-    startTimer();
+    updateTimerDisplay();
+});
+
+// ربط زر بدء العداد
+document.addEventListener('DOMContentLoaded', () => {
+    const startTimerButton = document.getElementById('start-timer-button');
+    if (startTimerButton) {
+        startTimerButton.addEventListener('click', startTimer);
+        console.log('تم ربط زر بدء العداد بنجاح');
+    } else {
+        console.error('لم يتم العثور على زر بدء العداد!');
+    }
 });
 
 document.addEventListener('contextmenu', event => event.preventDefault());

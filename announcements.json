@@ -1,3 +1,10 @@
 {
-    "announcements": []
+  "announcements": [
+    {
+      "title": "لعبة الحروف",
+      "text": "الأفضل في السوق موجودة في متجرنا",
+      "link": "https://hex-store.com/",
+      "button": "للتفاصيل"
+    }
+  ]
 }

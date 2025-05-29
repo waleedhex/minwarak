@@ -361,8 +361,13 @@ timeInput.addEventListener('change', () => {
     updateTimerDisplay();
 });
 
-// ربط زر بدء العداد
+// ربط الأزرار وتحميل الإعلانات عند بدء الصفحة
 document.addEventListener('DOMContentLoaded', () => {
+    // تحميل الإعلانات
+    loadAnnouncements();
+    console.log('جارٍ تحميل الإعلانات عند بدء الصفحة');
+
+    // ربط زر بدء العداد
     const startTimerButton = document.getElementById('start-timer-button');
     if (startTimerButton) {
         startTimerButton.addEventListener('click', startTimer);

@@ -56,6 +56,16 @@ body {
     z-index: 100;
 }
 
+#announcements-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+    width: 90%;
+    max-width: 400px;
+}
+
 #categories-container {
     justify-content: space-between;
     overflow: hidden;
@@ -137,7 +147,7 @@ body {
     box-sizing: border-box;
     scroll-padding-bottom: 50px;
     scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch; /* تمرير سلس على الجوالات */
+    -webkit-overflow-scrolling: touch;
 }
 
 .category-card {
@@ -212,7 +222,7 @@ h1 {
     gap: 10px;
     margin: 3px 0;
     padding: 3px 0;
-    flex-wrap: wrap; /* لضمان ظهور الزر الجديد */
+    flex-wrap: wrap;
 }
 
 #timer {
@@ -260,7 +270,7 @@ h1 {
     position: relative;
     overflow: hidden;
     border-radius: 10px;
-    border: none; /* إزالة الإطار الأزرق */
+    border: none;
     background: transparent;
     margin: 3px 0;
     max-height: 50vh;
@@ -282,7 +292,7 @@ h1 {
     background: rgba(0, 0, 0, 0.8);
     color: white;
     padding: 3px 8px;
-    font-size: 24px;
+    font-size: 12px;
     border-radius: 3px;
 }
 
@@ -655,20 +665,20 @@ footer {
     .bottom-container {
         width: calc(100% - 10px);
         max-width: 200px;
-        min-height: calc(100% - 60px); /* تعديل الارتفاع لضمان ظهور المحتوى */
+        min-height: calc(100% - 60px);
         max-height: calc(100% - 60px);
         padding: 5px;
         margin: 0;
         margin-left: 10px;
         display: flex;
         flex-direction: column;
-        justify-content: flex-start; /* بدل space-between */
+        justify-content: flex-start;
         gap: 10px;
         box-sizing: border-box;
         border-radius: 10px;
         box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-        overflow-y: auto; /* تمكين التمرير */
-        -webkit-overflow-scrolling: touch; /* تمرير سلس */
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
     }
     .bottom-container .timer-container {
         padding: 5px;
@@ -680,7 +690,7 @@ footer {
         flex-direction: column;
         gap: 6px;
         width: 100%;
-        flex-grow: 0; /* منع التمدد الزايد */
+        flex-grow: 0;
     }
     .team {
         width: 100%;
@@ -703,7 +713,7 @@ footer {
     .button-container {
         gap: 6px;
         margin-top: 5px;
-        flex-grow: 0; /* منع التمدد */
+        flex-grow: 0;
     }
     .next-round, .return-button, .hint-button {
         max-width: 140px;

@@ -11,8 +11,8 @@
 <div id="access-code-container">
     <h2>أدخل رمز الوصول</h2>
     <input type="text" id="access-code">
-    <!-- زر تأكيد مطابق للأصلي، يتم ربطه عبر script.js -->
-    <button>تأكيد</button>
+    <!-- زر تأكيد مع حدث onclick لتشغيل verifyAccessCode -->
+    <button onclick="verifyAccessCode()">تأكيد</button>
 </div>
 
 <!-- صفحة التصنيفات، مخفية افتراضيًا -->
@@ -34,8 +34,8 @@
     <div class="main-content">
         <div class="image-section">
             <div class="image-container">
-                <img src="" class="game-image">
-                <span class="image-owner"></span>
+                <img src="" id="game-image" class="game-image">
+                <span id="image-owner" class="image-owner"></span>
             </div>
         </div>
         <div class="score-section">
@@ -47,19 +47,19 @@
                 <div class="score-container">
                     <div class="team">
                         <h2>الفريق الأول</h2>
-                        <p>0</p>
-                        <button class="score-button">إضافة نقاط</button>
+                        <p id="team1-score">0</p>
+                        <button class="score-button" onclick="addScore(1)">إضافة نقاط</button>
                     </div>
                     <div class="team">
                         <h2>الفريق الثاني</h2>
-                        <p>0</p>
-                        <button class="score-button">إضافة نقاط</button>
+                        <p id="team2-score">0</p>
+                        <button class="score-button" onclick="addScore(2)">إضافة نقاط</button>
                     </div>
                 </div>
                 <div class="button-container">
-                    <button class="next-round">الجولة التالية</button>
-                    <button class="return-button">عودة</button>
-                    <button class="hint-button">تشغيل التلميح</button>
+                    <button class="next-round" onclick="nextRound()">الجولة التالية</button>
+                    <button class="return-button" onclick="returnToCategories()">عودة</button>
+                    <button id="hint-button" class="hint-button" onclick="playHint()">تشغيل التلميح</button>
                 </div>
             </div>
         </div>

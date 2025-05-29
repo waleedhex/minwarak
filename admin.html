@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>إدارة مين وراك!؟</title>
+    <title>إدارة وش نشوف!؟</tiوش نشوفtle>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
@@ -136,7 +136,7 @@
     </div>
 
     <div id="admin-panel" style="display: none;">
-        <h1>إدارة مين وراك!؟</h1>
+        <h1>إدارة وش نشوف!؟</h1>
 
         <section>
             <h2>توليد رموز جديدة</h2>
@@ -317,7 +317,7 @@
                 document.getElementById('generate-error').textContent = 'لا توجد رموز لنسخها!';
                 return;
             }
-            navigator.clipboard.writeText(generatedCodes.join(', ')).then(() => {
+            navigator.clipboard.writeText(generatedCodes.join('\n')).then(() => {
                 alert('تم نسخ الرموز!');
             });
         }

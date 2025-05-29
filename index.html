@@ -3,75 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مين وراك!؟</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- صفحة تسجيل الدخول -->
-    <div id="access-code-container">
-        <h2>أدخل رمز الوصول</h2>
-        <input type="text" id="access-code">
-        <!-- زر تأكيد مطابق للأصلي، يعتمد على JavaScript خارجي -->
-        <button>تأكيد</button>
-    </div>
 
-    <!-- صفحة التصنيفات، مخفية افتراضيًا -->
-    <div id="categories-container" style="display: none;">
-        <div class="categories-header">
-            <h2>اختر تصنيفًا</h2>
-            <button id="random-start">بداية عشوائية</button>
-        </div>
-        <div id="categories-grid">
-            <!-- يتم إضافة بطاقات التصنيفات ديناميكيًا هنا -->
-        </div>
-    </div>
+<div id="access-code-container">
+    <h2>أدخل رمز الوصول</h2>
+    <input type="text" id="access-code">
+    <button>تأكيد</button>
+</div>
 
-    <!-- صفحة اللعبة، مخفية افتراضيًا -->
-    <div id="game-container" style="display: none;">
-        <div class="header-section">
-            <h1>مين وراك!؟</h1>
-            <p class="instructions">أجب قبل انتهاء الوقت! بدون تلميح: 2 نقطة، مع تلميح: 1 نقطة</p>
-        </div>
-        <div class="main-content">
-            <div class="image-section">
-                <div class="image-container">
-                    <img src="" class="game-image">
-                    <span class="image-owner"></span>
-                </div>
+<div id="categories-container" style="display: none;">
+    <div class="categories-header">
+        <h2>اختر تصنيفًا</h2>
+        <button id="random-start">بداية عشوائية</button>
+    </div>
+    <div id="categories-grid">
+    </div>
+</div>
+
+<div id="game-container" style="display: none;">
+    <div class="header-section">
+        <h1>مين وراك!؟</h1>
+        <p class="instructions">أجب قبل انتهاء الوقت! بدون تلميح: 2 نقطة، مع تلميح: 1 نقطة</p>
+    </div>
+    <div class="main-content">
+        <div class="image-section">
+            <div class="image-container">
+                <img src="" class="game-image">
+                <span class="image-owner"></span>
             </div>
-            <div class="score-section">
-                <div class="bottom-container">
-                    <div class="timer-container">
-                        <span id="timer">02:00</span>
-                        <input type="number" id="time-input">
+        </div>
+        <div class="score-section">
+            <div class="bottom-container">
+                <div class="timer-container">
+                    <span id="timer">02:00</span>
+                    <input type="number" id="time-input">
+                </div>
+                <div class="score-container">
+                    <div class="team">
+                        <h2>الفريق الأول</h2>
+                        <p>0</p>
+                        <button class="score-button">إضافة نقاط</button>
                     </div>
-                    <div class="score-container">
-                        <div class="team">
-                            <h2>الفريق الأول</h2>
-                            <p>0</p>
-                            <button class="score-button">إضافة نقاط</button>
-                        </div>
-                        <div class="team">
-                            <h2>الفريق الثاني</h2>
-                            <p>0</p>
-                            <button class="score-button">إضافة نقاط</button>
-                        </div>
+                    <div class="team">
+                        <h2>الفريق الثاني</h2>
+                        <p>0</p>
+                        <button class="score-button">إضافة نقاط</button>
                     </div>
-                    <div class="button-container">
-                        <button class="next-round">الجولة التالية</button>
-                        <button class="return-button">عودة</button>
-                        <button class="hint-button">تشغيل التلميح</button>
-                    </div>
+                </div>
+                <div class="button-container">
+                    <button class="next-round">الجولة التالية</button>
+                    <button class="return-button">عودة</button>
+                    <button class="hint-button">تشغيل التلميح</button>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    <footer>
-        © 2025 مين وراك!؟ - جميع الحقوق محفوظة
-    </footer>
+<footer>
+    © 2025 مين وراك!؟ - جميع الحقوق محفوظة
+</footer>
 
-    <div class="sticker sticker-top-left"></div>
-    <div class="sticker sticker-bottom-right"></div>
+<div class="sticker sticker-top-left"></div>
+<div class="sticker sticker-bottom-right"></div>
+
 </body>
 </html>

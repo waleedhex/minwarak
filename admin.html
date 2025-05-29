@@ -317,7 +317,7 @@
                 document.getElementById('generate-error').textContent = 'لا توجد رموز لنسخها!';
                 return;
             }
-            navigator.clipboard.writeText(generatedCodes.join(', ')).then(() => {
+            navigator.clipboard.writeText(generatedCodes.join('\n')).then(() => {
                 alert('تم نسخ الرموز!');
             });
         }

@@ -121,6 +121,9 @@ self.addEventListener('install', event => {
                 console.log('Caching files');
                 return cache.addAll(urlsToCache);
             })
+            .catch(error => {
+                console.error('Caching failed:', error);
+            })
     );
 });
 
@@ -128,11 +131,33 @@ self.addEventListener('fetch', event => {
     event.respondWith(
         caches.match(event.request)
             .then(response => {
-                return response || fetch(event.request);
-            })
-            .catch(error => {
-                console.error('Fetch failed:', error);
-                return caches.match('/assets/default_category.jpg');
+                if (response) {
+                    console.log('Serving from cache:', event.request.url);
+                    return response;
+                }
+                console.log('Fetching from network:', event.request.url);
+                return fetch(event.request).catch(() => {
+                    console.error('Network fetch failed, serving fallback:', event.request.url);
+                    // إذا كان الطلب لصفحة HTML، أعد index.html
+                    if (event.request.destination === 'document') {
+                        return caches.match('/index.html');
+                    }
+                    // إذا كان الطلب لصورة، أعد صورة افتراضية
+                    if (event.request.destination === 'image') {
+                        return caches.match('/assets/default_category.jpg');
+                    }
+                    // إذا كان الطلب لملف صوتي، أعد الملف الصوتي من التخزين المؤقت إذا كان موجودًا
+                    if (event.request.destination === 'audio') {
+                        return caches.match(event.request).then(audioResponse => {
+                            if (audioResponse) {
+                                return audioResponse;
+                            }
+                            return new Response('غير متصل بالإنترنت ولم يتم العثور على الملف الصوتي', { status: 503, statusText: 'Service Unavailable' });
+                        });
+                    }
+                    // رد افتراضي لأي طلبات أخرى
+                    return new Response('غير متصل بالإنترنت', { status: 503, statusText: 'Service Unavailable' });
+                });
             })
     );
 });

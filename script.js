@@ -32,7 +32,7 @@ const defaultCategories = [
     { name: 'شعارات', image: 'assets/شعارات/category_image.jpg' }
 ];
 
-// إعداد IndexedDB
+// إعداد IndexedDB (للتصنيفات فقط)
 const DB_NAME = 'WishNshoofDB';
 const DB_VERSION = 1;
 let db;
@@ -139,40 +139,43 @@ function getImageUrl(basePath) {
     return pathsToTry;
 }
 
+// دالة لتأخير التنفيذ (debounce) لمنع التكرار السريع للطلبات
+let isVerifying = false;
 async function verifyAccessCode() {
+    if (isVerifying) {
+        console.log('جارٍ التحقق من الرمز، يرجى الانتظار...');
+        return;
+    }
+
+    isVerifying = true;
     try {
-        await openDB(); // فتح قاعدة البيانات عند بدء التطبيق
-    } catch (error) {
-        console.error('فشل فتح قاعدة البيانات IndexedDB، الاستمرار بدونها:', error);
-    }
+        // إذا كان المستخدم أوفلاين أو في وضع PWA، تخطي التحقق من الرمز
+        if (isOfflineOrPWA()) {
+            console.log('أوفلاين أو في وضع PWA، تخطي التحقق من الرمز...');
+            document.getElementById('access-code-container').style.display = 'none';
+            document.getElementById('categories-container').style.display = 'block';
+            await loadCategories();
+            return;
+        }
 
-    // إذا كان المستخدم أوفلاين أو في وضع PWA، تخطي التحقق من الرمز
-    if (isOfflineOrPWA()) {
-        console.log('أوفلاين أو في وضع PWA، تخطي التحقق من الرمز...');
-        document.getElementById('access-code-container').style.display = 'none';
-        document.getElementById('categories-container').style.display = 'block';
-        await loadCategories();
-        return;
-    }
+        const code = document.getElementById('access-code').value.trim();
+        console.log('إدخال الرمز:', code);
 
-    const code = document.getElementById('access-code').value.trim();
-    console.log('إدخال الرمز:', code);
+        if (!code) {
+            alert('الرجاء إدخال رمز الوصول!');
+            return;
+        }
 
-    if (!code) {
-        alert('الرجاء إدخال رمز الوصول!');
-        return;
-    }
+        if (code.toLowerCase() === ADMIN_CODE.toLowerCase()) {
+            console.log('رمز الأدمن مُدخل، جارٍ التوجيه إلى admin.html...');
+            window.location.href = './admin.html';
+            return;
+        }
 
-    if (code.toLowerCase() === ADMIN_CODE.toLowerCase()) {
-        console.log('رمز الأدمن مُدخل، جارٍ التوجيه إلى admin.html...');
-        window.location.href = './admin.html';
-        return;
-    }
-
-    try {
-        const response = await fetch('codes.json');
+        // جلب codes.json مباشرة من الخادم مع تجاوز الكاش
+        const response = await fetch('codes.json', { cache: 'no-store' });
         const data = await response.json();
-        console.log('تم تحميل codes.json:', data);
+        console.log('تم تحميل codes.json مباشرة من الخادم:', data);
 
         const lowerCaseCode = code.toLowerCase();
         const validCodesLowerCase = data.validCodes.map(c => c.toLowerCase());
@@ -183,7 +186,6 @@ async function verifyAccessCode() {
             console.log('الرمز صالح، جارٍ تحميل صفحة التصنيفات...');
             document.getElementById('access-code-container').style.display = 'none';
             document.getElementById('categories-container').style.display = 'block';
-            await updateIndexedDB(); // تحديث البيانات في IndexedDB
             await loadCategories();
         } else {
             console.log('الرمز غير صالح');
@@ -192,6 +194,8 @@ async function verifyAccessCode() {
     } catch (error) {
         console.error('خطأ في تحميل codes.json:', error);
         alert('فشل تحميل codes.json. تأكد من وجود الملف في نفس المجلد أو استخدم خادم محلي.');
+    } finally {
+        isVerifying = false;
     }
 }
 
@@ -550,7 +554,14 @@ timeInput.addEventListener('change', () => {
 });
 
 // ربط الأزرار وتحميل الإعلانات عند بدء الصفحة
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+    try {
+        await openDB(); // فتح قاعدة البيانات عند بدء الصفحة
+        await updateIndexedDB(); // تحديث البيانات في IndexedDB عند بدء الصفحة
+    } catch (error) {
+        console.error('فشل فتح قاعدة البيانات IndexedDB أو تحديث البيانات:', error);
+    }
+
     // تحميل الإعلانات (سيتم التحكم في هذا في loadAnnouncements)
     loadAnnouncements();
     console.log('جارٍ تحميل الإعلانات عند بدء الصفحة');

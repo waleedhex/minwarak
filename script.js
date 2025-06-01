@@ -19,111 +19,6 @@ const timeInput = document.getElementById('time-input');
 const hintButton = document.getElementById('hint-button');
 const audio = new Audio();
 
-// قائمة افتراضية للتصنيفات في حال فشل الوصول إلى IndexedDB
-const defaultCategories = [
-    { name: 'أنمي', image: 'assets/أنمي/category_image.jpg' },
-    { name: 'شخصيات عامة', image: 'assets/شخصيات عامة/category_image.jpg' },
-    { name: 'أفلام', image: 'assets/أفلام/category_image.jpg' },
-    { name: 'رياضة', image: 'assets/رياضة/category_image.jpg' },
-    { name: 'ديزني', image: 'assets/ديزني/category_image.jpg' },
-    { name: 'معالم', image: 'assets/معالم/category_image.jpg' },
-    { name: 'الطيبين', image: 'assets/الطيبين/category_image.jpg' },
-    { name: 'ممثلين', image: 'assets/ممثلين/category_image.jpg' },
-    { name: 'شعارات', image: 'assets/شعارات/category_image.jpg' }
-];
-
-// إعداد IndexedDB (للتصنيفات فقط)
-const DB_NAME = 'WishNshoofDB';
-const DB_VERSION = 1;
-let db;
-
-function openDB() {
-    return new Promise((resolve, reject) => {
-        const request = indexedDB.open(DB_NAME, DB_VERSION);
-
-        request.onupgradeneeded = event => {
-            const db = event.target.result;
-            if (!db.objectStoreNames.contains('categories')) {
-                db.createObjectStore('categories', { keyPath: 'id' });
-            }
-            if (!db.objectStoreNames.contains('metadata')) {
-                db.createObjectStore('metadata', { keyPath: 'category' });
-            }
-            if (!db.objectStoreNames.contains('names')) {
-                db.createObjectStore('names', { keyPath: 'category' });
-            }
-        };
-
-        request.onsuccess = event => {
-            db = event.target.result;
-            console.log('تم فتح قاعدة بيانات IndexedDB بنجاح');
-            resolve(db);
-        };
-
-        request.onerror = event => {
-            console.error('خطأ في فتح IndexedDB:', event.target.error);
-            reject(event.target.error);
-        };
-    });
-}
-
-// دالة لتحديث البيانات في IndexedDB
-async function updateIndexedDB() {
-    if (!isOfflineOrPWA()) {
-        try {
-            console.log('جارٍ تحديث البيانات في IndexedDB...');
-            // جلب categories.json
-            const categoriesResponse = await fetch('categories.json');
-            const categoriesData = await categoriesResponse.json();
-            const transaction = db.transaction(['categories'], 'readwrite');
-            const categoriesStore = transaction.objectStore('categories');
-            categoriesStore.put({ id: 'categories', data: categoriesData.categories });
-            console.log('تم تحديث categories في IndexedDB بنجاح');
-
-            // جلب metadata.json و names.json لكل تصنيف
-            for (const category of categoriesData.categories) {
-                try {
-                    const metadataResponse = await fetch(`assets/${category.name}/metadata.json`);
-                    const metadataData = await metadataResponse.json();
-                    const metadataTransaction = db.transaction(['metadata'], 'readwrite');
-                    const metadataStore = metadataTransaction.objectStore('metadata');
-                    metadataStore.put({ category: category.name, data: metadataData });
-                    console.log(`تم تحديث metadata لتصنيف ${category.name} في IndexedDB`);
-
-                    const namesResponse = await fetch(`assets/${category.name}/names.json`);
-                    const namesData = await namesResponse.json();
-                    const namesTransaction = db.transaction(['names'], 'readwrite');
-                    const namesStore = namesTransaction.objectStore('names');
-                    namesStore.put({ category: category.name, data: namesData });
-                    console.log(`تم تحديث names لتصنيف ${category.name} في IndexedDB`);
-                } catch (error) {
-                    console.warn(`خطأ في تحميل بيانات تصنيف ${category.name}:`, error);
-                }
-            }
-        } catch (error) {
-            console.warn('خطأ في تحديث IndexedDB:', error);
-        }
-    }
-}
-
-// دالة لجلب البيانات من IndexedDB
-async function getFromIndexedDB(storeName, key) {
-    return new Promise((resolve, reject) => {
-        const transaction = db.transaction([storeName], 'readonly');
-        const store = transaction.objectStore(storeName);
-        const request = store.get(key);
-
-        request.onsuccess = () => {
-            resolve(request.result ? request.result.data : null);
-        };
-
-        request.onerror = () => {
-            console.error(`خطأ في جلب البيانات من ${storeName} في IndexedDB:`, request.error);
-            reject(request.error);
-        };
-    });
-}
-
 // دالة للتحقق مما إذا كان المستخدم أوفلاين أو في وضع PWA
 function isOfflineOrPWA() {
     return !navigator.onLine || window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
@@ -139,43 +34,34 @@ function getImageUrl(basePath) {
     return pathsToTry;
 }
 
-// دالة لتأخير التنفيذ (debounce) لمنع التكرار السريع للطلبات
-let isVerifying = false;
 async function verifyAccessCode() {
-    if (isVerifying) {
-        console.log('جارٍ التحقق من الرمز، يرجى الانتظار...');
+    // إذا كان المستخدم أوفلاين أو في وضع PWA، تخطي التحقق من الرمز
+    if (isOfflineOrPWA()) {
+        console.log('أوفلاين أو في وضع PWA، تخطي التحقق من الرمز...');
+        document.getElementById('access-code-container').style.display = 'none';
+        document.getElementById('categories-container').style.display = 'block';
+        await loadCategories();
         return;
     }
 
-    isVerifying = true;
+    const code = document.getElementById('access-code').value.trim();
+    console.log('إدخال الرمز:', code);
+
+    if (!code) {
+        alert('الرجاء إدخال رمز الوصول!');
+        return;
+    }
+
+    if (code.toLowerCase() === ADMIN_CODE.toLowerCase()) {
+        console.log('رمز الأدمن مُدخل، جارٍ التوجيه إلى admin.html...');
+        window.location.href = './admin.html';
+        return;
+    }
+
     try {
-        // إذا كان المستخدم أوفلاين أو في وضع PWA، تخطي التحقق من الرمز
-        if (isOfflineOrPWA()) {
-            console.log('أوفلاين أو في وضع PWA، تخطي التحقق من الرمز...');
-            document.getElementById('access-code-container').style.display = 'none';
-            document.getElementById('categories-container').style.display = 'block';
-            await loadCategories();
-            return;
-        }
-
-        const code = document.getElementById('access-code').value.trim();
-        console.log('إدخال الرمز:', code);
-
-        if (!code) {
-            alert('الرجاء إدخال رمز الوصول!');
-            return;
-        }
-
-        if (code.toLowerCase() === ADMIN_CODE.toLowerCase()) {
-            console.log('رمز الأدمن مُدخل، جارٍ التوجيه إلى admin.html...');
-            window.location.href = './admin.html';
-            return;
-        }
-
-        // جلب codes.json مباشرة من الخادم مع تجاوز الكاش
-        const response = await fetch('codes.json', { cache: 'no-store' });
+        const response = await fetch('codes.json');
         const data = await response.json();
-        console.log('تم تحميل codes.json مباشرة من الخادم:', data);
+        console.log('تم تحميل codes.json:', data);
 
         const lowerCaseCode = code.toLowerCase();
         const validCodesLowerCase = data.validCodes.map(c => c.toLowerCase());
@@ -194,59 +80,43 @@ async function verifyAccessCode() {
     } catch (error) {
         console.error('خطأ في تحميل codes.json:', error);
         alert('فشل تحميل codes.json. تأكد من وجود الملف في نفس المجلد أو استخدم خادم محلي.');
-    } finally {
-        isVerifying = false;
     }
 }
 
 async function loadCategories() {
-    const grid = document.getElementById('categories-grid');
-    grid.innerHTML = '';
-    let categories = [];
-
     try {
-        categories = await getFromIndexedDB('categories', 'categories');
-        if (!categories) {
-            throw new Error('فشل تحميل التصنيفات من IndexedDB');
+        const response = await fetch('categories.json');
+        const data = await response.json();
+        const grid = document.getElementById('categories-grid');
+        grid.innerHTML = '';
+        for (const category of data.categories) {
+            const card = document.createElement('div');
+            card.className = 'category-card';
+            card.onclick = () => selectCategory(category.name);
+            const img = document.createElement('img');
+            const imagePaths = getImageUrl(category.image || 'assets/default_category.jpg');
+            let pathIndex = 0;
+            img.src = imagePaths[pathIndex];
+            img.alt = category.name;
+            img.onerror = () => {
+                pathIndex++;
+                if (pathIndex < imagePaths.length) {
+                    console.error(`فشل تحميل صورة التصنيف ${category.name} من ${img.src}, جارٍ المحاولة مع ${imagePaths[pathIndex]}`);
+                    img.src = imagePaths[pathIndex];
+                } else {
+                    console.error(`فشل تحميل صورة التصنيف ${category.name} من جميع المسارات`);
+                    img.src = 'assets/default_category.jpg';
+                }
+            };
+            const name = document.createElement('p');
+            name.textContent = category.name;
+            card.appendChild(img);
+            card.appendChild(name);
+            grid.appendChild(card);
         }
-        console.log('تم تحميل التصنيفات من IndexedDB بنجاح');
+        console.log('تم تحميل categories.json بنجاح');
     } catch (error) {
-        console.warn('خطأ في تحميل التصنيفات من IndexedDB، استخدام قائمة افتراضية:', error);
-        categories = defaultCategories;
-    }
-
-    if (!categories || categories.length === 0) {
-        console.warn('لا توجد تصنيفات للعرض.');
-        return;
-    }
-
-    // عرض كل التصنيفات من defaultCategories حتى لو ما كان فيه metadata
-    const availableCategories = categories;
-
-    for (const category of availableCategories) {
-        const card = document.createElement('div');
-        card.className = 'category-card';
-        card.onclick = () => selectCategory(category.name);
-        const img = document.createElement('img');
-        const imagePaths = getImageUrl(category.image || 'assets/default_category.jpg');
-        let pathIndex = 0;
-        img.src = imagePaths[pathIndex];
-        img.alt = category.name;
-        img.onerror = () => {
-            pathIndex++;
-            if (pathIndex < imagePaths.length) {
-                console.error(`فشل تحميل صورة التصنيف ${category.name} من ${img.src}, جارٍ المحاولة مع ${imagePaths[pathIndex]}`);
-                img.src = imagePaths[pathIndex];
-            } else {
-                console.error(`فشل تحميل صورة التصنيف ${category.name} من جميع المسارات`);
-                img.src = 'assets/default_category.jpg';
-            }
-        };
-        const name = document.createElement('p');
-        name.textContent = category.name;
-        card.appendChild(img);
-        card.appendChild(name);
-        grid.appendChild(card);
+        console.error('خطأ في تحميل categories.json:', error);
     }
 }
 
@@ -257,48 +127,45 @@ async function selectCategory(category) {
 
     if (category === 'random') {
         try {
-            const categories = await getFromIndexedDB('categories', 'categories') || defaultCategories;
-            for (const cat of categories) {
+            const categoriesResponse = await fetch('categories.json');
+            const categoriesData = await categoriesResponse.json();
+            for (const cat of categoriesData.categories) {
                 try {
-                    const metadata = await getFromIndexedDB('metadata', cat.name);
-                    if (metadata) {
-                        const images = metadata.images.map((img, idx) => ({
-                            ...img,
-                            category: cat.name,
-                            audioIndex: img.hasAudio ? idx + 1 : null
-                        }));
-                        imageList.push(...images);
-                    }
+                    const response = await fetch(`assets/${cat.name}/metadata.json`);
+                    const data = await response.json();
+                    const images = data.images.map((img, idx) => ({
+                        ...img,
+                        category: cat.name,
+                        audioIndex: img.hasAudio ? idx + 1 : null
+                    }));
+                    imageList.push(...images);
                 } catch (error) {
-                    console.warn(`خطأ في تحميل بيانات تصنيف ${cat.name} من IndexedDB، سيتم الاستمرار بدون هذا التصنيف:`, error);
+                    console.warn(`خطأ في تحميل metadata.json لتصنيف ${cat.name}، سيتم الاستمرار بدون هذا التصنيف:`, error);
                 }
             }
             availableIndices = Array.from({ length: imageList.length }, (_, i) => i + 1);
             console.log('تم جمع الصور من جميع التصنيفات:', imageList);
         } catch (error) {
-            console.error('خطأ في تحميل التصنيفات للوضع العشوائي من IndexedDB:', error);
+            console.error('خطأ في تحميل categories.json للوضع العشوائي:', error);
             alert('فشل تحميل بيانات التصنيفات العشوائية.');
             return;
         }
     } else {
         try {
-            const metadata = await getFromIndexedDB('metadata', currentCategory);
-            if (metadata) {
-                imageList = metadata.images.map((img, idx) => ({
-                    ...img,
-                    category: currentCategory,
-                    audioIndex: img.hasAudio ? idx + 1 : null
-                }));
-                availableIndices = Array.from({ length: imageList.length }, (_, i) => i + 1);
-                console.log('تم تحميل بيانات تصنيف:', currentCategory);
-            } else {
-                throw new Error(`بيانات تصنيف ${currentCategory} غير موجودة في IndexedDB`);
-            }
+            const response = await fetch(`assets/${currentCategory}/metadata.json`);
+            const data = await response.json();
+            imageList = data.images.map((img, idx) => ({
+                ...img,
+                category: currentCategory,
+                audioIndex: img.hasAudio ? idx + 1 : null
+            }));
+            availableIndices = Array.from({ length: imageList.length }, (_, i) => i + 1);
+            console.log('تم تحميل metadata.json لتصنيف:', currentCategory);
         } catch (error) {
-            console.warn(`خطأ في تحميل بيانات تصنيف ${currentCategory} من IndexedDB، سيتم العودة إلى التصنيفات:`, error);
-            document.getElementById('categories-container').style.display = 'block';
-            document.getElementById('game-container').style.display = 'none';
-            return;
+            console.warn(`خطأ في تحميل metadata.json لتصنيف ${currentCategory}، سيتم الاستمرار بدون بيانات هذا التصنيف:`, error);
+            imageList = [];
+            availableIndices = [];
+            // لا نوقف التطبيق، بل نستمر مع التصنيفات الأخرى
         }
     }
 
@@ -387,14 +254,13 @@ async function getImageAndAudio(index) {
     let audio = audioBase;
     let owner = '';
     try {
-        const namesData = await getFromIndexedDB('names', imageData.category);
-        if (namesData) {
-            const ownerData = namesData.owners.find(o => o.image === imageData.name);
-            owner = ownerData ? ownerData.name : '';
-            console.log('تم تحميل بيانات المالك لتصنيف:', imageData.category);
-        }
+        const response = await fetch(`assets/${imageData.category}/names.json`);
+        const data = await response.json();
+        const ownerData = data.owners.find(o => o.image === imageData.name);
+        owner = ownerData ? ownerData.name : '';
+        console.log('تم تحميل names.json لتصنيف:', imageData.category);
     } catch (error) {
-        console.warn('خطأ في تحميل بيانات المالك من IndexedDB، سيتم الاستمرار بدون بيانات المالك:', error);
+        console.warn('خطأ في تحميل names.json، سيتم الاستمرار بدون بيانات المالك:', error);
         owner = ''; // تجاهل الخطأ واستمر
     }
     console.log('محاولة تحميل الصورة:', img);
@@ -554,14 +420,7 @@ timeInput.addEventListener('change', () => {
 });
 
 // ربط الأزرار وتحميل الإعلانات عند بدء الصفحة
-document.addEventListener('DOMContentLoaded', async () => {
-    try {
-        await openDB(); // فتح قاعدة البيانات عند بدء الصفحة
-        await updateIndexedDB(); // تحديث البيانات في IndexedDB عند بدء الصفحة
-    } catch (error) {
-        console.error('فشل فتح قاعدة البيانات IndexedDB أو تحديث البيانات:', error);
-    }
-
+document.addEventListener('DOMContentLoaded', () => {
     // تحميل الإعلانات (سيتم التحكم في هذا في loadAnnouncements)
     loadAnnouncements();
     console.log('جارٍ تحميل الإعلانات عند بدء الصفحة');

@@ -10,18 +10,6 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <link rel="stylesheet" href="styles.css">
-    <style>
-        #install-status {
-            margin-right: 10px;
-            color: #4ecdc4;
-            font-size: 14px;
-            font-weight: bold;
-        }
-        .install-prompt:disabled {
-            background-color: #cccccc;
-            cursor: not-allowed;
-        }
-    </style>
 </head>
 <body>
 
@@ -36,8 +24,8 @@
 <!-- صفحة التصنيفات، مخفية افتراضيًا -->
 <div id="categories-container" style="display: none;">
     <div class="categories-header">
-        <span id="install-status"></span>
-        <button id="install-button" class="install-prompt" style="display: none;" disabled>استخدام اللعبة بدون اتصال بالإنترنت</button>
+        <!-- إزالة العبارة "اختر تصنيفًا" ووضع زر التثبيت هنا -->
+        <button id="install-button" class="install-prompt" style="display: none;">استخدام اللعبة بدون اتصال بالإنترنت</button>
         <button id="random-start">بداية عشوائية</button>
     </div>
     <div id="categories-grid">

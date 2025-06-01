@@ -122,37 +122,10 @@ self.addEventListener('install', event => {
                 console.log('Caching files');
                 return cache.addAll(urlsToCache);
             })
-            .then(() => {
-                // إرسال رسالة إلى العميل بعد اكتمال التخزين المؤقت
-                return self.clients.matchAll().then(clients => {
-                    clients.forEach(client => {
-                        client.postMessage({ type: 'CACHE_COMPLETED' });
-                    });
-                });
-            })
             .catch(error => {
                 console.error('Caching failed:', error);
             })
     );
-});
-
-// استماع لرسائل من العميل (مثل CHECK_CACHE_STATUS)
-self.addEventListener('message', event => {
-    if (event.data && event.data.type === 'CHECK_CACHE_STATUS') {
-        // التحقق من حالة التخزين المؤقت
-        caches.open(CACHE_NAME).then(cache => {
-            return cache.keys();
-        }).then(keys => {
-            // إذا تم تخزين جميع الملفات، أرسل رسالة CACHE_COMPLETED
-            if (keys.length === urlsToCache.length) {
-                self.clients.matchAll().then(clients => {
-                    clients.forEach(client => {
-                        client.postMessage({ type: 'CACHE_COMPLETED' });
-                    });
-                });
-            }
-        });
-    }
 });
 
 self.addEventListener('fetch', event => {

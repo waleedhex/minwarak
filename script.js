@@ -56,6 +56,7 @@ function openDB() {
 
         request.onsuccess = event => {
             db = event.target.result;
+            console.log('تم فتح قاعدة بيانات IndexedDB بنجاح');
             resolve(db);
         };
 
@@ -70,12 +71,14 @@ function openDB() {
 async function updateIndexedDB() {
     if (!isOfflineOrPWA()) {
         try {
+            console.log('جارٍ تحديث البيانات في IndexedDB...');
             // جلب categories.json
             const categoriesResponse = await fetch('categories.json');
             const categoriesData = await categoriesResponse.json();
             const transaction = db.transaction(['categories'], 'readwrite');
             const categoriesStore = transaction.objectStore('categories');
             categoriesStore.put({ id: 'categories', data: categoriesData.categories });
+            console.log('تم تحديث categories في IndexedDB بنجاح');
 
             // جلب metadata.json و names.json لكل تصنيف
             for (const category of categoriesData.categories) {
@@ -85,12 +88,14 @@ async function updateIndexedDB() {
                     const metadataTransaction = db.transaction(['metadata'], 'readwrite');
                     const metadataStore = metadataTransaction.objectStore('metadata');
                     metadataStore.put({ category: category.name, data: metadataData });
+                    console.log(`تم تحديث metadata لتصنيف ${category.name} في IndexedDB`);
 
                     const namesResponse = await fetch(`assets/${category.name}/names.json`);
                     const namesData = await namesResponse.json();
                     const namesTransaction = db.transaction(['names'], 'readwrite');
                     const namesStore = namesTransaction.objectStore('names');
                     namesStore.put({ category: category.name, data: namesData });
+                    console.log(`تم تحديث names لتصنيف ${category.name} في IndexedDB`);
                 } catch (error) {
                     console.warn(`خطأ في تحميل بيانات تصنيف ${category.name}:`, error);
                 }
@@ -113,6 +118,7 @@ async function getFromIndexedDB(storeName, key) {
         };
 
         request.onerror = () => {
+            console.error(`خطأ في جلب البيانات من ${storeName} في IndexedDB:`, request.error);
             reject(request.error);
         };
     });
@@ -134,7 +140,11 @@ function getImageUrl(basePath) {
 }
 
 async function verifyAccessCode() {
-    await openDB(); // فتح قاعدة البيانات عند بدء التطبيق
+    try {
+        await openDB(); // فتح قاعدة البيانات عند بدء التطبيق
+    } catch (error) {
+        console.error('فشل فتح قاعدة البيانات IndexedDB، الاستمرار بدونها:', error);
+    }
 
     // إذا كان المستخدم أوفلاين أو في وضع PWA، تخطي التحقق من الرمز
     if (isOfflineOrPWA()) {
@@ -206,25 +216,8 @@ async function loadCategories() {
         return;
     }
 
-    const availableCategories = [];
-    for (const category of categories) {
-        try {
-            const metadata = await getFromIndexedDB('metadata', category.name);
-            if (metadata) {
-                availableCategories.push(category);
-                console.log(`تم العثور على بيانات لتصنيف ${category.name} في IndexedDB`);
-            } else {
-                console.warn(`بيانات تصنيف ${category.name} غير موجودة في IndexedDB، سيتم تخطي هذا التصنيف`);
-            }
-        } catch (error) {
-            console.warn(`خطأ أثناء فحص بيانات تصنيف ${category.name} في IndexedDB:`, error);
-        }
-    }
-
-    if (availableCategories.length === 0) {
-        console.warn('لا توجد تصنيفات متاحة في IndexedDB.');
-        return;
-    }
+    // عرض كل التصنيفات من defaultCategories حتى لو ما كان فيه metadata
+    const availableCategories = categories;
 
     for (const category of availableCategories) {
         const card = document.createElement('div');

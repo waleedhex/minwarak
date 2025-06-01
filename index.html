@@ -3,6 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>وش نشوف؟</title>
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#4ecdc4">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -11,26 +16,26 @@
 <div id="access-code-container">
     <h2>أدخل رمز الوصول</h2>
     <input type="text" id="access-code">
-    <!-- زر تأكيد مع حدث onclick لتشغيل verifyAccessCode -->
     <button onclick="verifyAccessCode()">تأكيد</button>
-    <!-- حاوية الإعلانات -->
     <div id="announcements-container"></div>
 </div>
 
 <!-- صفحة التصنيفات، مخفية افتراضيًا -->
 <div id="categories-container" style="display: none;">
     <div class="categories-header">
-        <h2>اختر تصنيفًا</h2>
-        <!-- زر بداية عشوائية، يتم ربطه عبر script.js -->
+        <!-- إزالة العبارة "اختر تصنيفًا" ووضع زر التثبيت هنا -->
+        <button id="install-button" class="install-prompt" style="display: none;">استخدام اللعبة بدون اتصال بالإنترنت</button>
         <button id="random-start">بداية عشوائية</button>
     </div>
-    <div id="categories-grid"></div>
+    <div id="categories-grid">
+        <!-- التصنيفات سيتم إضافتها ديناميكيًا هنا -->
+    </div>
 </div>
 
 <!-- صفحة اللعبة، مخفية افتراضيًا -->
 <div id="game-container" style="display: none;">
     <div class="header-section">
-        <h1>وش نشوف!؟</h1>
+        <h1>وش نشوف؟</h1>
         <p class="instructions">أجب قبل انتهاء الوقت! بدون تلميح: 2 نقطة، مع تلميح: 1 نقطة</p>
     </div>
     <div class="main-content">
@@ -70,14 +75,35 @@
 </div>
 
 <footer>
-    © 2025 وش نشوف!؟ - جميع الحقوق محفوظة
+    © 2025 وش نشوف؟ - جميع الحقوق محفوظة
 </footer>
 
 <div class="sticker sticker-top-left"></div>
 <div class="sticker sticker-bottom-right"></div>
 
-<!-- تحميل script.js -->
 <script src="script.js"></script>
+<script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js')
+                .then(registration => {
+                    console.log('Service Worker registered:', registration);
+                })
+                .catch(error => {
+                    console.error('Service Worker registration failed:', error);
+                });
+        });
+    }
+
+    window.addEventListener('load', () => {
+        if (!navigator.onLine || window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone) {
+            console.log('أوفلاين أو في وضع PWA، تخطي رمز الدخول...');
+            document.getElementById('access-code-container').style.display = 'none';
+            document.getElementById('categories-container').style.display = 'block';
+            loadCategories();
+        }
+    });
+</script>
 
 </body>
 </html>

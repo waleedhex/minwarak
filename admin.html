@@ -3,7 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>إدارة مين وراك!؟</title>
+    <!-- تحديث عنوان الصفحة -->
+    <title>إدارة وش نشوف؟</title>
+    <!-- إضافة دعم PWA -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#4ecdc4">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
@@ -107,6 +113,23 @@
             font-size: 14px;
             margin: 5px 0;
         }
+        /* إضافة أنماط لزر التثبيت */
+        .install-prompt {
+            padding: 10px 20px;
+            font-size: 1rem;
+            background: #f39c12; /* لون مشابه للأزرار الأخرى في اللعبة */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+        .install-prompt:hover {
+            transform: scale(1.05);
+            background: #e08e0b; /* لون أغمق عند التمرير */
+        }
         @media (max-width: 600px) {
             h1 {
                 font-size: 1.8em;
@@ -129,6 +152,10 @@
     <div class="sticker sticker-bottom-right"></div>
 
     <h1>تسجيل دخول الإدارة</h1>
+    <!-- إضافة حاوية لرسالة الخطأ في حالة الوضع الأوفلاين -->
+    <div id="offline-message" style="display: none;">
+        <p class="error">هذه الصفحة غير متاحة في الوضع الأوفلاين</p>
+    </div>
     <div id="login-section">
         <input type="password" id="admin-code" placeholder="رمز الأدمن">
         <button onclick="verifyAdminCode()">تسجيل الدخول</button>
@@ -136,7 +163,10 @@
     </div>
 
     <div id="admin-panel" style="display: none;">
-        <h1>إدارة مين وراك!؟</h1>
+        <!-- تحديث عنوان لوحة الإدارة -->
+        <h1>إدارة وش نشوف؟</h1>
+        <!-- إضافة زر التثبيت -->
+        <button id="install-button" class="install-prompt" style="display: none;">استخدام الإدارة بدون اتصال بالإنترنت</button>
 
         <section>
             <h2>توليد رموز جديدة</h2>
@@ -227,14 +257,40 @@
         let categories = { categories: [] };
         let generatedCodes = [];
 
+        // دالة للتحقق مما إذا كان المستخدم أوفلاين
+        function isOffline() {
+            return !navigator.onLine;
+        }
+
+        // التحقق من الاتصال عند تحميل الصفحة
+        window.addEventListener('load', () => {
+            if (isOffline()) {
+                console.log('أوفلاين، منع الوصول إلى صفحة الإدارة...');
+                document.getElementById('login-section').style.display = 'none';
+                document.getElementById('admin-panel').style.display = 'none';
+                document.getElementById('offline-message').style.display = 'block';
+            }
+        });
+
         // تحميل البيانات عند تسجيل الدخول
         async function verifyAdminCode() {
+            // التحقق من الاتصال قبل محاولة تسجيل الدخول
+            if (isOffline()) {
+                console.log('أوفلاين، منع الوصول إلى صفحة الإدارة...');
+                document.getElementById('login-section').style.display = 'none';
+                document.getElementById('admin-panel').style.display = 'none';
+                document.getElementById('offline-message').style.display = 'block';
+                return;
+            }
+
             const code = document.getElementById('admin-code').value;
             const error = document.getElementById('login-error');
             if (code === ADMIN_CODE) {
                 document.getElementById('login-section').style.display = 'none';
                 document.getElementById('admin-panel').style.display = 'block';
                 await loadAdminData();
+                // إظهار زر التثبيت بعد تسجيل الدخول
+                showInstallPrompt();
             } else {
                 error.textContent = 'رمز أدمن غير صحيح!';
             }
@@ -523,6 +579,57 @@
             a.download = 'categories.json';
             a.click();
             URL.revokeObjectURL(url);
+        }
+
+        // دالة لإظهار زر التثبيت
+        let deferredPrompt;
+        function showInstallPrompt() {
+            const installButton = document.getElementById('install-button');
+            // إظهار الزر فقط إذا كان المستخدم أونلاين وليس في وضع PWA
+            if (!isOffline() && !window.matchMedia('(display-mode: standalone)').matches && !window.navigator.standalone) {
+                installButton.style.display = 'block';
+            } else {
+                installButton.style.display = 'none';
+            }
+
+            // التقاط حدث التثبيت
+            window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                deferredPrompt = e;
+                if (!isOffline() && !window.matchMedia('(display-mode: standalone)').matches && !window.navigator.standalone) {
+                    installButton.style.display = 'block';
+                }
+            });
+
+            installButton.addEventListener('click', () => {
+                if (deferredPrompt) {
+                    deferredPrompt.prompt();
+                    deferredPrompt.userChoice.then((choiceResult) => {
+                        if (choiceResult.outcome === 'accepted') {
+                            console.log('الأدمن وافق على تثبيت لوحة الإدارة');
+                            installButton.style.display = 'none';
+                        } else {
+                            console.log('الأدمن رفض تثبيت لوحة الإدارة');
+                        }
+                        deferredPrompt = null;
+                    });
+                } else {
+                    alert('لتشغيل لوحة الإدارة أوفلاين، انقر على "إضافة إلى الشاشة الرئيسية" من قائمة المتصفح.');
+                }
+            });
+        }
+
+        // تسجيل Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('Service Worker registered:', registration);
+                    })
+                    .catch(error => {
+                        console.error('Service Worker registration failed:', error);
+                    });
+            });
         }
     </script>
 </body>

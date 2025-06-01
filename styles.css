@@ -67,10 +67,11 @@ body {
 }
 
 #categories-container {
-    justify-content: space-between;
+    justify-content: flex-start;
     overflow: hidden;
     color: white;
     text-align: center;
+    align-items: center;
 }
 
 .categories-header {
@@ -82,9 +83,11 @@ body {
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(5px);
     z-index: 200;
+    /* تغيير flex-direction إلى column لوضع الزر الأصفر فوق الأزرق */
     display: flex;
     flex-direction: column;
-    align-items: center;
+    justify-content: center;
+    align-items: center; /* التوسيط الأفقي */
     padding: 10px 0;
 }
 
@@ -141,9 +144,10 @@ body {
     width: 100%;
     max-width: 100%;
     margin-top: 120px;
-    margin-bottom: 80px;
+    margin-bottom: 20px;
     overflow-y: auto;
-    height: calc(100vh - 260px);
+    height: auto;
+    max-height: calc(100vh - 220px);
     box-sizing: border-box;
     scroll-padding-bottom: 50px;
     scroll-behavior: smooth;
@@ -177,6 +181,27 @@ body {
     margin: 6px 0 0;
     font-size: 0.85rem;
     color: #1a1a1a;
+}
+
+/* أنماط زر التثبيت داخل الهيدر */
+.install-prompt {
+    padding: 10px 40px;
+    font-size: 1rem;
+    background: #f39c12;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin: 10px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, background 0.3s ease;
+    z-index: 120;
+    pointer-events: auto;
+}
+
+.install-prompt:hover {
+    transform: scale(1.05);
+    background: #e08e0b;
 }
 
 #game-container {
@@ -493,7 +518,8 @@ footer {
         padding-bottom: 40px;
         margin-top: 100px;
         margin-bottom: 60px;
-        height: calc(100vh - 220px);
+        height: auto;
+        max-height: calc(100vh - 180px);
         scroll-padding-bottom: 40px;
         scroll-behavior: smooth;
         -webkit-overflow-scrolling: touch;
@@ -513,6 +539,11 @@ footer {
     }
     #random-start {
         padding: 8px 16px;
+        font-size: 0.9rem;
+        margin: 3px;
+    }
+    .install-prompt {
+        padding: 8px 32px;
         font-size: 0.9rem;
         margin: 3px;
     }
@@ -553,14 +584,14 @@ footer {
         padding: 8px 0;
     }
     .bottom-container .timer-container {
-        padding: 3px;
+        padding: 2px;
     }
     .bottom-container #timer {
         font-size: 1.2rem;
     }
     #start-timer-button {
         padding: 5px 10px;
-        font-size: 0.8rem;
+        font-size: 0.7rem;
     }
 }
 
@@ -585,7 +616,8 @@ footer {
         gap: 10px;
         margin-top: 120px;
         margin-bottom: 80px;
-        height: calc(100vh - 260px);
+        height: auto;
+        max-height: calc(100vh - 220px);
         scroll-padding-bottom: 50px;
         scroll-behavior: smooth;
         -webkit-overflow-scrolling: touch;

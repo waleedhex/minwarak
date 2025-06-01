@@ -1,0 +1,22 @@
+{
+    "name": "وش نشوف؟",
+    "short_name": "وش نشوف",
+    "description": "لعبة وش نشوف؟ للتسلية والتحدي",
+    "start_url": "/index.html",
+    "display": "standalone",
+    "background_color": "#ff6b6b",
+    "theme_color": "#4ecdc4",
+    "icons": [
+        {
+            "src": "assets/icon.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "assets/icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ],
+    "orientation": "portrait"
+}

@@ -19,6 +19,11 @@ const timeInput = document.getElementById('time-input');
 const hintButton = document.getElementById('hint-button');
 const audio = new Audio();
 
+// دالة للتحقق مما إذا كان المستخدم أوفلاين أو في وضع PWA
+function isOfflineOrPWA() {
+    return !navigator.onLine || window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+}
+
 function getImageUrl(basePath) {
     const extensions = ['.jpg', '.png'];
     const pathsToTry = [];
@@ -30,6 +35,15 @@ function getImageUrl(basePath) {
 }
 
 async function verifyAccessCode() {
+    // إذا كان المستخدم أوفلاين أو في وضع PWA، تخطي التحقق من الرمز
+    if (isOfflineOrPWA()) {
+        console.log('أوفلاين أو في وضع PWA، تخطي التحقق من الرمز...');
+        document.getElementById('access-code-container').style.display = 'none';
+        document.getElementById('categories-container').style.display = 'block';
+        await loadCategories();
+        return;
+    }
+
     const code = document.getElementById('access-code').value.trim();
     console.log('إدخال الرمز:', code);
 
@@ -171,6 +185,12 @@ async function selectCategory(category) {
 }
 
 async function loadAnnouncements() {
+    // تحميل الإعلانات فقط إذا كان المستخدم أونلاين وليس في وضع PWA
+    if (isOfflineOrPWA()) {
+        console.log('أوفلاين أو في وضع PWA، تخطي تحميل الإعلانات...');
+        return;
+    }
+
     try {
         const response = await fetch('announcements.json');
         const data = await response.json();
@@ -324,6 +344,7 @@ async function nextRound() {
 }
 
 async function startGame() {
+    // تحميل الإعلانات فقط في الوضع الأونلاين (تم التحكم في هذا في loadAnnouncements)
     await loadAnnouncements();
     const firstIndex = getRandomImageIndex();
     if (!firstIndex) {
@@ -355,6 +376,44 @@ function returnToCategories() {
     updateTimerDisplay();
 }
 
+// دالة لإظهار زر التثبيت
+let deferredPrompt;
+function showInstallPrompt() {
+    const installButton = document.getElementById('install-button');
+    // إظهار الزر فقط إذا كان المستخدم أونلاين وليس في وضع PWA
+    if (!isOfflineOrPWA()) {
+        installButton.style.display = 'block';
+    } else {
+        installButton.style.display = 'none';
+    }
+
+    // التقاط حدث التثبيت
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        if (!isOfflineOrPWA()) {
+            installButton.style.display = 'block';
+        }
+    });
+
+    installButton.addEventListener('click', () => {
+        if (deferredPrompt) {
+            deferredPrompt.prompt();
+            deferredPrompt.userChoice.then((choiceResult) => {
+                if (choiceResult.outcome === 'accepted') {
+                    console.log('المستخدم وافق على تثبيت اللعبة');
+                    installButton.style.display = 'none';
+                } else {
+                    console.log('المستخدم رفض تثبيت اللعبة');
+                }
+                deferredPrompt = null;
+            });
+        } else {
+            alert('لتشغيل اللعبة أوفلاين، انقر على "إضافة إلى الشاشة الرئيسية" من قائمة المتصفح.');
+        }
+    });
+}
+
 timeInput.addEventListener('change', () => {
     clearInterval(timer); // إيقاف العداد عند تغيير الوقت
     timeLeft = parseInt(timeInput.value) || 120;
@@ -363,9 +422,12 @@ timeInput.addEventListener('change', () => {
 
 // ربط الأزرار وتحميل الإعلانات عند بدء الصفحة
 document.addEventListener('DOMContentLoaded', () => {
-    // تحميل الإعلانات
+    // تحميل الإعلانات (سيتم التحكم في هذا في loadAnnouncements)
     loadAnnouncements();
     console.log('جارٍ تحميل الإعلانات عند بدء الصفحة');
+
+    // إظهار زر التثبيت
+    showInstallPrompt();
 
     // ربط زر بدء العداد
     const startTimerButton = document.getElementById('start-timer-button');

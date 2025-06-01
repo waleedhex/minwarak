@@ -140,7 +140,7 @@ async function selectCategory(category) {
                     }));
                     imageList.push(...images);
                 } catch (error) {
-                    console.error(`خطأ في تحميل metadata.json لتصنيف ${cat.name}:`, error);
+                    console.warn(`خطأ في تحميل metadata.json لتصنيف ${cat.name}، سيتم الاستمرار بدون هذا التصنيف:`, error);
                 }
             }
             availableIndices = Array.from({ length: imageList.length }, (_, i) => i + 1);
@@ -162,18 +162,15 @@ async function selectCategory(category) {
             availableIndices = Array.from({ length: imageList.length }, (_, i) => i + 1);
             console.log('تم تحميل metadata.json لتصنيف:', currentCategory);
         } catch (error) {
-            console.error('خطأ في تحميل metadata.json:', error);
+            console.warn(`خطأ في تحميل metadata.json لتصنيف ${currentCategory}، سيتم الاستمرار بدون بيانات هذا التصنيف:`, error);
             imageList = [];
             availableIndices = [];
-            alert(`فشل تحميل بيانات التصنيف ${currentCategory}.`);
-            document.getElementById('categories-container').style.display = 'block';
-            document.getElementById('game-container').style.display = 'none';
-            return;
+            // لا نوقف التطبيق، بل نستمر مع التصنيفات الأخرى
         }
     }
 
     if (imageList.length === 0) {
-        alert('لا توجد صور للعرض! العودة إلى التصنيفات.');
+        console.warn('لا توجد صور للعرض! العودة إلى التصنيفات.');
         document.getElementById('categories-container').style.display = 'block';
         document.getElementById('game-container').style.display = 'none';
         return;
@@ -263,7 +260,8 @@ async function getImageAndAudio(index) {
         owner = ownerData ? ownerData.name : '';
         console.log('تم تحميل names.json لتصنيف:', imageData.category);
     } catch (error) {
-        console.error('خطأ في تحميل names.json:', error);
+        console.warn('خطأ في تحميل names.json، سيتم الاستمرار بدون بيانات المالك:', error);
+        owner = ''; // تجاهل الخطأ واستمر
     }
     console.log('محاولة تحميل الصورة:', img);
     return {
@@ -376,15 +374,23 @@ function returnToCategories() {
     updateTimerDisplay();
 }
 
-// دالة لإظهار زر التثبيت
+// دالة لإظهار زر التثبيت مع إشعار التحميل
 let deferredPrompt;
 function showInstallPrompt() {
     const installButton = document.getElementById('install-button');
+    const statusMessage = document.createElement('span');
+    statusMessage.id = 'install-status';
+    statusMessage.style.marginRight = '10px';
+    installButton.parentNode.insertBefore(statusMessage, installButton);
+
     // إظهار الزر فقط إذا كان المستخدم أونلاين وليس في وضع PWA
     if (!isOfflineOrPWA()) {
         installButton.style.display = 'block';
+        statusMessage.textContent = 'جارٍ التحميل، يرجى الانتظار...';
+        installButton.disabled = true; // تعطيل الزر أثناء التحميل
     } else {
         installButton.style.display = 'none';
+        statusMessage.style.display = 'none';
     }
 
     // التقاط حدث التثبيت
@@ -396,6 +402,20 @@ function showInstallPrompt() {
         }
     });
 
+    // الاستماع لرسائل من Service Worker لمعرفة اكتمال التخزين المؤقت
+    navigator.serviceWorker.addEventListener('message', (event) => {
+        if (event.data && event.data.type === 'CACHE_COMPLETED') {
+            console.log('اكتمل التخزين المؤقت، يمكن التثبيت الآن');
+            statusMessage.textContent = 'تم التحميل! يمكنك الآن إضافة التطبيق إلى سطح المكتب';
+            installButton.disabled = false; // تفعيل الزر بعد اكتمال التحميل
+        }
+    });
+
+    // إرسال رسالة إلى Service Worker للتحقق من حالة التخزين المؤقت
+    if (navigator.serviceWorker.controller) {
+        navigator.serviceWorker.controller.postMessage({ type: 'CHECK_CACHE_STATUS' });
+    }
+
     installButton.addEventListener('click', () => {
         if (deferredPrompt) {
             deferredPrompt.prompt();
@@ -403,6 +423,7 @@ function showInstallPrompt() {
                 if (choiceResult.outcome === 'accepted') {
                     console.log('المستخدم وافق على تثبيت اللعبة');
                     installButton.style.display = 'none';
+                    statusMessage.style.display = 'none';
                 } else {
                     console.log('المستخدم رفض تثبيت اللعبة');
                 }

@@ -8,7 +8,7 @@ const urlsToCache = [
     '/codes.json',
     '/announcements.json',
     '/categories.json',
-'/manifest.json', // السطر المضاف
+    '/manifest.json',
     '/assets/default_category.jpg',
     '/assets/stickers/sticker1.png',
     '/assets/stickers/sticker2.png',
@@ -153,11 +153,16 @@ self.addEventListener('fetch', event => {
                             if (audioResponse) {
                                 return audioResponse;
                             }
-                            return new Response('غير متصل بالإنترنت ولم يتم العثور على الملف الصوتي', { status: 503, statusText: 'Service Unavailable' });
+                            // لا نرجع رد خطأ، بل نترك التطبيق يتعامل مع الملف المفقود
+                            return new Response('', { status: 200, statusText: 'OK' });
                         });
                     }
-                    // رد افتراضي لأي طلبات أخرى
-                    return new Response('غير متصل بالإنترنت', { status: 503, statusText: 'Service Unavailable' });
+                    // إذا كان الطلب لملف JSON (مثل metadata.json أو names.json)
+                    if (event.request.url.includes('.json')) {
+                        return new Response('{}', { status: 200, statusText: 'OK' }); // رد فارغ لتجنب تعطيل التطبيق
+                    }
+                    // رد افتراضي لأي طلبات أخرى (مثل CSS أو JS)
+                    return new Response('', { status: 200, statusText: 'OK' });
                 });
             })
     );

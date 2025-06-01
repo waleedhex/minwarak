@@ -8,6 +8,7 @@ const urlsToCache = [
     '/codes.json',
     '/announcements.json',
     '/categories.json',
+'/manifest.json', // السطر المضاف
     '/assets/default_category.jpg',
     '/assets/stickers/sticker1.png',
     '/assets/stickers/sticker2.png',

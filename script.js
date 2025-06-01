@@ -34,34 +34,43 @@ function getImageUrl(basePath) {
     return pathsToTry;
 }
 
+// دالة لتأخير التنفيذ (debounce) لمنع التكرار السريع للطلبات
+let isVerifying = false;
 async function verifyAccessCode() {
-    // إذا كان المستخدم أوفلاين أو في وضع PWA، تخطي التحقق من الرمز
-    if (isOfflineOrPWA()) {
-        console.log('أوفلاين أو في وضع PWA، تخطي التحقق من الرمز...');
-        document.getElementById('access-code-container').style.display = 'none';
-        document.getElementById('categories-container').style.display = 'block';
-        await loadCategories();
+    if (isVerifying) {
+        console.log('جارٍ التحقق من الرمز، يرجى الانتظار...');
         return;
     }
 
-    const code = document.getElementById('access-code').value.trim();
-    console.log('إدخال الرمز:', code);
-
-    if (!code) {
-        alert('الرجاء إدخال رمز الوصول!');
-        return;
-    }
-
-    if (code.toLowerCase() === ADMIN_CODE.toLowerCase()) {
-        console.log('رمز الأدمن مُدخل، جارٍ التوجيه إلى admin.html...');
-        window.location.href = './admin.html';
-        return;
-    }
-
+    isVerifying = true;
     try {
-        const response = await fetch('codes.json');
+        // إذا كان المستخدم أوفلاين أو في وضع PWA، تخطي التحقق من الرمز
+        if (isOfflineOrPWA()) {
+            console.log('أوفلاين أو في وضع PWA، تخطي التحقق من الرمز...');
+            document.getElementById('access-code-container').style.display = 'none';
+            document.getElementById('categories-container').style.display = 'block';
+            await loadCategories();
+            return;
+        }
+
+        const code = document.getElementById('access-code').value.trim();
+        console.log('إدخال الرمز:', code);
+
+        if (!code) {
+            alert('الرجاء إدخال رمز الوصول!');
+            return;
+        }
+
+        if (code.toLowerCase() === ADMIN_CODE.toLowerCase()) {
+            console.log('رمز الأدمن مُدخل، جارٍ التوجيه إلى admin.html...');
+            window.location.href = './admin.html';
+            return;
+        }
+
+        // جلب codes.json مباشرة من الخادم مع تجاوز الكاش
+        const response = await fetch('codes.json', { cache: 'no-store' });
         const data = await response.json();
-        console.log('تم تحميل codes.json:', data);
+        console.log('تم تحميل codes.json مباشرة من الخادم:', data);
 
         const lowerCaseCode = code.toLowerCase();
         const validCodesLowerCase = data.validCodes.map(c => c.toLowerCase());
@@ -80,6 +89,8 @@ async function verifyAccessCode() {
     } catch (error) {
         console.error('خطأ في تحميل codes.json:', error);
         alert('فشل تحميل codes.json. تأكد من وجود الملف في نفس المجلد أو استخدم خادم محلي.');
+    } finally {
+        isVerifying = false;
     }
 }
 

@@ -14,7 +14,6 @@ const urlsToCache = [
     '/assets/stickers/sticker2.png',
     '/assets/icon.png',
     '/assets/icon-512.png',
-    // صور التصنيفات من categories.json
     '/assets/أنمي/category_image.jpg',
     '/assets/شخصيات عامة/category_image.jpg',
     '/assets/أفلام/category_image.jpg',
@@ -24,7 +23,6 @@ const urlsToCache = [
     '/assets/الطيبين/category_image.jpg',
     '/assets/ممثلين/category_image.jpg',
     '/assets/شعارات/category_image.jpg',
-    // ملفات metadata.json وnames.json لكل تصنيف
     '/assets/أنمي/metadata.json',
     '/assets/أنمي/names.json',
     '/assets/شخصيات عامة/metadata.json',
@@ -43,7 +41,6 @@ const urlsToCache = [
     '/assets/ممثلين/names.json',
     '/assets/شعارات/metadata.json',
     '/assets/شعارات/names.json',
-    // صور كل تصنيف (image1.jpg إلى image20.jpg)
     '/assets/أنمي/image1.jpg', '/assets/أنمي/image2.jpg', '/assets/أنمي/image3.jpg', '/assets/أنمي/image4.jpg', '/assets/أنمي/image5.jpg',
     '/assets/أنمي/image6.jpg', '/assets/أنمي/image7.jpg', '/assets/أنمي/image8.jpg', '/assets/أنمي/image9.jpg', '/assets/أنمي/image10.jpg',
     '/assets/أنمي/image11.jpg', '/assets/أنمي/image12.jpg', '/assets/أنمي/image13.jpg', '/assets/أنمي/image14.jpg', '/assets/أنمي/image15.jpg',
@@ -80,7 +77,6 @@ const urlsToCache = [
     '/assets/شعارات/image6.jpg', '/assets/شعارات/image7.jpg', '/assets/شعارات/image8.jpg', '/assets/شعارات/image9.jpg', '/assets/شعارات/image10.jpg',
     '/assets/شعارات/image11.jpg', '/assets/شعارات/image12.jpg', '/assets/شعارات/image13.jpg', '/assets/شعارات/image14.jpg', '/assets/شعارات/image15.jpg',
     '/assets/شعارات/image16.jpg', '/assets/شعارات/image17.jpg', '/assets/شعارات/image18.jpg', '/assets/شعارات/image19.jpg', '/assets/شعارات/image20.jpg',
-    // ملفات صوتية لكل تصنيف (audio1.mp3 إلى audio20.mp3)، باستثناء "معالم"
     '/assets/أنمي/audio1.mp3', '/assets/أنمي/audio2.mp3', '/assets/أنمي/audio3.mp3', '/assets/أنمي/audio4.mp3', '/assets/أنمي/audio5.mp3',
     '/assets/أنمي/audio6.mp3', '/assets/أنمي/audio7.mp3', '/assets/أنمي/audio8.mp3', '/assets/أنمي/audio9.mp3', '/assets/أنمي/audio10.mp3',
     '/assets/أنمي/audio11.mp3', '/assets/أنمي/audio12.mp3', '/assets/أنمي/audio13.mp3', '/assets/أنمي/audio14.mp3', '/assets/أنمي/audio15.mp3',
@@ -128,6 +124,23 @@ self.addEventListener('install', event => {
     );
 });
 
+self.addEventListener('activate', event => {
+    const cacheWhitelist = [CACHE_NAME];
+    event.waitUntil(
+        caches.keys().then(cacheNames => {
+            return Promise.all(
+                cacheNames.map(cacheName => {
+                    if (!cacheWhitelist.includes(cacheName)) {
+                        console.log('Deleting old cache:', cacheName);
+                        return caches.delete(cacheName);
+                    }
+                })
+            );
+        })
+    );
+    self.clients.claim();
+});
+
 self.addEventListener('fetch', event => {
     event.respondWith(
         caches.match(event.request)
@@ -137,31 +150,29 @@ self.addEventListener('fetch', event => {
                     return response;
                 }
                 console.log('Fetching from network:', event.request.url);
-                return fetch(event.request).catch(() => {
+                return fetch(event.request).then(networkResponse => {
+                    if (networkResponse && networkResponse.status === 200) {
+                        caches.open(CACHE_NAME).then(cache => {
+                            cache.put(event.request, networkResponse.clone());
+                        });
+                    }
+                    return networkResponse;
+                }).catch(() => {
                     console.error('Network fetch failed, serving fallback:', event.request.url);
-                    // إذا كان الطلب لصفحة HTML، أعد index.html
                     if (event.request.destination === 'document') {
                         return caches.match('/index.html');
                     }
-                    // إذا كان الطلب لصورة، أعد صورة افتراضية
                     if (event.request.destination === 'image') {
                         return caches.match('/assets/default_category.jpg');
                     }
-                    // إذا كان الطلب لملف صوتي، أعد الملف الصوتي من التخزين المؤقت إذا كان موجودًا
                     if (event.request.destination === 'audio') {
                         return caches.match(event.request).then(audioResponse => {
-                            if (audioResponse) {
-                                return audioResponse;
-                            }
-                            // لا نرجع رد خطأ، بل نترك التطبيق يتعامل مع الملف المفقود
-                            return new Response('', { status: 200, statusText: 'OK' });
+                            return audioResponse || new Response('', { status: 200, statusText: 'OK' });
                         });
                     }
-                    // إذا كان الطلب لملف JSON (مثل metadata.json أو names.json)
                     if (event.request.url.includes('.json')) {
-                        return new Response('{}', { status: 200, statusText: 'OK' }); // رد فارغ لتجنب تعطيل التطبيق
+                        return new Response('{}', { status: 200, statusText: 'OK' });
                     }
-                    // رد افتراضي لأي طلبات أخرى (مثل CSS أو JS)
                     return new Response('', { status: 200, statusText: 'OK' });
                 });
             })

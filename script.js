@@ -25,7 +25,7 @@ function isOfflineOrPWA() {
 }
 
 function getImageUrl(basePath) {
-    const extensions = ['.jpg', '.png'];
+const extensions = ['.jpg', '.png', '.webp']; // إضافة .webp
     const pathsToTry = [];
     extensions.forEach(ext => {
         pathsToTry.push(basePath.replace(/\.(jpg|png)$/i, ext));

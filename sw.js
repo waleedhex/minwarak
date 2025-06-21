@@ -1,4 +1,4 @@
-const CACHE_NAME = 'minwarak-offline-v3';
+const CACHE_NAME = 'minwarak-offline-v2'; // تحديث اسم الكاش لتجنب التعارض
 const urlsToCache = [
     '/',
     '/index.html',
@@ -9,12 +9,12 @@ const urlsToCache = [
     '/announcements.json',
     '/categories.json',
     '/manifest.json',
-    '/assets/default_category.webp',
+    '/assets/default_category.webp', // تحديث إلى WebP
     '/assets/stickers/sticker1.png',
     '/assets/stickers/sticker2.png',
     '/assets/icon.png',
     '/assets/icon-512.png',
-    '/assets/أنمي/category_image.webp',
+    '/assets/أنمي/category_image.webp', // تحديث إلى WebP
     '/assets/شخصيات عامة/category_image.webp',
     '/assets/أفلام/category_image.webp',
     '/assets/رياضة/category_image.webp',

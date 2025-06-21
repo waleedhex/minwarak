@@ -105,7 +105,7 @@ async function loadCategories() {
             card.className = 'category-card';
             card.onclick = () => selectCategory(category.name);
             const img = document.createElement('img');
-            const imagePaths = getImageUrl(category.image || 'assets/default_category.jpg');
+            const imagePaths = getImageUrl(category.image || 'assets/default_category.webp');
             let pathIndex = 0;
             img.src = imagePaths[pathIndex];
             img.alt = category.name;
@@ -116,7 +116,7 @@ async function loadCategories() {
                     img.src = imagePaths[pathIndex];
                 } else {
                     console.error(`فشل تحميل صورة التصنيف ${category.name} من جميع المسارات`);
-                    img.src = 'assets/default_category.jpg';
+                    img.src = 'assets/default_category.webp';
                 }
             };
             const name = document.createElement('p');
@@ -248,7 +248,7 @@ async function getImageAndAudio(index) {
     if (!index || index < 1 || index > imageList.length) {
         console.error('فهرس الصورة غير صالح:', index);
         return {
-            img: 'assets/default_category.jpg',
+            img: 'assets/default_category.webp',
             audio: '',
             owner: '',
             hasAudio: false,
@@ -287,7 +287,7 @@ async function getImageAndAudio(index) {
                 element.src = imagePaths[pathIndex];
             } else {
                 console.error(`فشل تحميل الصورة من جميع المسارات`);
-                element.src = 'assets/default_category.jpg';
+                element.src = 'assets/default_category.webp';
             }
         }
     };

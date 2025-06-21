@@ -1,8 +1,8 @@
-const CACHE_NAME = 'minwarak-offline-v3';
+const CACHE_NAME = 'minwarak-offline-v4';
 const urlsToCache = [
     '/',
     '/index.html',
-    '/admin.html',
+    '/sw.js', // إضافة ملف الـ Service Worker
     '/script.js',
     '/styles.css',
     '/codes.json',
@@ -115,11 +115,31 @@ self.addEventListener('install', event => {
     event.waitUntil(
         caches.open(CACHE_NAME)
             .then(cache => {
-                console.log('Caching files');
-                return cache.addAll(urlsToCache);
+                const cachePromises = urlsToCache.map(url => {
+                    return fetch(url, { mode: 'no-cors' })
+                        .then(response => {
+                            if (response && response.status === 200) {
+                                return cache.put(url, response);
+                            }
+                            console.warn(`Failed to cache ${url}`);
+                        })
+                        .catch(error => {
+                            console.warn(`Error caching ${url}:`, error);
+                        });
+                });
+                return Promise.allSettled(cachePromises).then(() => {
+                    console.log('Caching completed');
+                    return cache.match('/index.html').then(response => {
+                        if (response) {
+                            console.log('index.html cached successfully');
+                        } else {
+                            console.error('index.html NOT cached');
+                        }
+                    });
+                });
             })
             .catch(error => {
-                console.error('Caching failed:', error);
+                console.error('Cache open failed:', error);
             })
     );
 });
@@ -160,10 +180,22 @@ self.addEventListener('fetch', event => {
                 }).catch(() => {
                     console.error('Network fetch failed, serving fallback:', event.request.url);
                     if (event.request.destination === 'document') {
-                        return caches.match('/index.html');
+                        return caches.match('/index.html').then(docResponse => {
+                            if (docResponse) {
+                                return docResponse;
+                            }
+                            return new Response(
+                                '<!DOCTYPE html><html><body><h1>غير متصل</h1><p>يرجى الاتصال بالإنترنت أو التأكد من تثبيت التطبيق بشكل صحيح.</p></body></html>',
+                                {
+                                    status: 503,
+                                    statusText: 'Service Unavailable',
+                                    headers: { 'Content-Type': 'text/html; charset=utf-8' }
+                                }
+                            );
+                        });
                     }
                     if (event.request.destination === 'image') {
-                        return caches.match('/assets/default_category.webp');
+                        return caches.match('/assets/default_category.webp') || new Response('', { status: 200, statusText: 'OK' });
                     }
                     if (event.request.destination === 'audio') {
                         return caches.match(event.request).then(audioResponse => {
@@ -173,8 +205,18 @@ self.addEventListener('fetch', event => {
                     if (event.request.url.includes('.json')) {
                         return new Response('{}', { status: 200, statusText: 'OK' });
                     }
+                    if (event.request.destination === 'script') {
+                        return caches.match('/script.js') || new Response('', { status: 200, statusText: 'OK' });
+                    }
+                    if (event.request.destination === 'style') {
+                        return caches.match('/styles.css') || new Response('', { status: 200, statusText: 'OK' });
+                    }
                     return new Response('', { status: 200, statusText: 'OK' });
                 });
+            })
+            .catch(error => {
+                console.error('Fetch handler failed:', error);
+                return new Response('', { status: 200, statusText: 'OK' });
             })
     );
 });

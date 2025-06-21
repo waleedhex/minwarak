@@ -1,4 +1,4 @@
-const CACHE_NAME = 'minwarak-offline-v2';
+const CACHE_NAME = 'minwarak-offline-v3';
 const urlsToCache = [
     '/',
     '/index.html',

@@ -1,8 +1,8 @@
-const CACHE_NAME = 'minwarak-offline-v4';
+const CACHE_NAME = 'minwarak-offline-v3';
 const urlsToCache = [
     '/',
     '/index.html',
-    '/sw.js', // إضافة ملف الـ Service Worker
+    '/sw.js',
     '/script.js',
     '/styles.css',
     '/codes.json',
@@ -115,20 +115,26 @@ self.addEventListener('install', event => {
     event.waitUntil(
         caches.open(CACHE_NAME)
             .then(cache => {
+                const failedUrls = [];
                 const cachePromises = urlsToCache.map(url => {
-                    return fetch(url, { mode: 'no-cors' })
+                    return fetch(url)
                         .then(response => {
                             if (response && response.status === 200) {
                                 return cache.put(url, response);
                             }
                             console.warn(`Failed to cache ${url}`);
+                            failedUrls.push(url);
                         })
                         .catch(error => {
                             console.warn(`Error caching ${url}:`, error);
+                            failedUrls.push(url);
                         });
                 });
                 return Promise.allSettled(cachePromises).then(() => {
                     console.log('Caching completed');
+                    if (failedUrls.length > 0) {
+                        console.error('Failed to cache the following URLs:', failedUrls);
+                    }
                     return cache.match('/index.html').then(response => {
                         if (response) {
                             console.log('index.html cached successfully');
@@ -152,10 +158,14 @@ self.addEventListener('activate', event => {
                 cacheNames.map(cacheName => {
                     if (!cacheWhitelist.includes(cacheName)) {
                         console.log('Deleting old cache:', cacheName);
-                        return caches.delete(cacheName);
+                        return caches.delete(cacheName).then(() => {
+                            console.log(`Successfully deleted cache: ${cacheName}`);
+                        });
                     }
                 })
             );
+        }).then(() => {
+            console.log('Cache cleanup completed');
         })
     );
     self.clients.claim();
@@ -195,6 +205,7 @@ self.addEventListener('fetch', event => {
                         });
                     }
                     if (event.request.destination === 'image') {
+                        console.warn(`Image not found in cache: ${event.request.url}`);
                         return caches.match('/assets/default_category.webp') || new Response('', { status: 200, statusText: 'OK' });
                     }
                     if (event.request.destination === 'audio') {

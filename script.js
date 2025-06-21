@@ -28,7 +28,7 @@ function getImageUrl(basePath) {
 const extensions = ['.jpg', '.png', '.webp']; // إضافة .webp
     const pathsToTry = [];
     extensions.forEach(ext => {
-        pathsToTry.push(basePath.replace(/\.(jpg|png)$/i, ext));
+        pathsToTry.push(basePath.replace(/\.(jpg|png|webp)$/i, ext));
     });
     console.log('محاولة تحميل الصورة من المسارات:', pathsToTry);
     return pathsToTry;

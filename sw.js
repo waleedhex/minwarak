@@ -1,20 +1,20 @@
-const CACHE_NAME = 'minwarak-offline-v2'; // تحديث اسم الكاش لتجنب التعارض
+const CACHE_NAME = 'minwarak-offline-v5';
 const urlsToCache = [
     '/',
     '/index.html',
-    '/sw.js',
+    '/admin.html',
     '/script.js',
     '/styles.css',
     '/codes.json',
     '/announcements.json',
     '/categories.json',
     '/manifest.json',
-    '/assets/default_category.webp', // تحديث إلى WebP
+    '/assets/default_category.webp',
     '/assets/stickers/sticker1.png',
     '/assets/stickers/sticker2.png',
     '/assets/icon.png',
     '/assets/icon-512.png',
-    '/assets/أنمي/category_image.webp', // تحديث إلى WebP
+    '/assets/أنمي/category_image.webp',
     '/assets/شخصيات عامة/category_image.webp',
     '/assets/أفلام/category_image.webp',
     '/assets/رياضة/category_image.webp',
@@ -112,40 +112,15 @@ const urlsToCache = [
 ];
 
 self.addEventListener('install', event => {
+    self.skipWaiting(); // ← يسمح بالتحديث الفوري
     event.waitUntil(
         caches.open(CACHE_NAME)
             .then(cache => {
-                const failedUrls = [];
-                const cachePromises = urlsToCache.map(url => {
-                    return fetch(url)
-                        .then(response => {
-                            if (response && response.status === 200) {
-                                return cache.put(url, response);
-                            }
-                            console.warn(`Failed to cache ${url}`);
-                            failedUrls.push(url);
-                        })
-                        .catch(error => {
-                            console.warn(`Error caching ${url}:`, error);
-                            failedUrls.push(url);
-                        });
-                });
-                return Promise.allSettled(cachePromises).then(() => {
-                    console.log('Caching completed');
-                    if (failedUrls.length > 0) {
-                        console.error('Failed to cache the following URLs:', failedUrls);
-                    }
-                    return cache.match('/index.html').then(response => {
-                        if (response) {
-                            console.log('index.html cached successfully');
-                        } else {
-                            console.error('index.html NOT cached');
-                        }
-                    });
-                });
+                console.log('Caching files...');
+                return cache.addAll(urlsToCache);
             })
             .catch(error => {
-                console.error('Cache open failed:', error);
+                console.error('Caching failed:', error);
             })
     );
 });
@@ -158,17 +133,12 @@ self.addEventListener('activate', event => {
                 cacheNames.map(cacheName => {
                     if (!cacheWhitelist.includes(cacheName)) {
                         console.log('Deleting old cache:', cacheName);
-                        return caches.delete(cacheName).then(() => {
-                            console.log(`Successfully deleted cache: ${cacheName}`);
-                        });
+                        return caches.delete(cacheName);
                     }
                 })
             );
-        }).then(() => {
-            console.log('Cache cleanup completed');
-        })
+        }).then(() => self.clients.claim())
     );
-    self.clients.claim();
 });
 
 self.addEventListener('fetch', event => {
@@ -179,6 +149,7 @@ self.addEventListener('fetch', event => {
                     console.log('Serving from cache:', event.request.url);
                     return response;
                 }
+
                 console.log('Fetching from network:', event.request.url);
                 return fetch(event.request).then(networkResponse => {
                     if (networkResponse && networkResponse.status === 200) {
@@ -188,46 +159,28 @@ self.addEventListener('fetch', event => {
                     }
                     return networkResponse;
                 }).catch(() => {
-                    console.error('Network fetch failed, serving fallback:', event.request.url);
+                    console.warn('Network fetch failed, serving fallback for:', event.request.url);
+
                     if (event.request.destination === 'document') {
-                        return caches.match('/index.html').then(docResponse => {
-                            if (docResponse) {
-                                return docResponse;
-                            }
-                            return new Response(
-                                '<!DOCTYPE html><html><body><h1>غير متصل</h1><p>يرجى الاتصال بالإنترنت أو التأكد من تثبيت التطبيق بشكل صحيح.</p></body></html>',
-                                {
-                                    status: 503,
-                                    statusText: 'Service Unavailable',
-                                    headers: { 'Content-Type': 'text/html; charset=utf-8' }
-                                }
-                            );
-                        });
+                        return caches.match('/index.html');
                     }
+
                     if (event.request.destination === 'image') {
-                        console.warn(`Image not found in cache: ${event.request.url}`);
-                        return caches.match('/assets/default_category.webp') || new Response('', { status: 200, statusText: 'OK' });
+                        return caches.match('/assets/default_category.webp');
                     }
+
                     if (event.request.destination === 'audio') {
                         return caches.match(event.request).then(audioResponse => {
                             return audioResponse || new Response('', { status: 200, statusText: 'OK' });
                         });
                     }
+
                     if (event.request.url.includes('.json')) {
                         return new Response('{}', { status: 200, statusText: 'OK' });
                     }
-                    if (event.request.destination === 'script') {
-                        return caches.match('/script.js') || new Response('', { status: 200, statusText: 'OK' });
-                    }
-                    if (event.request.destination === 'style') {
-                        return caches.match('/styles.css') || new Response('', { status: 200, statusText: 'OK' });
-                    }
+
                     return new Response('', { status: 200, statusText: 'OK' });
                 });
-            })
-            .catch(error => {
-                console.error('Fetch handler failed:', error);
-                return new Response('', { status: 200, statusText: 'OK' });
             })
     );
 });

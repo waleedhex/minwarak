@@ -25,10 +25,10 @@ function isOfflineOrPWA() {
 }
 
 function getImageUrl(basePath) {
-    const extensions = ['.jpg', '.png', '.webp'];
+    const extensions = ['.webp', '.png'];
     const pathsToTry = [];
     extensions.forEach(ext => {
-        pathsToTry.push(basePath.replace(/\.(jpg|png|webp)$/i, ext));
+        pathsToTry.push(basePath.replace(/\.(webp|png)$/i, ext));
     });
     console.log('محاولة تحميل الصورة من المسارات:', pathsToTry);
     return pathsToTry;
@@ -44,6 +44,7 @@ async function verifyAccessCode() {
 
     isVerifying = true;
     try {
+        // إذا كان المستخدم أوفلاين أو في وضع PWA، تخطي التحقق من الرمز
         if (isOfflineOrPWA()) {
             console.log('أوفلاين أو في وضع PWA، تخطي التحقق من الرمز...');
             document.getElementById('access-code-container').style.display = 'none';
@@ -66,6 +67,7 @@ async function verifyAccessCode() {
             return;
         }
 
+        // جلب codes.json مباشرة من الخادم مع تجاوز الكاش
         const response = await fetch('codes.json', { cache: 'no-store' });
         const data = await response.json();
         console.log('تم تحميل codes.json مباشرة من الخادم:', data);
@@ -174,6 +176,7 @@ async function selectCategory(category) {
             console.warn(`خطأ في تحميل metadata.json لتصنيف ${currentCategory}، سيتم الاستمرار بدون بيانات هذا التصنيف:`, error);
             imageList = [];
             availableIndices = [];
+            // لا نوقف التطبيق، بل نستمر مع التصنيفات الأخرى
         }
     }
 
@@ -190,6 +193,7 @@ async function selectCategory(category) {
 }
 
 async function loadAnnouncements() {
+    // تحميل الإعلانات فقط إذا كان المستخدم أونلاين وليس في وضع PWA
     if (isOfflineOrPWA()) {
         console.log('أوفلاين أو في وضع PWA، تخطي تحميل الإعلانات...');
         return;
@@ -268,7 +272,7 @@ async function getImageAndAudio(index) {
         console.log('تم تحميل names.json لتصنيف:', imageData.category);
     } catch (error) {
         console.warn('خطأ في تحميل names.json، سيتم الاستمرار بدون بيانات المالك:', error);
-        owner = '';
+        owner = ''; // تجاهل الخطأ واستمر
     }
     console.log('محاولة تحميل الصورة:', img);
     return {
@@ -345,9 +349,11 @@ async function nextRound() {
     audio.src = audioUrl;
     imageOwner.textContent = owner;
     hintButton.classList.toggle('disabled', !hasAudio);
+    // لا نبدأ العداد تلقائيًا، يتم التحكم عبر زر بدء العداد
 }
 
 async function startGame() {
+    // تحميل الإعلانات فقط في الوضع الأونلاين (تم التحكم في هذا في loadAnnouncements)
     await loadAnnouncements();
     const firstIndex = getRandomImageIndex();
     if (!firstIndex) {
@@ -363,6 +369,7 @@ async function startGame() {
     audio.src = audioUrl;
     imageOwner.textContent = owner;
     hintButton.classList.toggle('disabled', !hasAudio);
+    // لا نبدأ العداد تلقائيًا، يتم التحكم عبر زر بدء العداد
 }
 
 function returnToCategories() {
@@ -383,12 +390,14 @@ let deferredPrompt;
 function showInstallPrompt() {
     const installButton = document.getElementById('install-button');
 
+    // إظهار الزر فقط إذا كان المستخدم أونلاين وليس في وضع PWA
     if (!isOfflineOrPWA()) {
         installButton.style.display = 'block';
     } else {
         installButton.style.display = 'none';
     }
 
+    // التقاط حدث التثبيت
     window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
         deferredPrompt = e;
@@ -416,18 +425,21 @@ function showInstallPrompt() {
 }
 
 timeInput.addEventListener('change', () => {
-    clearInterval(timer);
+    clearInterval(timer); // إيقاف العداد عند تغيير الوقت
     timeLeft = parseInt(timeInput.value) || 120;
     updateTimerDisplay();
 });
 
-// ربط الأزرار وتحميل الإعلانات وتسجيل الـ Service Worker عند بدء الصفحة
+// ربط الأزرار وتحميل الإعلانات عند بدء الصفحة
 document.addEventListener('DOMContentLoaded', () => {
+    // تحميل الإعلانات (سيتم التحكم في هذا في loadAnnouncements)
     loadAnnouncements();
     console.log('جارٍ تحميل الإعلانات عند بدء الصفحة');
 
+    // إظهار زر التثبيت
     showInstallPrompt();
 
+    // ربط زر بدء العداد
     const startTimerButton = document.getElementById('start-timer-button');
     if (startTimerButton) {
         startTimerButton.addEventListener('click', startTimer);
@@ -436,41 +448,13 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error('لم يتم العثور على زر بدء العداد!');
     }
 
+    // ربط زر بداية عشوائية
     const randomStartButton = document.getElementById('random-start');
     if (randomStartButton) {
         randomStartButton.addEventListener('click', () => selectCategory('random'));
         console.log('تم ربط زر بداية عشوائية بنجاح');
     } else {
         console.error('لم يتم العثور على زر بداية عشوائية!');
-    }
-
-    // تسجيل الـ Service Worker
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/sw.js', { scope: '/' })
-            .then(registration => {
-                console.log('Service Worker registered successfully with scope:', registration.scope);
-                // التحقق من تحديثات الـ Service Worker
-                registration.addEventListener('updatefound', () => {
-                    const newWorker = registration.installing;
-                    newWorker.addEventListener('statechange', () => {
-                        if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                            console.log('New Service Worker installed, prompting for refresh');
-                        }
-                    });
-                });
-                // التحقق من حالة الـ Service Worker في وضع الطيران
-                navigator.serviceWorker.ready.then(() => {
-                    console.log('Service Worker is active and ready');
-                    if (isOfflineOrPWA()) {
-                        console.log('Offline or PWA mode detected, relying on cached resources');
-                    }
-                });
-            })
-            .catch(error => {
-                console.error('Service Worker registration failed:', error);
-            });
-    } else {
-        console.warn('Service Workers not supported in this browser');
     }
 });
 

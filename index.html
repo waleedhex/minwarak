@@ -14,27 +14,23 @@
 </head>
 <body>
 
-<!-- صفحة تسجيل الدخول -->
 <div id="access-code-container">
     <h2>أدخل رمز الوصول</h2>
     <input type="text" id="access-code">
-    <button onclick="verifyAccessCode()">تأكيد</button>
+    <button id="verify-button">تأكيد</button>
+    <div id="verifying-indicator" style="display:none;">🔄 جار التحقق...</div>
     <div id="announcements-container"></div>
 </div>
 
-<!-- صفحة التصنيفات، مخفية افتراضيًا -->
 <div id="categories-container" style="display: none;">
     <div class="categories-header">
-        <!-- إزالة العبارة "اختر تصنيفًا" ووضع زر التثبيت هنا -->
         <button id="install-button" class="install-prompt" style="display: none;">أخذ نسخة محلية </button>
         <button id="random-start">بداية عشوائية</button>
     </div>
     <div id="categories-grid">
-        <!-- التصنيفات سيتم إضافتها ديناميكيًا هنا -->
-    </div>
+        </div>
 </div>
 
-<!-- صفحة اللعبة، مخفية افتراضيًا -->
 <div id="game-container" style="display: none;">
     <div class="header-section">
         <h1>وش نشوف؟</h1>

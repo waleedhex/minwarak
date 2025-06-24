@@ -42,9 +42,9 @@ async function verifyAccessCode() {
         return;
     }
 
-    const codeInput = document.getElementById('access-code');
-    const verifyButton = document.getElementById('verify-button'); // تأكد من وجود هذا الزر في HTML الخاص بك
-    const code = codeInput.value.trim();
+    const code = document.getElementById('access-code').value.trim();
+    const verifyButton = document.getElementById('verify-button');
+    const verifyingIndicator = document.getElementById('verifying-indicator'); // Optional: Added for visual indicator
 
     if (!code) {
         alert('الرجاء إدخال رمز الوصول!');
@@ -54,11 +54,13 @@ async function verifyAccessCode() {
     isVerifying = true;
     verifyButton.disabled = true;
     verifyButton.textContent = 'جار التحقق...';
+    if (verifyingIndicator) { // Optional: Show indicator
+        verifyingIndicator.style.display = 'block';
+    }
 
     try {
-        // إذا كان المستخدم أوفلاين أو في وضع PWA، تخطي التحقق من الرمز
         if (isOfflineOrPWA()) {
-            console.log('أوفلاين أو في وضع PWA، تخطي التحقق من الرمز...');
+            console.log('أوفلاين أو في وضع PWA، تخطي التحقق...');
             document.getElementById('access-code-container').style.display = 'none';
             document.getElementById('categories-container').style.display = 'block';
             await loadCategories();
@@ -71,32 +73,28 @@ async function verifyAccessCode() {
             return;
         }
 
-        // جلب codes.json مباشرة من الخادم مع تجاوز الكاش
         const response = await fetch('codes.json', { cache: 'no-store' });
         const data = await response.json();
-        console.log('تم تحميل codes.json مباشرة من الخادم:', data);
-
-        const lowerCaseCode = code.toLowerCase();
         const validCodesLowerCase = data.validCodes.map(c => c.toLowerCase());
-        console.log('الرمز المدخل (صغير):', lowerCaseCode);
-        console.log('الرموز الصالحة (صغير):', validCodesLowerCase);
 
-        if (validCodesLowerCase.includes(lowerCaseCode)) {
+        if (validCodesLowerCase.includes(code.toLowerCase())) {
             console.log('الرمز صالح، جارٍ تحميل صفحة التصنيفات...');
             document.getElementById('access-code-container').style.display = 'none';
             document.getElementById('categories-container').style.display = 'block';
             await loadCategories();
         } else {
-            console.log('الرمز غير صالح');
             alert('رمز غير صالح! حاول مرة أخرى.');
         }
     } catch (error) {
         console.error('خطأ في تحميل codes.json:', error);
-        alert('فشل تحميل codes.json. تأكد من وجود الملف في نفس المجلد أو استخدم خادم محلي.');
+        alert('حدث خطأ أثناء التحقق من الرمز. تأكد من وجود الملف.');
     } finally {
         isVerifying = false;
         verifyButton.disabled = false;
         verifyButton.textContent = 'تحقق';
+        if (verifyingIndicator) { // Optional: Hide indicator
+            verifyingIndicator.style.display = 'none';
+        }
     }
 }
 
@@ -463,13 +461,13 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error('لم يتم العثور على زر بداية عشوائية!');
     }
 
-    // ربط زر التحقق من الوصول
+    // ربط زر التحقق من رمز الوصول
     const verifyButton = document.getElementById('verify-button');
     if (verifyButton) {
         verifyButton.addEventListener('click', verifyAccessCode);
-        console.log('تم ربط زر التحقق من الوصول بنجاح');
+        console.log('تم ربط زر التحقق من رمز الوصول بنجاح');
     } else {
-        console.error('لم يتم العثور على زر التحقق من الوصول (verify-button)!');
+        console.error('لم يتم العثور على زر التحقق من رمز الوصول!');
     }
 });
 

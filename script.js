@@ -469,6 +469,16 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
         console.error('لم يتم العثور على زر التحقق من رمز الوصول!');
     }
+
+    // استخراج الرمز من الـ URL وتحقق تلقائي
+    const urlParams = new URLSearchParams(window.location.search);
+    const codeFromUrl = urlParams.get('code');
+
+    if (codeFromUrl) {
+        console.log('رمز وصول تم استخراجه من الـ URL:', codeFromUrl);
+        document.getElementById('access-code').value = codeFromUrl;
+        verifyAccessCode();  // استدعاء التحقق تلقائيًا
+    }
 });
 
 document.addEventListener('contextmenu', event => event.preventDefault());
